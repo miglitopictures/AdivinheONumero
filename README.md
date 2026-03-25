@@ -66,10 +66,10 @@ Estamos utilizando um quadro kanban no Trello, detalhando as etapas do projeto e
 ## Equipe
 - Lucas Bonfim
 - Lucas Carvalho
-- Lucas Valença
-- Miguel Duarte
-- Pablo Tamborini
-- Rodrigo Montenegro
+- Lucas Valença (Frontend)
+- Miguel Duarte (Frontend)
+- Pablo Tamborini (Backend)
+- Rodrigo Montenegro (Backend)
 
 ## Sobre
 Esse é o projeto unificador do segundo período do curso de ADS do **CESAR School**. Desenvolvido para aplicar conceitos de lógica de programação, estruturas de dados e interfaces gráficas em C.
