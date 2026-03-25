@@ -80,12 +80,12 @@ Um jogo de adivinhar números (de 0 a 100) desenvolvido em C.
 * **Critérios:** Alerta de "Número já tentado" sem descontar vidas do jogador.
 
 ## Equipe
-- Lucas Bonfim (Frontend)
-- Lucas Carvalho (Backend)
-- Lucas Valença (Frontend)
-- Miguel Duarte (Frontend)
-- Pablo Tamborini (Backend)
-- Rodrigo Montenegro (Backend)
+- [Lucas Bonfim](https://github.com/lucasbonfim) (Frontend)
+- [Lucas Carvalho](https://github.com/lucascarvalho) (Backend)
+- [Lucas Valença](https://github.com/lucasvalenca) (Frontend)
+- [Miguel Duarte](https://github.com/miguelduarte) (Frontend)
+- [Pablo Tamborini](https://github.com/pablotamborini) (Backend)
+- [Rodrigo Montenegro](https://github.com/rodrigomontenegro) (Backend)
 
 ## Sobre
 Esse é o projeto unificador do segundo período do curso de ADS do **CESAR School**. Desenvolvido para aplicar conceitos de lógica de programação, estruturas de dados e interfaces gráficas em C.
