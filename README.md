@@ -8,11 +8,16 @@ Um jogo de adivinhar números (de 0 a 100) desenvolvido em C.
 - O programa deve fornecer feedback claro se a tentativa foi acima ou abaixo do número secreto.
 - O programa deve oferecer uma interface visual amigável e funcional.
 
-## Gestão do Projeto
-### [Trello](https://trello.com/b/R0YXpUzE/organizacao-projeto-2)
-Estamos utilizando um quadro kanban no Trello, detalhando as etapas do projeto e funcionalidades.
+## Backlog do Projeto ([Trello](https://trello.com/b/R0YXpUzE/organizacao-projeto-2))
+![Board Trello Projeto 2](BOARD-TRELLO_PROJETO-2.png)
 
 ## Histórias de Usuário
+
+### **UH0: Jogabilidade no Terminal**
+* **Descrição:** Como jogador, quero poder rodar o jogo diretamente no terminal.
+* **Conversa:** O programa deve detectar se deve iniciar o modo gráfico ou oferecer uma versão simplificada de entrada e saída de texto.
+* **Critérios:** O fluxo principal (sorteio, palpite e feedback) deve funcionar via comandos de texto.
+  
 ### **UH1: Seleção de Dificuldade**
 * **Descrição:** Como jogador, quero escolher o nível de dificuldade (10, 100, 1000, 10000) para ajustar o desafio ao meu gosto.
 * **Conversa:** O menu inicial deve permitir selecionar a intensidade antes da partida.
