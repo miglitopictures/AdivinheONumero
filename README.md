@@ -64,8 +64,8 @@ Estamos utilizando um quadro kanban no Trello, detalhando as etapas do projeto e
 * **Critérios:** Alerta de "Número já tentado" sem descontar vidas do jogador.
 
 ## Equipe
-- Lucas Bonfim
-- Lucas Carvalho
+- Lucas Bonfim (Frontend)
+- Lucas Carvalho (Backend)
 - Lucas Valença (Frontend)
 - Miguel Duarte (Frontend)
 - Pablo Tamborini (Backend)
