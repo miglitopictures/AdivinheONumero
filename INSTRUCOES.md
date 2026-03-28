@@ -1,5 +1,5 @@
 
-# Instruções de Colaboração: Adivinhe O Número
+# Instruções de Colaboração
 
 Este guia servirá para orientar o fluxo de trabalho e garantir que todos estejamos na mesma página.
 
@@ -111,5 +111,3 @@ Se o IntelliSense mostrar "erros" (linhas vermelhas) mesmo o código compilando,
 ---
 **Dica:** Sempre verifique se você está na branch correta antes de começar a digitar código usando `git branch`!
 ```
-
-**Gostaria que eu gerasse também o conteúdo dos arquivos `.sh` ou `.bat` para automatizar essa compilação que mencionei no Markdown?**
