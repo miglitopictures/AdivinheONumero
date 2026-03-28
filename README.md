@@ -9,7 +9,7 @@ Um jogo de adivinhar números (de 0 a 100) desenvolvido em C.
 - O programa deve oferecer uma interface visual amigável e funcional.
 
 ## Backlog do Projeto ([Trello](https://trello.com/b/R0YXpUzE/organizacao-projeto-2))
-![Board Trello Projeto 2](BOARD-TRELLO_PROJETO-2.png)
+![Board Trello Projeto 2](assets/github/BOARD-TRELLO_PROJETO-2.png)
 
 ## Histórias de Usuário
 
