@@ -77,7 +77,7 @@ Se você estiver usando o **MinGW/GCC** no Windows:
    ```
 3. Rode o executável:
    ```bash
-   ./game.exe
+   .\game.exe
    ```
 *Nota: Certifique-se de que o caminho do seu compilador (bin) esteja nas Variáveis de Ambiente (PATH).*
 
