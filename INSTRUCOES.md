@@ -17,6 +17,10 @@ Crie sua branch de trabalho e mude para ela simultaneamente com:
 ```bash
 git checkout -b nome-da-sua-branch
 ```
+Publique a branch no GitHub:
+```bash
+git push -u origin nome-da-sua-branch
+```
 
 #### Meu colega já fez uma branch, como faço para trabalhar nela?
 Primeiro, atualize sua lista de referências remotas e depois mude para a branch:
