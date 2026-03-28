@@ -110,4 +110,3 @@ Se o IntelliSense mostrar "erros" (linhas vermelhas) mesmo o código compilando,
 
 ---
 **Dica:** Sempre verifique se você está na branch correta antes de começar a digitar código usando `git branch`!
-```

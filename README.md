@@ -79,6 +79,58 @@ Um jogo de adivinhar números (de 0 a 100) desenvolvido em C.
 * **Conversa:** O sistema valida o chute contra o array de palpites anteriores.
 * **Critérios:** Alerta de "Número já tentado" sem descontar vidas do jogador.
 
+## Como rodar no projeto?
+
+Primeiro, clone este repositório para sua máquina:
+```bash
+git clone https://github.com/miglitopictures/AdivinheONumero
+```
+
+Agora, identifique seu sistema operacional e siga as instruções abaixo para compilar o código.
+
+#### Compilando no Linux
+1. Dê permissão de execução para o script:
+   ```bash
+   chmod +x build_linux.sh
+   ```
+2. Execute o script de build para compilar o programa:
+   ```bash
+   ./build_linux.sh
+   ```
+3. Rode o executável:
+   ```bash
+   ./game
+   ```
+
+#### Compilando no Windows
+Se você estiver usando o **MinGW/GCC** no Windows:
+1. Abra o PowerShell ou CMD na pasta do projeto.
+2. Execute o script de build para compilar o programa:
+   ```cmd
+   .\build_windows.bat
+   ```
+3. Rode o executável:
+   ```bash
+   ./game.exe
+   ```
+*Nota: Certifique-se de que o caminho do seu compilador (bin) esteja nas Variáveis de Ambiente (PATH).*
+
+#### Compilando no Mac
+O processo é similar ao Linux, utilizando o terminal:
+1. Garanta a permissão:
+   ```bash
+   chmod +x build_mac.sh
+   ```
+2. Execute o script de build para compilar o programa:
+   ```bash
+   ./build_mac.sh
+   ```
+3. Rode o executável:
+   ```bash
+   ./game
+   ```
+---
+
 ## Equipe
 - [Lucas Bonfim](https://github.com/l-bonfim) (Frontend)
 - [Lucas Carvalho](https://github.com/J4keless) (Backend)
