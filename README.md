@@ -139,6 +139,10 @@ O processo é similar ao Linux, utilizando o terminal:
    ```
 </details>
 
+## Como trabalhar no projeto?
+Para isso, preparamos algumas intruções que podem ser localizadas no arquivo [INSTRUCOES.md](INSTRUCOES.md)!
+*Qualquer dúvida, contatar miglito.
+
 ## Equipe
 - [Lucas Bonfim](https://github.com/l-bonfim) (Frontend)
 - [Lucas Carvalho](https://github.com/J4keless) (Backend)
