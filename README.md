@@ -88,7 +88,9 @@ git clone https://github.com/miglitopictures/AdivinheONumero
 
 Agora, identifique seu sistema operacional e siga as instruções abaixo para compilar o código.
 
-#### Compilando no Linux
+<details>
+  <summary><b>Compilando no Linux</b></summary>
+  
 1. Dê permissão de execução para o script:
    ```bash
    chmod +x build_linux.sh
@@ -101,8 +103,11 @@ Agora, identifique seu sistema operacional e siga as instruções abaixo para co
    ```bash
    ./game
    ```
+</details>
 
-#### Compilando no Windows
+<details>
+  <summary><b>Compilando no Windows</b></summary>
+  
 Se você estiver usando o **MinGW/GCC** no Windows:
 1. Abra o PowerShell ou CMD na pasta do projeto.
 2. Execute o script de build para compilar o programa:
@@ -114,8 +119,11 @@ Se você estiver usando o **MinGW/GCC** no Windows:
    ./game.exe
    ```
 *Nota: Certifique-se de que o caminho do seu compilador (bin) esteja nas Variáveis de Ambiente (PATH).*
+</details>
 
-#### Compilando no Mac
+<details>
+  <summary><b>Compilando no Mac</b></summary>
+  
 O processo é similar ao Linux, utilizando o terminal:
 1. Garanta a permissão:
    ```bash
@@ -129,7 +137,7 @@ O processo é similar ao Linux, utilizando o terminal:
    ```bash
    ./game
    ```
----
+</details>
 
 ## Equipe
 - [Lucas Bonfim](https://github.com/l-bonfim) (Frontend)
