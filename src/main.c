@@ -1,29 +1,22 @@
-#include <raylib.h>
+#include <string.h>
+#include <ui.h>
+#include <logic.h>
+#include <gamestate.h>
 
-int main(){
+// argc - argument count
+// argv - argument vector
+// por exemplo, se eu rodar o jogo com "./game -term", temos dois argumentos "game" e "-term"
+int main(int argc, char *argv[]){
 
-    // Init
-    InitWindow(500,500, "Adivinhe O Número");
+    resetarRandomSeed(); // chamamos essa função apenas uma vez, para mudar o valor do seed
 
-    while (!WindowShouldClose())
-    {
-        // Update
-
-
-
-        // Draw
-        BeginDrawing(); // ---------- //
-
-
-        ClearBackground(RAYWHITE);
-        DrawText("100", 250, 250, 100, RED);
-
-        
-
-        EndDrawing();   // ---------- //
-    }
+    GameState game; // NOSSO GAMESTATE
     
-    CloseWindow();
+    if (argc > 1 && strcmp(argv[1], "-term") == 0){
+        startTerminalMode(&game);
+    } else {
+        startRaylibMode(&game);
+    }
 
-    return 0;
+    return 1;
 }
