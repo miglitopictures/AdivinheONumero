@@ -1,6 +1,7 @@
 #include <raylib.h>
 #include <logic.h>
 #include <stdlib.h>
+#include <gamestate.h>
 
 #define MAX_INPUT_CHARS 3
 
@@ -9,13 +10,12 @@ void startRaylibMode(GameState *game){
     // INIT //
     const int larguraJanela = 800;
     const int alturaJanela = 450;
-    char input[MAX_INPUT_CHARS + 1];
 
+    char input[MAX_INPUT_CHARS + 1];
     input[MAX_INPUT_CHARS + 1]= '\0';
     int charCount = 0;
 
-
-    Rectangle textBox = { larguraJanela/2.0f - 100, 180, 225, 50 };
+    Rectangle textBox = { larguraJanela/2.0f - 100, 180, 225, 50 }; // x, y, largura, altura
 
     InitWindow(larguraJanela, alturaJanela, "Adivinhe O Número");
     SetTargetFPS(30);
@@ -32,8 +32,6 @@ void startRaylibMode(GameState *game){
 
         // Get char pressed (unicode character) on the queue
         int key = GetCharPressed();
-
-        // Check if more characters have been pressed on the same frame
         while (key > 0)
         {
             // NOTE: Only allow keys in range [32..125]
@@ -62,7 +60,14 @@ void startRaylibMode(GameState *game){
             DrawRectangleRec(textBox, LIGHTGRAY);
             DrawText(input, (int)textBox.x + 5, (int)textBox.y + 8, 40, MAROON);
 
-            DrawText(TextFormat("Numero randomizado = %d",game->numeroSecreto), 40, alturaJanela-40, 20, BLACK);
+            DrawText(TextFormat("Numero randomizado = %d",game->numeroSecreto), 40, alturaJanela-40, 20, PURPLE); // apenas pro debug
+            DrawText(TextFormat("Limite de tentativas = %d",game->limiteTentativas), 40, alturaJanela-80, 20, BLACK);
+
+            DrawText("Historico: ", 40, 10, 20, BLACK);
+            for (int i = 0; i < MAX_HISTORICO; i++) {
+                DrawText(TextFormat("%d",game->historicoTentativas[i]), 160 + i * 15, 10, 20, BLACK);
+            }
+            
 
             if (game->state == STATE_GAMEOVER) {
                 DrawText("YOU WIN!", 100, 100, 20, GREEN);

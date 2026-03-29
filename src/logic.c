@@ -1,7 +1,7 @@
 #include <stdlib.h>
 #include <string.h>
 #include <time.h>
-#include "logic.h"
+#include <gamestate.h>
 
 
 // Gerar numero aleatorio
@@ -13,19 +13,32 @@ int numeroAleatorio(int min, int max){
     return (rand() % (max - min + 1)) + min;
 }
 
-// Inicializar Jogo
+/**
+ * @brief Inicializa o estado do jogo para uma nova rodada.
+ * * @param game Ponteiro para a estrutura GameState que será inicializada.
+ */
 void IniciarJogo(GameState *game) {
     game->max = 100;
     game->numeroSecreto = numeroAleatorio(0, game->max);
     game->tentativas = 0;
+    game->limiteTentativas = 10;
     game->state = STATE_PLAYING;
     game->mensagem[0] = '\0';
+
+    for (int i = 0; i < MAX_HISTORICO; i++){
+        game->historicoTentativas[i] = 0;
+    }
 }
 
-void ProcessarTemperatura(GameState *game, int guess) {
+/**
+ * @brief Calcula a proximidade (Temperatura) entre o palpite e o número secreto.
+ * * @param game Ponteiro para o GameState.
+ */
+void ProcessarTemperatura(GameState *game) {
+    // Pegamos a distancia entre o palpite do jogador e o numero secreto da rodada
+    int distancia = abs(game->palpite - game->numeroSecreto);
 
-    int distancia = abs(guess - game->numeroSecreto);
-
+    // Mudamos a mensagem se temperatura a partir dessa "distância"
     if (distancia >= 15){
         strcpy(game->temperatura, "Frio"); 
     } else if (distancia > 5 && distancia < 15){
@@ -35,13 +48,16 @@ void ProcessarTemperatura(GameState *game, int guess) {
     }
 }
 
-void ProcessarTentativa(GameState *game, int guess) {
+void ProcessarTentativa(GameState *game, int palpite) {
     game->tentativas++;
-    ProcessarTemperatura(game, guess);
-    if (guess == game->numeroSecreto) {
+    game->palpite = palpite;
+    ProcessarTemperatura(game);
+
+    if (palpite == game->numeroSecreto) {
         game->state = STATE_GAMEOVER;
-    } else if (guess < game->numeroSecreto) {
-        // Here is the "Logic" (UH3) written only once!
+    } else if (game->tentativas >= game->limiteTentativas) {
+        game->state = STATE_GAMEOVER;
+    } else if (palpite < game->numeroSecreto) {
         strcpy(game->mensagem, "Higher!"); 
     } else {
         strcpy(game->mensagem, "Lower!");
