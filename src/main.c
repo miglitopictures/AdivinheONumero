@@ -1,29 +1,19 @@
-#include <raylib.h>
+#include <string.h>
+#include <ui.h>
+#include <logic.h>
 
-int main(){
+// argc - argument count
+// argv - argument vector
+// por exemplo, se eu rodar o jogo com "./game -term", temos dois argumentos "game" e "-term"
+int main(int argc, char *argv[]){
 
-    // Init
-    InitWindow(500,500, "Adivinhe O Número");
-
-    while (!WindowShouldClose())
-    {
-        // Update
-
-
-
-        // Draw
-        BeginDrawing(); // ---------- //
-
-
-        ClearBackground(RAYWHITE);
-        DrawText("100", 250, 250, 100, RED);
-
-        
-
-        EndDrawing();   // ---------- //
-    }
+    resetarRandomSeed();
     
-    CloseWindow();
+    if (argc > 1 && strcmp(argv[1], "-term") == 0){
+        startTerminalMode();
+    } else {
+        startRaylibMode();
+    }
 
-    return 0;
+    return 1;
 }
