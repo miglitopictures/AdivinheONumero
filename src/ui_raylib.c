@@ -3,21 +3,21 @@
 #include <stdlib.h>
 #include <gamestate.h>
 
-#define MAX_INPUT_CHARS 3
+#define MAX_INPUT_CHARS 3 // limitar o input do usuario
 
 void startRaylibMode(GameState *game){
 
     // INIT //
-    const int larguraJanela = 800;
-    const int alturaJanela = 450;
+    const int LARGURA = 800;
+    const int ALTURA = 450;
 
     char input[MAX_INPUT_CHARS + 1];
     input[MAX_INPUT_CHARS + 1]= '\0';
     int charCount = 0;
 
-    Rectangle textBox = { larguraJanela/2.0f - 100, 180, 225, 50 }; // x, y, largura, altura
+    Rectangle textBox = { LARGURA/2.0f - 100, 180, 225, 50 }; // x, y, largura, altura
 
-    InitWindow(larguraJanela, alturaJanela, "Adivinhe O Número");
+    InitWindow(LARGURA, ALTURA, "Adivinhe O Número");
     SetTargetFPS(30);
     IniciarJogo(game);
 
@@ -27,7 +27,7 @@ void startRaylibMode(GameState *game){
 
         // INPUTS DO TECLADO
         if (IsKeyPressed(KEY_ENTER)) {
-            ProcessarTentativa(game, atoi(input)); 
+            ProcessarTentativa(game, atoi(input)); //ACSII to INTEGER //
         }
 
         // Get char pressed (unicode character) on the queue
@@ -35,7 +35,7 @@ void startRaylibMode(GameState *game){
         while (key > 0)
         {
             // NOTE: Only allow keys in range [32..125]
-            if ((key >= 32) && (key <= 125) )
+            if ((key >= 32) && (key <= 125) && charCount < MAX_INPUT_CHARS)
             {
                 input[charCount] = (char)key;
                 input[charCount+1] = '\0'; // Add null terminator at the end of the string
@@ -60,8 +60,8 @@ void startRaylibMode(GameState *game){
             DrawRectangleRec(textBox, LIGHTGRAY);
             DrawText(input, (int)textBox.x + 5, (int)textBox.y + 8, 40, MAROON);
 
-            DrawText(TextFormat("Numero randomizado = %d",game->numeroSecreto), 40, alturaJanela-40, 20, PURPLE); // apenas pro debug
-            DrawText(TextFormat("Limite de tentativas = %d",game->limiteTentativas), 40, alturaJanela-80, 20, BLACK);
+            DrawText(TextFormat("Numero randomizado = %d",game->numeroSecreto), 40, ALTURA-40, 20, PURPLE); // apenas pro debug
+            DrawText(TextFormat("Limite de tentativas = %d",game->limiteTentativas), 40, ALTURA-80, 20, BLACK);
 
             DrawText("Historico: ", 40, 10, 20, BLACK);
             for (int i = 0; i < MAX_HISTORICO; i++) {
@@ -73,7 +73,7 @@ void startRaylibMode(GameState *game){
                 DrawText("YOU WIN!", 100, 100, 20, GREEN);
             } else {
                 DrawText(game->mensagem, 100, 100, 20, RED);
-                DrawText(game->temperatura, larguraJanela - 100, alturaJanela - 100, 20, RED);
+                DrawText(game->temperatura, LARGURA - 100, ALTURA - 100, 20, RED);
             }
         EndDrawing();
     }

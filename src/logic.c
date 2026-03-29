@@ -4,14 +4,14 @@
 #include <gamestate.h>
 
 
-// Gerar numero aleatorio
+// Gerar numero aleatorio RNG
 void resetarRandomSeed(){
     srand(time(NULL)); // gerando novo seed para randomizacao do numero
 }
-
 int numeroAleatorio(int min, int max){
     return (rand() % (max - min + 1)) + min;
 }
+
 
 /**
  * @brief Inicializa o estado do jogo para uma nova rodada.
@@ -20,11 +20,12 @@ int numeroAleatorio(int min, int max){
 void IniciarJogo(GameState *game) {
     game->max = 100;
     game->numeroSecreto = numeroAleatorio(0, game->max);
-    game->tentativas = 0;
+    game->tentativas = 0; // contador de tentativas
     game->limiteTentativas = 10;
-    game->state = STATE_PLAYING;
+    //game->state = STATE_MENU;
     game->mensagem[0] = '\0';
 
+    // preenchendo o historico de tentaticas (temporario, falta implementar o historico)
     for (int i = 0; i < MAX_HISTORICO; i++){
         game->historicoTentativas[i] = 0;
     }
@@ -48,6 +49,9 @@ void ProcessarTemperatura(GameState *game) {
     }
 }
 
+// Essa função, no momento, executa todos os passos necessários
+// para atualizar estado do jogo (GameState) a partir do novo palpite (int) do usuário.
+// * provavelmente separar em mais funcoes
 void ProcessarTentativa(GameState *game, int palpite) {
     game->tentativas++;
     game->palpite = palpite;

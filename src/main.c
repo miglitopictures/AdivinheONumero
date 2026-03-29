@@ -10,7 +10,7 @@ int main(int argc, char *argv[]){
 
     resetarRandomSeed(); // chamamos essa função apenas uma vez, para mudar o valor do seed
 
-    GameState game;
+    GameState game; // NOSSO GAMESTATE
     
     if (argc > 1 && strcmp(argv[1], "-term") == 0){
         startTerminalMode(&game);

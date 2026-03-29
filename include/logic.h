@@ -3,11 +3,10 @@
 
 #include <gamestate.h>
 
-// The "Engine" functions
 void IniciarJogo(GameState *state);
 void ProcessarTentativa(GameState *state, int guess);
 
 
-void resetarRandomSeed();
+void resetarRandomSeed(); // usado no inicio de main
 
 #endif
