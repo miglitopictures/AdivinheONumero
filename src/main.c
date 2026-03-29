@@ -5,7 +5,9 @@ int main(){
     // Init
     InitWindow(500,500, "Adivinhe O Número");
 
-    Texture2D alzaratest = LoadTexture("../assets/alzara-img-noedit.png");
+    Image img_test = LoadImage("../assets/alzara-img-noedit.png");
+
+    // Texture2D alzaratest = LoadTexture("../assets/alzara-img-noedit.png");
     SetTargetFPS(60);
 
 
@@ -20,7 +22,7 @@ int main(){
 
 
         ClearBackground(WHITE);
-        DrawTexture(alzaratest, 0, 0, WHITE);
+        // DrawTexture(alzaratest, 0, 0, WHITE);
         DrawText("testando imagem", 300, 300, 15, RED);
         
 
@@ -28,7 +30,7 @@ int main(){
 
         EndDrawing();   // ---------- //
     }
-    UnloadTexture(alzaratest);
+    // UnloadTexture(alzaratest);
     
     CloseWindow();
 
