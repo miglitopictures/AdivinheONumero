@@ -58,8 +58,8 @@ void ProcessarTentativa(GameState *game, int palpite) {
     } else if (game->tentativas >= game->limiteTentativas) {
         game->state = STATE_GAMEOVER;
     } else if (palpite < game->numeroSecreto) {
-        strcpy(game->mensagem, "Higher!"); 
+        strcpy(game->mensagem, "Sonhe mais alto!"); 
     } else {
-        strcpy(game->mensagem, "Lower!");
+        strcpy(game->mensagem, "Abaixe essa bola!");
     }
 }

@@ -45,9 +45,9 @@ void startTerminalMode(GameState *game) {
         scanf("%c%*c", &desejaContinuar);
 
         if (desejaContinuar == 'S' || desejaContinuar == 's') {
-            game->state == STATE_PLAYING;
+            game->state = STATE_PLAYING;
         } else {
-            game->state == STATE_MENU;
+            game->state = STATE_MENU;
         }
     }
 }
