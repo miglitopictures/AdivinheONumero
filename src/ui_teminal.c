@@ -8,7 +8,6 @@
 void startTerminalMode(GameState *game) {
 
     game->state = STATE_MENU;
-    int sair = 0;
 
     while (1) {
 

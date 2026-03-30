@@ -113,4 +113,6 @@ Se o IntelliSense mostrar "erros" (linhas vermelhas) mesmo o código compilando,
 5. No campo **Compiler path**, verifique se o caminho para o seu `gcc` ou `clang` está correto.
 
 ---
-**Dica:** Sempre verifique se você está na branch correta antes de começar a digitar código usando `git branch`!
+
+### O que cada arquivo faz? :o
+Antes de começar a explorar o repositório, recomendamos se familiarizar com o propósito de cada um dos arquivos que existem nele, consulte o **[sumário de arquivos](ARQUIVOS.md)**.

@@ -3,12 +3,13 @@
 
 #define MAX_HISTORICO 5
 
-
 typedef enum { STATE_MENU, STATE_PLAYING, STATE_GAMEOVER, STATE_EXIT } State;
+
 typedef enum {MODO_NORMAL, MODO_ARCADE} Modo;
 
+// GameState
 typedef struct {
-    State state;
+    State state; // STATE_MENU, STATE_PLAYING, STATE_GAMEOVER, STATE_EXIT
     Modo modo;
     int max;
     int numeroSecreto;

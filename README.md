@@ -140,8 +140,14 @@ O processo é similar ao Linux, utilizando o terminal:
 </details>
 
 ## Como trabalhar no projeto?
-Para isso, preparamos algumas intruções que podem ser localizadas no arquivo [INSTRUCOES.md](INSTRUCOES.md)!
-*Qualquer dúvida, contatar miglito.
+Para isso, preparamos algumas intruções que podem ser localizadas em **[INSTRUCOES.md](INSTRUCOES.md)**.
+
+### O que cada arquivo faz? :o
+Se tiver duvidas sobre a organização do projeto ou sobre a funcionalidade de arquivos, consulte **[ARQUIVOS.md](ARQUIVOS.md)**.
+
+*Qualquer dúvida, contatar miglito ou lucas bonfim.
+
+---
 
 ## Equipe
 - [Lucas Bonfim](https://github.com/l-bonfim) (Frontend)

@@ -20,6 +20,7 @@ int numeroAleatorio(int min, int max){
 void IniciarJogo(GameState *game) {
     game->max = 100;
     game->numeroSecreto = numeroAleatorio(0, game->max);
+
     game->tentativas = 0; // contador de tentativas
     game->limiteTentativas = 10;
     //game->state = STATE_MENU;
@@ -42,6 +43,7 @@ void ProcessarTemperatura(GameState *game) {
     // Mudamos a mensagem se temperatura a partir dessa "distância"
     if (distancia >= 15){
         strcpy(game->temperatura, "Frio"); 
+        //game->temperatura = "Frio"
     } else if (distancia > 5 && distancia < 15){
         strcpy(game->temperatura, "Morno"); 
     } else {
@@ -53,11 +55,14 @@ void ProcessarTemperatura(GameState *game) {
 // para atualizar estado do jogo (GameState) a partir do novo palpite (int) do usuário.
 // * provavelmente separar em mais funcoes
 void ProcessarTentativa(GameState *game, int palpite) {
-    game->tentativas++;
-    game->palpite = palpite;
-    ProcessarTemperatura(game);
+    game->tentativas++; // incrementa tentativas
 
-    if (palpite == game->numeroSecreto) {
+    game->palpite = palpite; // atribui o palpite do user
+                             // ao GameState game 
+
+    ProcessarTemperatura(game); // "Quente", "Frio" ...
+
+    if (palpite == game->numeroSecreto) { // acertou?
         game->state = STATE_GAMEOVER;
     } else if (game->tentativas >= game->limiteTentativas) {
         game->state = STATE_GAMEOVER;
