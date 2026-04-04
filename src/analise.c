@@ -1,1 +1,0 @@
-// calculo, metricas, recursao e sugestoes.
