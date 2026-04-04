@@ -1,0 +1,1 @@
+// gravacao e leitura de arquivos de log

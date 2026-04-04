@@ -1,0 +1,1 @@
+// leitura segura de inteiros, timestamps e utilitarios
