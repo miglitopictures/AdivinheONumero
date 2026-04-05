@@ -3,10 +3,13 @@
 #include <stdlib.h>
 #include <time.h>
 #include "util.h"
+#include "tipos.h"
 
 
 int main(void) {
+
     srand(time(NULL));
+
     int menuSelection = 0;
     while (menuSelection != 3){
         printf("-----------------------------------------\n");
@@ -22,33 +25,37 @@ int main(void) {
         case 1:
             printf("\n-----------------------------------------\n");
             printf("Novo jogo iniciado, tente adivinhar entre 1 e 100.\n\n");
-            int guessCounter = 0;
-            int targetNumber = randomRangeInt(1,100);
-            printf("Target = %d\n", targetNumber);
+
+            Session session;
+
+            session.target = randomRangeInt(1,100);
+            session.attempts_count = 0;
 
             while (1) {
                 int guess;
                 printf("\nDigite deu palpite: ");
                 scanf("%d%*c", &guess);
 
-                guessCounter++;
+                session.attempts_count++;
 
                 if (guess < 1 || guess > 100) {
                     printf("Palpite fora dos limite determinado, tente novamente.\n");
                     continue;
                 }
 
-                if (guess < targetNumber) printf("Muito baixo!\n");
-                else if (guess > targetNumber) printf("Muito alto!\n");
-                else {
-                    printf("Acertou! Você encontrou o número em %d tentativas.\n\n", guessCounter);
-                    break; // win
+                if (guess < session.target) {
+                    printf("Muito baixo!\n");
+                } else if (guess > session.target) {
+                    printf("Muito alto!\n");
+                } else {
+                    printf("Acertou! Você encontrou o número em %d tentativas.\n\n", session.attempts_count);
+                    break; // WIN
                 }
             }
 
             break;
         case 2:
-            printf("Falta implementação\n\n");
+            printf("Falta implementação...\n\n");
             continue;
         default:
             printf("Encerrando... Até a próxima!\n\n");
@@ -56,4 +63,4 @@ int main(void) {
         }
     }
     return 0;
-}   
+}
