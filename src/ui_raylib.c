@@ -1,11 +1,11 @@
 #include <raylib.h>
 #include <logic.h>
 #include <stdlib.h>
-#include <gamestate.h>
+#include <tipos.h>
 
 #define MAX_INPUT_CHARS 3 // limitar o input do usuario
 
-void startRaylibMode(GameState *game){
+void startRaylibMode(Session *game){
 
     // INIT //
     const int LARGURA = 800;
@@ -18,7 +18,7 @@ void startRaylibMode(GameState *game){
     Rectangle textBox = { LARGURA/2.0f - 100, 180, 225, 50 }; // x, y, largura, altura
 
     InitWindow(LARGURA, ALTURA, "Adivinhe O Número");
-    
+
     SetTargetFPS(30);
     IniciarJogo(game);
 
@@ -61,15 +61,13 @@ void startRaylibMode(GameState *game){
             DrawRectangleRec(textBox, LIGHTGRAY);
             DrawText(input, (int)textBox.x + 5, (int)textBox.y + 8, 40, MAROON);
 
-            DrawText(TextFormat("Numero randomizado = %d",game->numeroSecreto), 40, ALTURA-40, 20, PURPLE); // apenas pro debug
-            DrawText(TextFormat("Limite de tentativas = %d",game->limiteTentativas), 40, ALTURA-80, 20, BLACK);
-            
+            DrawText(TextFormat("Numero randomizado = %d",game->target), 40, ALTURA-40, 20, PURPLE); // apenas pro debug            
 
             if (game->state == STATE_GAMEOVER) {
                 DrawText("YOU WIN!", 100, 100, 20, GREEN);
             } else {
-                DrawText(game->mensagem, 100, 100, 20, RED);
-                DrawText(game->temperatura, LARGURA - 100, ALTURA - 100, 20, RED);
+                DrawText(game->message, 100, 100, 20, RED);
+                DrawText(game->temperature, LARGURA - 100, ALTURA - 100, 20, RED);
             }
         EndDrawing();
     }

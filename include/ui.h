@@ -1,8 +1,7 @@
 #ifndef UI_H
 #define UI_H
-#include <gamestate.h>
+#include <tipos.h>
 
-void startTerminalMode(GameState *game);
-void startRaylibMode(GameState *game);
+void startRaylibMode(Session *game);
 
 #endif

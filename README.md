@@ -13,68 +13,68 @@ Um jogo de adivinhar números (de 0 a 100) desenvolvido em C.
 
 ## Histórias de Usuário
 
-### **UH0: Jogabilidade no Terminal**
-![High](https://img.shields.io/badge/Priority-High-red)
+### **UH0: Pontuação Dinâmica
+![High](https://img.shields.io/badge/Prioridade-Alta-red)
 * **Descrição:** Como jogador, quero poder rodar o jogo diretamente no terminal.
 * **Conversa:** O programa deve detectar se deve iniciar o modo gráfico ou oferecer uma versão simplificada de entrada e saída de texto.
 * **Critérios:** O fluxo principal (sorteio, palpite e feedback) deve funcionar via comandos de texto.
   
 ### **UH1: Seleção de Dificuldade**
-![Medium](https://img.shields.io/badge/Priority-Medium-yellow)
+![High](https://img.shields.io/badge/Prioridade-Alta-red)
 * **Descrição:** Como jogador, quero escolher o nível de dificuldade (10, 100, 1000, 10000) para ajustar o desafio ao meu gosto.
 * **Conversa:** O menu inicial deve permitir selecionar a intensidade antes da partida.
 * **Critérios:** Variação clara de intervalos e pontuação proporcional à dificuldade.
 
-### **UH2: Modo Trilha de Dificuldades**
-![Medium](https://img.shields.io/badge/Priority-Medium-yellow)
+### **UH2: High Score**
+![High](https://img.shields.io/badge/Prioridade-Alta-red)
 * **Descrição:** Como jogador, quero um modo de progressão linear para perceber minha evolução técnica.
 * **Conversa:** Sistema de fases onde a complexidade aumenta gradualmente.
 * **Critérios:** Desbloqueio de novos níveis e exibição de progresso/lista de fases.
 
-### **UH3: Feedback de Proximidade**
-![High](https://img.shields.io/badge/Priority-High-red)
+### **UH3: Modo Arcade**
+![High](https://img.shields.io/badge/Prioridade-Alta-red)
 * **Descrição:** Como jogador, quero saber se estou perto do número para ajustar minha estratégia.
 * **Conversa:** O sistema dará dicas como "Quente" ou "Frio" baseadas na distância do palpite.
 * **Critérios:** Mensagens visuais/sonoras dinâmicas que variam conforme a proximidade.
 
-### **UH4: Modo de Acessibilidade**
-![Medium](https://img.shields.io/badge/Priority-Medium-yellow)
+### **UH4: Curiosidades ao Acertar**
+![High](https://img.shields.io/badge/Prioridade-Alta-red)
 * **Descrição:** Como jogador com deficiência visual, quero jogar de forma autônoma.
 * **Conversa:** Implementação de feedbacks sonoros e suporte a leitores de tela.
 * **Critérios:** Avisos sonoros para ações importantes (ex: se o chute foi maior ou menor).
 
-### **UH5: Limite de Tentativas**
-![Low](https://img.shields.io/badge/Priority-Low-blue)
+### **UH5: Multiplayer Local**
+![Medium](https://img.shields.io/badge/Prioridade-Média-yellow)
 * **Descrição:** Como jogador, quero um número limitado de chances para aumentar o desafio.
 * **Conversa:** Adição de uma condição de "Game Over" ao esgotar as tentativas.
 * **Critérios:** Contador de "Vidas" visível e interrupção do jogo ao chegar a zero.
 
-### **UH6: Persistência de Recorde (High Score)**
-![Medium](https://img.shields.io/badge/Priority-Medium-yellow)
+### **UH6: Sistemas Numéricos**
+![Medium](https://img.shields.io/badge/Prioridade-Média-yellow)
 * **Descrição:** Como jogador, quero que meu melhor resultado seja salvo localmente.
 * **Conversa:** O sistema compara o resultado atual com o recorde salvo e atualiza se for maior.
 * **Critérios:** Recorde mantido após fechar o jogo e mensagem de "Novo Recorde!".
 
-### **UH7: Mensagens de Resultado**
-![High](https://img.shields.io/badge/Priority-High-red)
+### **UH7: Frenesi (Sequencia de Acertos)**
+![Medium](https://img.shields.io/badge/Prioridade-Média-yellow)
 * **Descrição:** Como jogador, quero mensagens claras e imersivas sobre o fim do jogo.
 * **Conversa:** Textos específicos para vitória ou derrota por tentativas/tempo.
 * **Critérios:** Exibição de "Parabéns!" no acerto e incentivos em caso de perda.
 
-### **UH8: Histórico de Palpites**
-![Low](https://img.shields.io/badge/Priority-Low-blue)
+### **UH8: Operações Matemáticas**
+![Low](https://img.shields.io/badge/Prioridade-Baixa-blue)
 * **Descrição:** Como jogador, quero ver meus últimos 5 palpites para não repetir números.
 * **Conversa:** Exibição de uma coluna lateral com o histórico recente de chutes.
 * **Critérios:** Área específica na janela com atualização instantânea após cada tentativa.
 
-### **UH9: Reinício Rápido (Play Again)**
-![Low](https://img.shields.io/badge/Priority-Low-blue)
+### **UH9: 1D Linha Numérica**
+![Low](https://img.shields.io/badge/Prioridade-Baixa-blue)
 * **Descrição:** Como jogador, quero reiniciar a partida rapidamente sem fechar o programa.
 * **Conversa:** Tecla de atalho (Ex: 'R') para resetar o jogo instantaneamente.
 * **Critérios:** Limpeza do histórico e geração de novo número sem encerrar o processo.
 
-### **UH10: Identificação de Palpite Repetido**
-![Medium](https://img.shields.io/badge/Priority-Medium-yellow)
+### **UH10: 2D Plano Cartesiano**
+![Low](https://img.shields.io/badge/Prioridade-Baixíssima-blue)
 * **Descrição:** Como jogador, quero ser avisado se repetir um palpite para não desperdiçar chances.
 * **Conversa:** O sistema valida o chute contra o array de palpites anteriores.
 * **Critérios:** Alerta de "Número já tentado" sem descontar vidas do jogador.
