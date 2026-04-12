@@ -25,11 +25,6 @@ void IniciarJogo(GameState *game) {
     game->limiteTentativas = 10;
     //game->state = STATE_MENU;
     game->mensagem[0] = '\0';
-
-    // preenchendo o historico de tentaticas (temporario, falta implementar o historico)
-    for (int i = 0; i < MAX_HISTORICO; i++){
-        game->historicoTentativas[i] = 0;
-    }
 }
 
 /**

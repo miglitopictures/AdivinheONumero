@@ -18,6 +18,7 @@ void startRaylibMode(GameState *game){
     Rectangle textBox = { LARGURA/2.0f - 100, 180, 225, 50 }; // x, y, largura, altura
 
     InitWindow(LARGURA, ALTURA, "Adivinhe O Número");
+    
     SetTargetFPS(30);
     IniciarJogo(game);
 
@@ -62,11 +63,6 @@ void startRaylibMode(GameState *game){
 
             DrawText(TextFormat("Numero randomizado = %d",game->numeroSecreto), 40, ALTURA-40, 20, PURPLE); // apenas pro debug
             DrawText(TextFormat("Limite de tentativas = %d",game->limiteTentativas), 40, ALTURA-80, 20, BLACK);
-
-            DrawText("Historico: ", 40, 10, 20, BLACK);
-            for (int i = 0; i < MAX_HISTORICO; i++) {
-                DrawText(TextFormat("%d",game->historicoTentativas[i]), 160 + i * 15, 10, 20, BLACK);
-            }
             
 
             if (game->state == STATE_GAMEOVER) {
