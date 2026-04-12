@@ -60,6 +60,8 @@ void ProcessarTentativa(Session *game, int palpite) {
 
     ProcessarTemperatura(game); // "Quente", "Frio" ...
 
+    game->score += calcularScore(game);
+
     if (palpite == game->target) { // acertou?
         game->state = STATE_GAMEOVER;
         
@@ -74,4 +76,8 @@ void ProcessarTentativa(Session *game, int palpite) {
 
 char configurarCuriosidade(Session *game){
     strcpy(game->trivia, "Uma curiosidade sobre o numero sorteado");
+}
+
+char calcularScore(Session *game){
+    return 10;
 }
