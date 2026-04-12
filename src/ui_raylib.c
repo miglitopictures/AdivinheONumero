@@ -12,7 +12,7 @@ void startRaylibMode(GameState *game){
     const int ALTURA = 450;
 
     char input[MAX_INPUT_CHARS + 1];
-    input[MAX_INPUT_CHARS + 1]= '\0';
+    input[MAX_INPUT_CHARS]= '\0';
     int charCount = 0;
 
     Rectangle textBox = { LARGURA/2.0f - 100, 180, 225, 50 }; // x, y, largura, altura
