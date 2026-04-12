@@ -21,6 +21,8 @@ void IniciarJogo(Session *game) {
     game->max = 100;
     game->target = numeroAleatorio(0, game->max);
 
+    configurarCuriosidade(game);
+
     game->guessCount = 0; // contador de tentativas
     game->message[0] = '\0';
     game->temperature[0] = '\0';
@@ -60,9 +62,16 @@ void ProcessarTentativa(Session *game, int palpite) {
 
     if (palpite == game->target) { // acertou?
         game->state = STATE_GAMEOVER;
-    } else if (palpite < game->target) {
+        
+    } 
+    
+    if (palpite < game->target) {
         strcpy(game->message, "Sonhe mais alto!"); 
     } else {
         strcpy(game->message, "Abaixe essa bola!");
     }
+}
+
+char configurarCuriosidade(Session *game){
+    strcpy(game->trivia, "Uma curiosidade sobre o numero sorteado");
 }

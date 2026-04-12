@@ -17,7 +17,7 @@ typedef struct {
     NumericalSystem numericalSystem;
 
     int max; // 100
-    int target;
+    int target; // numero secreto
 
     int guess;
 
@@ -27,6 +27,8 @@ typedef struct {
     
     char message[64]; // "Muito Alto", "Muito Baixo", etc.
     char temperature[32]; // "Quente", "Morno", "Frio"
+
+    char trivia[256]; // curiosidade sobre o numero sorteado
 
     int score;
 } Session;
