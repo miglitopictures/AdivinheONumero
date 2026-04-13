@@ -36,7 +36,8 @@ typedef struct {
 // Ui Digits
 typedef struct {
     char text[16];
-    char offsets[15];
+    float currentY[15];
+    float targetY[15];
     int count;
 } DigitInput;
 

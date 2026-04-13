@@ -21,6 +21,8 @@ void configurarCuriosidade(Session *game){
  * * @param game Ponteiro para a estrutura GameState que será inicializada.
  */
 void IniciarJogo(Session *game) {
+    game->dificulty = EASY;
+    game->mode = MODO_NORMAL;
     game->max = 100;
     game->target = numeroAleatorio(0, game->max);
 
