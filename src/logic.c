@@ -12,6 +12,9 @@ int numeroAleatorio(int min, int max){
     return (rand() % (max - min + 1)) + min;
 }
 
+void configurarCuriosidade(Session *game){
+    strcpy(game->trivia, "Uma curiosidade sobre o numero sorteado");
+}
 
 /**
  * @brief Inicializa o estado do jogo para uma nova rodada.
@@ -49,6 +52,10 @@ void ProcessarTemperatura(Session *game) {
     }
 }
 
+int calcularScore(Session *game){
+    return 10;
+}
+
 // Essa função, no momento, executa todos os passos necessários
 // para atualizar estado do jogo (GameState) a partir do novo palpite (int) do usuário.
 // * provavelmente separar em mais funcoes
@@ -60,7 +67,7 @@ void ProcessarTentativa(Session *game, int palpite) {
 
     ProcessarTemperatura(game); // "Quente", "Frio" ...
 
-    game->score += calcularScore(game);
+    game->score += calcularScore(game); // por enquanto sempre adiciona 10, mas deve ser dinamico
 
     if (palpite == game->target) { // acertou?
         game->state = STATE_GAMEOVER;
@@ -72,12 +79,4 @@ void ProcessarTentativa(Session *game, int palpite) {
     } else {
         strcpy(game->message, "Abaixe essa bola!");
     }
-}
-
-char configurarCuriosidade(Session *game){
-    strcpy(game->trivia, "Uma curiosidade sobre o numero sorteado");
-}
-
-char calcularScore(Session *game){
-    return 10;
 }
