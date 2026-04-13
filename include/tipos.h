@@ -33,4 +33,11 @@ typedef struct {
     int score;
 } Session;
 
+// Ui Digits
+typedef struct {
+    char text[16];
+    char offsets[15];
+    int count;
+} DigitInput;
+
 #endif

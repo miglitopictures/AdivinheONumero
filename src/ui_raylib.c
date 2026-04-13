@@ -3,15 +3,21 @@
 #include <stdlib.h>
 #include <tipos.h>
 
-#define MAX_INPUT_CHARS 3 // limitar o input do usuario
 
-typedef struct 
-{
-    char text[MAX_INPUT_CHARS + 1];
-    int count;
-} DigitInput;
+// Interpolação linear
+float lerp(float start, float end, float amount){
+    return start + (end - start) * amount;
+}
 
-
+void drawAnimatedNumberInput(DigitInput input, int posX, int posY, int fontSize, int spacing, Color color, Font font){
+    for (int i = 0; i < input.count; i++){
+        char buf[2] = { input.text[i], '\0' };
+        DrawTextEx(font, buf,
+                 (Vector2){posX + (spacing + fontSize) * i,
+                 posY + input.offsets[i]},
+                 fontSize, 1,  color);
+    }
+}
 
 
 void updateNumberInput(DigitInput *input, int maxSize){
@@ -54,6 +60,8 @@ void startRaylibMode(Session *game){
 
     InitWindow(LARGURA, ALTURA, "Adivinhe O Número");
 
+    Font font = LoadFontEx("assets/font/ChonkyPixels.ttf", 32, 0, 250);
+
     SetTargetFPS(30);
     IniciarJogo(game);
 
@@ -66,7 +74,7 @@ void startRaylibMode(Session *game){
             ProcessarTentativa(game, atoi(input.text)); //ACSII to INTEGER //
         }
 
-        updateNumberInput(&input, MAX_INPUT_CHARS);
+        updateNumberInput(&input, 3);
 
 
         // DRAW //
@@ -74,7 +82,9 @@ void startRaylibMode(Session *game){
             ClearBackground(RAYWHITE);
 
             //DrawRectangleRec(textBox, LIGHTGRAY);
-            DrawText(input.text, (int)textBox.x + 5, (int)textBox.y + 8, 100, MAROON);
+            //DrawText(input.text, (int)textBox.x + 5, (int)textBox.y + 8, 100, MAROON);
+
+            drawAnimatedNumberInput(input, (int)textBox.x + 5, (int)textBox.y + 8, 100, -30, MAROON, font);
 
             DrawText(TextFormat("Numero randomizado = %d",game->target), 40, ALTURA-40, 20, PURPLE); // apenas pro debug            
 
