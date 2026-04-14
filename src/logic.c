@@ -69,6 +69,8 @@ void ProcessarTentativa(Session *game, int palpite) {
 
     ProcessarTemperatura(game); // "Quente", "Frio" ...
 
+    game->guessHistory[game->guessCount - 1] = game->guess;
+
     game->score += calcularScore(game); // por enquanto sempre adiciona 10, mas deve ser dinamico
 
     if (palpite == game->target) { // acertou?
