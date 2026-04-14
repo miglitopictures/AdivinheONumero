@@ -71,6 +71,12 @@ void updateNumberInput(DigitInput *input, int maxSize){
 
 }
 
+void clearNumberInput(DigitInput *input){
+    input->count = 0;
+    input->text[0] = '\0';
+}
+
+
 void startRaylibMode(Session *game){
 
     // INIT //
@@ -96,6 +102,7 @@ void startRaylibMode(Session *game){
         // INPUTS DO TECLADO
         if (IsKeyPressed(KEY_ENTER)) {
             ProcessarTentativa(game, atoi(input.text)); //ACSII to INTEGER //
+            clearNumberInput(&input);
         }
 
         updateNumberInput(&input, 3);
