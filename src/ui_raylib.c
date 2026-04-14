@@ -90,7 +90,9 @@ void startRaylibMode(Session *game){
 
     InitWindow(LARGURA, ALTURA, "Adivinhe O Número");
 
-    Font font = LoadFontEx("assets/font/ChonkyPixels.ttf", 32, 0, 250);
+    //Font font = LoadFontEx("assets/font/ChonkyPixels.ttf", 32, 0, 250);
+    Font font = GetFontDefault();
+
 
     SetTargetFPS(30);
     IniciarJogo(game);
@@ -114,23 +116,23 @@ void startRaylibMode(Session *game){
 
             //DrawRectangleRec(textBox, LIGHTGRAY);
             //DrawText(input.text, (int)textBox.x + 5, (int)textBox.y + 8, 100, MAROON);
-            drawAnimatedNumberInput(input, LARGURA / 2, ALTURA / 2, 200, 0, MAROON, font);
+            drawAnimatedNumberInput(input, LARGURA / 2, ALTURA / 2, 200, 10, MAROON, font);
 
             DrawText(TextFormat("Numero randomizado = %d",game->target), 40, ALTURA-40, 0, PURPLE); // apenas pro debug
             
             if (game->guessCount > 0){
                 float currentAdvance = 0.0f;
                 for (int i =0; i < game->guessCount; i++){
-                    Vector2 itemSize = MeasureTextEx(font, TextFormat("%d", game->guessHistory[i]), 20, 0);
-                    DrawTextEx(font, TextFormat("%d", game->guessHistory[i]), (Vector2){50 + currentAdvance,50}, 20, 0, MAROON);
+                    Vector2 itemSize = MeasureTextEx(font, TextFormat("%d", game->guessHistory[i]), 20, 2);
+                    DrawTextEx(font, TextFormat("%d", game->guessHistory[i]), (Vector2){50 + currentAdvance,50}, 20, 2, MAROON);
                     currentAdvance += itemSize.x + 10;
                 }
             }
             
 
             if (game->state == STATE_GAMEOVER) {
-                int winTextWidth = MeasureText("YOU WIN!", 20);
-                DrawText("YOU WIN!", LARGURA / 2 - winTextWidth / 2, 100, 20, GREEN);
+                int winTextWidth = MeasureText("YOU WIN!", 40);
+                DrawText("YOU WIN!", LARGURA / 2 - winTextWidth / 2, ALTURA / 2, 40, ORANGE);
             } else {
                 DrawText(game->message, 50, 100, 20, RED);
                 DrawText(game->temperature, LARGURA - 100, ALTURA - 100, 20, RED);
