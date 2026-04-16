@@ -63,7 +63,11 @@ void updateNumberInput(DigitInput *input, int maxSize){
 
     if (IsKeyPressed(KEY_BACKSPACE))
     {
-        input->targetY[input->count] = -30;
+        input->targetY[input->count - 1] = -30;
+
+    }
+
+    if (input->currentY[input->count - 1] <= -20) {
         input->count--;
         if (input->count < 0) input->count = 0;
         input->text[input->count] = '\0';
