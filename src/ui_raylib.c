@@ -58,6 +58,12 @@ void updateNumberInput(DigitInput *input, int maxSize){
     for (int i = 0; i < input->count; i++) {
         
         input->currentY[i] = lerp(input->currentY[i], input->targetY[i], 0.3f);
+
+        if (input->currentY[i] <= -20) {
+            input->count--;
+            if (input->count < 0) input->count = 0;
+            input->text[i] = '\0';
+        }
     }
 
 
@@ -76,8 +82,14 @@ void updateNumberInput(DigitInput *input, int maxSize){
 }
 
 void clearNumberInput(DigitInput *input){
-    input->count = 0;
-    input->text[0] = '\0';
+
+    for (int i = 0; i < input->count; i++){
+        input->targetY[i] = -30;
+    }
+    
+
+    //input->count = 0;
+    // input->text[0] = '\0';
 }
 
 
@@ -111,7 +123,7 @@ void startRaylibMode(Session *game){
             clearNumberInput(&input);
         }
 
-        updateNumberInput(&input, 3);
+        updateNumberInput(&input, 4);
 
 
         // DRAW //
