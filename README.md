@@ -1,6 +1,6 @@
-# Adivinhe O Número
+# Pablo Software's Numbers
 
-Um jogo de adivinhar números (de 0 a 100) desenvolvido em C.
+Um jogo casual de adivinhar números (de 1 a 100) desenvolvido em C, o primeiro da Pablo Software.
 
 ## O que o programa DEVE fazer?
 - O programa deve randomizar um valor dentro de um intervalo definido.
@@ -13,7 +13,7 @@ Um jogo de adivinhar números (de 0 a 100) desenvolvido em C.
 
 ## Histórias de Usuário
 
-### **UH0: Pontuação Dinâmica
+### **UH0: Pontuação Dinâmica**
 ![High](https://img.shields.io/badge/Prioridade-Alta-red)
 
 **Descrição:** Como jogador, quero que minha pontuação (score) considere diversos fatores da partida e não apenas o acerto, para que cada rodada seja mais significativa e única.
@@ -81,7 +81,7 @@ Um jogo de adivinhar números (de 0 a 100) desenvolvido em C.
 
 **Critérios de Confirmação:**
 
-- ??????
+- Os players devem poder dar palpites sequencialmente e a interface deve ser atuaizada de acordo.
 
 ### **UH6: Sistemas Numéricos**
 ![Medium](https://img.shields.io/badge/Prioridade-Média-yellow)
@@ -138,7 +138,7 @@ Um jogo de adivinhar números (de 0 a 100) desenvolvido em C.
 
 **Critérios de Confirmação:**
 
-- ?????
+- Mostrar o palpite com texto e mapeado em um grid (plano cartesiano) para interação visual.
 
 ## Como rodar no projeto?
 
