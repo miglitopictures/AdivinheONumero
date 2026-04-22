@@ -213,7 +213,7 @@ Se tiver duvidas sobre a organização do projeto ou sobre a funcionalidade de a
 ## Equipe
 - [Lucas Bonfim](https://github.com/l-bonfim) (Frontend)
 - [Lucas Carvalho](https://github.com/J4keless) (Backend)
-- [Lucas Valença](https://github.com/LucasGuilhermeValenca) (Frontend)
+- [Lucas Valença](https://github.com/LucasGuilhermeValenca) (Backend)
 - [Miguel Duarte](https://github.com/miglitopictures) (Frontend)
 - [Pablo Tamborini](https://github.com/PTN81) (Backend)
 - [Rodrigo Montenegro](https://github.com/rodrigomscmontenegro) (Backend)
