@@ -1,42 +1,16 @@
-#include <raylib.h>
-
-int main(){
-
-    // Init
-    InitWindow(500,500, "Adivinhe O Número");
-
-    Image img_test = LoadImage("../assets/alzara-img-noedit.png");
-
-    // Texture2D alzaratest = LoadTexture("../assets/alzara-img-noedit.png");
-    SetTargetFPS(60);
-    int numero = GetRandomValue(0, 100);
-    char num[3];
-    sprintf(num, "%d", numero);
+#include <string.h>
+#include <ui.h>
+#include <logic.h>
+#include <tipos.h>
 
 
-    while (!WindowShouldClose())
-    {
-        // Update
+int main(void){
 
+    resetarRandomSeed(); // chamamos essa função apenas uma vez, para mudar o valor do seed
 
-
-        // Draw
-        BeginDrawing(); // ---------- //
-
-
-        ClearBackground(WHITE);
-        // DrawTexture(alzaratest, 0, 0, WHITE);
-        DrawText("testando imagem", 300, 300, 15, RED);
-        DrawText(num, 100, 100, 30, RED);
-        
-
-        
-
-        EndDrawing();   // ---------- //
-    }
-    // UnloadTexture(alzaratest);
+    Session game; // CRIAR NOSSO GAMESTATE
     
-    CloseWindow();
+    startRaylibMode(&game);
 
-    return 0;
+    return 1;
 }
