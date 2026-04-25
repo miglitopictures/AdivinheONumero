@@ -7,7 +7,7 @@ typedef enum {MODO_NORMAL, MODO_ARCADE} Mode;
 
 typedef enum {EASY, MEDIUM, HARD} Dificulty;
 
-typedef enum {DECIMAL, BINARY, HEXADECIMAL} NumericalSystem;
+typedef enum {DECIMAL, BINARY, HEXADECIMAL, OCTAL} NumericalSystem;
 
 // Session
 typedef struct {

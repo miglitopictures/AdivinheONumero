@@ -31,7 +31,7 @@ void IniciarJogo(Session *game) {
     game->guessCount = 0; // contador de tentativas
     game->message[0] = '\0';
     game->temperature[0] = '\0';
-    game->score = 0;
+    game->score = 600;
 
 }
 
@@ -54,8 +54,41 @@ void ProcessarTemperatura(Session *game) {
     }
 }
 
-int calcularScore(Session *game){
+// Para atualizar o score em relação ao tempo
+// Será chamada em todos os frames do jogo
+void atualizarTempoRealScore (Session *game){
+
+}
+
+// Para atualizar o score em relação ao palpite
+int calcularPalpiteScore(Session *game){
     return 10;
+}
+
+// Recebe dados de arquivo de highscore a partir dele e da ultima partida
+void atualizarHighscore(Session *game){
+
+}
+
+// Verifica se o score do jogo é um high score
+int checarHighscore(Session *game){
+    int a = 1;
+    if (a == 1) {
+        return 1;
+    } else {
+        return 0;
+    }
+}
+
+// Salvar estado final da partida
+void salvarFinalDePartida(Session *game){
+
+}
+
+// Buscar curiosidade a partir do valor acertado
+char* buscarCuriosidade(int target){
+    static char curiosidade[128] = "Curiosidade";
+    return curiosidade;
 }
 
 // Essa função, no momento, executa todos os passos necessários
@@ -71,7 +104,7 @@ void ProcessarTentativa(Session *game, int palpite) {
 
     game->guessHistory[game->guessCount - 1] = game->guess; // salvar palpite no historico de palpites dessa rodada
 
-    game->score += calcularScore(game); // por enquanto sempre adiciona 10, mas deve ser dinamico
+    game->score -= calcularPalpiteScore(game); // por enquanto sempre adiciona 10, mas deve ser dinamico
 
     if (palpite == game->target) { // acertou?
         game->state = STATE_GAMEOVER;
