@@ -4,6 +4,8 @@
 #include <tipos.h>
 #include <stdio.h>
 
+#define DEBUGFONT 20
+
 // Interpolação linear
 float lerp(float start, float end, float amount){
     return start + (end - start) * amount;
@@ -102,8 +104,6 @@ void startRaylibMode(Session *game){
     DigitInput input = {0};
     input.text[0] = '\0';
 
-    Rectangle textBox = { LARGURA/2.0f - 100, 180, 225, 50 }; // x, y, largura, altura
-
     InitWindow(LARGURA, ALTURA, "Adivinhe O Número");
 
     //Font font = LoadFontEx("assets/font/ChonkyPixels.ttf", 32, 0, 250);
@@ -134,7 +134,9 @@ void startRaylibMode(Session *game){
             //DrawText(input.text, (int)textBox.x + 5, (int)textBox.y + 8, 100, MAROON);
             drawAnimatedNumberInput(input, LARGURA / 2, ALTURA / 2, 200, 10, MAROON, font);
 
-            DrawText(TextFormat("Numero randomizado = %d",game->target), 40, ALTURA-40, 0, PURPLE); // apenas pro debug
+            DrawText(TextFormat("Numero randomizado = %d",game->target), 20, ALTURA-80, DEBUGFONT, PURPLE); // apenas pro debug
+            DrawText(TextFormat("Pontuação atual = %d",game->score), 20, ALTURA-60, DEBUGFONT, PURPLE); // apenas pro debug
+            DrawText(game->trivia, 20, ALTURA-40, DEBUGFONT, PURPLE); // apenas pro debug
             
             if (game->guessCount > 0){
                 float currentAdvance = 0.0f;
