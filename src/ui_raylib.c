@@ -6,11 +6,15 @@
 
 #define DEBUGFONT 20
 
-// INIT //
 int LARGURA = 800;
 int ALTURA = 450;
 
+// Interpolação linear //
+float lerp(float start, float end, float amount){
+    return start + (end - start) * amount;
+}
 
+// Régua (Linha Numerica 1d) UH9 //
 typedef struct{
     Rectangle rect;
     int divisions;
@@ -24,10 +28,13 @@ Ruler createRuler(int divisions, float bodyHeight){
 }
 
 void drawRuler(Ruler ruler, Color bodyColor, Color divisionColor) {
+    
     DrawRectangleRec(ruler.rect,bodyColor);
+    
     int spaces = ruler.divisions - 1;
     float startX = ruler.rect.x + ruler.margin;
     float distBetween = (ruler.rect.width - 2 * ruler.margin) / spaces;
+    
     for (int i = 0; i < ruler.divisions; i++){
         float x = startX + i * distBetween;
         DrawLineEx( (Vector2){ x, ruler.rect.y },
@@ -37,12 +44,13 @@ void drawRuler(Ruler ruler, Color bodyColor, Color divisionColor) {
     }
 }
 
-// Interpolação linear
-float lerp(float start, float end, float amount){
-    return start + (end - start) * amount;
-}
-
-
+// User Input Digits //
+typedef struct {
+    char text[16];
+    float currentY[15];
+    float targetY[15];
+    int count;
+} DigitInput;
 
 void drawAnimatedNumberInput(DigitInput input, int posX, int posY, int fontSize, int spacing, Color color, Font font){
     if (input.count <= 0) return; // Nothing to draw
@@ -54,18 +62,15 @@ void drawAnimatedNumberInput(DigitInput input, int posX, int posY, int fontSize,
     for (int i = 0; i < input.count; i++){
         char buf[2] = { input.text[i], '\0' };
 
-        // Draw at the accumulated position
         DrawTextEx(font, buf,
                  (Vector2){(posX - totalSize.x / 2.0f) + currentAdvance,
                  posY + input.currentY[i] - totalSize.y / 2.0f},
                  fontSize, 0,  color); // Spacing is 0 here since we handle it manually
                  
-        // Measure THIS character and add its width + spacing to the advance
         Vector2 charSize = MeasureTextEx(font, buf, fontSize, 0);
         currentAdvance += charSize.x + spacing;
     }
 }
-
 
 void updateNumberInput(DigitInput *input, int maxSize){
 
@@ -113,25 +118,17 @@ void updateNumberInput(DigitInput *input, int maxSize){
         if (input->count < 0) input->count = 0;
         input->text[input->count] = '\0';
     }
-
 }
 
 void clearNumberInput(DigitInput *input){
-
     for (int i = 0; i < input->count; i++){
         input->targetY[i] = -30;
     }
-    
-
-    //input->count = 0;
-    // input->text[0] = '\0';
 }
 
 
 void startRaylibMode(Session *game){
-
     
-
     DigitInput input = {0};
     input.text[0] = '\0';
 
