@@ -31,6 +31,19 @@ typedef struct{
     float margin;
 } Ruler;
 
+typedef struct{
+    Vector2 centro;
+    float raio;
+} CircleMark;
+
+void drawCircleMark(CircleMark circlemark, Color bodyColor, float y){
+    DrawCircleV(circlemark.centro, circlemark.raio, bodyColor);
+    DrawLineEx( circlemark.centro, 
+                (Vector2) {circlemark.centro.x, y},
+                1.0f,
+                bodyColor);
+}
+
 
 Ruler createRuler(int divisions, float bodyHeight){
     Rectangle rect = {0,ALTURA - bodyHeight, LARGURA, bodyHeight};
@@ -41,10 +54,9 @@ Ruler createRuler(int divisions, float bodyHeight){
 void drawRuler(Ruler ruler, Color bodyColor, Color divisionColor) {
     
     DrawRectangleRec(ruler.rect,bodyColor);
-    
     int spaces = ruler.divisions - 1;
     float startX = ruler.rect.x + ruler.margin;
-    float distBetween = (ruler.rect.width - 2 * ruler.margin) / spaces;
+    float distBetween = (ruler.rect.width - (2 * ruler.margin)) / spaces;
     
     for (int i = 0; i < ruler.divisions; i++){
         float x = startX + i * distBetween;
@@ -148,7 +160,9 @@ void startRaylibMode(Session *game){
     //Font font = LoadFontEx("assets/font/ChonkyPixels.ttf", 32, 0, 250);
     Font font = GetFontDefault();
 
-    Ruler basicRuler = createRuler(100, 70);
+    Ruler basicRuler = createRuler(101, 70);
+
+    CircleMark circlemark = {(Vector2) {-10 , ALTURA-90}, 10};
 
     SetTargetFPS(30);
     IniciarJogo(game);
@@ -158,20 +172,29 @@ void startRaylibMode(Session *game){
         // UPDATE //
 
         // INPUTS DO TECLADO
+        if(input.count == 0) {
+            circlemark.centro.x = -10;
+        } else {
+            circlemark.centro.x = atof(input.text) * ((basicRuler.rect.width - basicRuler.margin*2) / (basicRuler.divisions - 1)) + basicRuler.margin;
+        }
+        if(atoi(input.text) > 100){
+            circlemark.centro.x = -10;
+        }
         if (IsKeyPressed(KEY_ENTER)) {
             ProcessarTentativa(game, atoi(input.text)); //ACSII to INTEGER //
             clearNumberInput(&input);
         }
 
-        updateNumberInput(&input, 4);
-
+        updateNumberInput(&input, 3);
 
         // DRAW //
         BeginDrawing();
             ClearBackground(PS_GREY);
 
-
+            
             drawRuler(basicRuler, PS_WHITE, PS_BLACK);
+            drawCircleMark(circlemark, PS_BLUE, ALTURA - basicRuler.rect.height + (basicRuler.rect.height * 0.46));
+            
 
             drawAnimatedNumberInput(input, LARGURA / 2, ALTURA / 2, 200, 10, PS_RED, font);
 
@@ -192,6 +215,10 @@ void startRaylibMode(Session *game){
             if (game->state == STATE_GAMEOVER) {
                 int winTextWidth = MeasureText("YOU WIN!", 40);
                 DrawText("YOU WIN!", LARGURA / 2 - winTextWidth / 2, ALTURA / 2, 40, PS_GREEN);
+                if (IsKeyPressed(KEY_R)) {
+                    game->state = STATE_PLAYING;
+                    IniciarJogo(game);
+                }
             } else {
                 DrawText(game->message, 50, 100, 20, PS_DEBUG);
                 DrawText(game->temperature, LARGURA - 100, ALTURA - 100, 20, PS_DEBUG);
