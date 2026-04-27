@@ -33,12 +33,5 @@ typedef struct {
     int score;
 } Session;
 
-// Ui Digits
-typedef struct {
-    char text[16];
-    float currentY[15];
-    float targetY[15];
-    int count;
-} DigitInput;
 
 #endif
