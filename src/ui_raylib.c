@@ -6,10 +6,43 @@
 
 #define DEBUGFONT 20
 
+// INIT //
+int LARGURA = 800;
+int ALTURA = 450;
+
+
+typedef struct{
+    Rectangle rect;
+    int divisions;
+    float margin;
+} Ruler;
+
+Ruler createRuler(int divisions, float bodyHeight){
+    Rectangle rect = {0,ALTURA - bodyHeight, LARGURA, bodyHeight};
+    Ruler ruler = {rect, divisions, 20};
+    return ruler;
+}
+
+void drawRuler(Ruler ruler, Color bodyColor, Color divisionColor) {
+    DrawRectangleRec(ruler.rect,bodyColor);
+    int spaces = ruler.divisions - 1;
+    float startX = ruler.rect.x + ruler.margin;
+    float distBetween = (ruler.rect.width - 2 * ruler.margin) / spaces;
+    for (int i = 0; i < ruler.divisions; i++){
+        float x = startX + i * distBetween;
+        DrawLineEx( (Vector2){ x, ruler.rect.y },
+                    (Vector2){ x, ruler.rect.y + ruler.rect.height * 0.4 },
+                    2.0f,
+                    divisionColor);
+    }
+}
+
 // Interpolação linear
 float lerp(float start, float end, float amount){
     return start + (end - start) * amount;
 }
+
+
 
 void drawAnimatedNumberInput(DigitInput input, int posX, int posY, int fontSize, int spacing, Color color, Font font){
     if (input.count <= 0) return; // Nothing to draw
@@ -97,9 +130,7 @@ void clearNumberInput(DigitInput *input){
 
 void startRaylibMode(Session *game){
 
-    // INIT //
-    const int LARGURA = 800;
-    const int ALTURA = 450;
+    
 
     DigitInput input = {0};
     input.text[0] = '\0';
@@ -109,6 +140,7 @@ void startRaylibMode(Session *game){
     //Font font = LoadFontEx("assets/font/ChonkyPixels.ttf", 32, 0, 250);
     Font font = GetFontDefault();
 
+    Ruler basicRuler = createRuler(100, 70);
 
     SetTargetFPS(30);
     IniciarJogo(game);
@@ -128,15 +160,16 @@ void startRaylibMode(Session *game){
 
         // DRAW //
         BeginDrawing();
-            ClearBackground(RAYWHITE);
+            ClearBackground(LIGHTGRAY);
 
-            //DrawRectangleRec(textBox, LIGHTGRAY);
-            //DrawText(input.text, (int)textBox.x + 5, (int)textBox.y + 8, 100, MAROON);
+
+            drawRuler(basicRuler, WHITE, GRAY);
+
             drawAnimatedNumberInput(input, LARGURA / 2, ALTURA / 2, 200, 10, MAROON, font);
 
-            DrawText(TextFormat("Numero randomizado = %d",game->target), 20, ALTURA-80, DEBUGFONT, PURPLE); // apenas pro debug
-            DrawText(TextFormat("Pontuação atual = %d",game->score), 20, ALTURA-60, DEBUGFONT, PURPLE); // apenas pro debug
-            DrawText(game->trivia, 20, ALTURA-40, DEBUGFONT, PURPLE); // apenas pro debug
+            DrawText(TextFormat("Numero randomizado = %d",game->target), 20, ALTURA-140, DEBUGFONT, PURPLE); // apenas pro debug
+            DrawText(TextFormat("Pontuação atual = %d",game->score), 20, ALTURA-120, DEBUGFONT, PURPLE); // apenas pro debug
+            DrawText(game->trivia, 20, ALTURA-100, DEBUGFONT, PURPLE); // apenas pro debug
             
             if (game->guessCount > 0){
                 float currentAdvance = 0.0f;
