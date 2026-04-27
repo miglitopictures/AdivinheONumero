@@ -9,6 +9,16 @@
 int LARGURA = 800;
 int ALTURA = 450;
 
+// Paleta de cores // 
+Color PS_BLACK = BLACK;
+Color PS_DARKGREY = {190, 190, 190, 255};
+Color PS_GREY = {205, 205, 205, 255};
+Color PS_WHITE = WHITE;
+Color PS_BLUE = {55, 60, 218, 255};
+Color PS_RED = {218, 55, 55, 255};
+Color PS_GREEN = {28, 121, 0, 255};
+Color PS_DEBUG = PURPLE;
+
 // Interpolação linear //
 float lerp(float start, float end, float amount){
     return start + (end - start) * amount;
@@ -21,9 +31,10 @@ typedef struct{
     float margin;
 } Ruler;
 
+
 Ruler createRuler(int divisions, float bodyHeight){
     Rectangle rect = {0,ALTURA - bodyHeight, LARGURA, bodyHeight};
-    Ruler ruler = {rect, divisions, 20};
+    Ruler ruler = {rect, divisions, 10};
     return ruler;
 }
 
@@ -38,8 +49,8 @@ void drawRuler(Ruler ruler, Color bodyColor, Color divisionColor) {
     for (int i = 0; i < ruler.divisions; i++){
         float x = startX + i * distBetween;
         DrawLineEx( (Vector2){ x, ruler.rect.y },
-                    (Vector2){ x, ruler.rect.y + ruler.rect.height * 0.4 },
-                    2.0f,
+                    (Vector2){ x, ruler.rect.y + ruler.rect.height * 0.46 },
+                    1.0f,
                     divisionColor);
     }
 }
@@ -157,22 +168,22 @@ void startRaylibMode(Session *game){
 
         // DRAW //
         BeginDrawing();
-            ClearBackground(LIGHTGRAY);
+            ClearBackground(PS_GREY);
 
 
-            drawRuler(basicRuler, WHITE, GRAY);
+            drawRuler(basicRuler, PS_WHITE, PS_BLACK);
 
-            drawAnimatedNumberInput(input, LARGURA / 2, ALTURA / 2, 200, 10, MAROON, font);
+            drawAnimatedNumberInput(input, LARGURA / 2, ALTURA / 2, 200, 10, PS_RED, font);
 
-            DrawText(TextFormat("Numero randomizado = %d",game->target), 20, ALTURA-140, DEBUGFONT, PURPLE); // apenas pro debug
-            DrawText(TextFormat("Pontuação atual = %d",game->score), 20, ALTURA-120, DEBUGFONT, PURPLE); // apenas pro debug
-            DrawText(game->trivia, 20, ALTURA-100, DEBUGFONT, PURPLE); // apenas pro debug
+            DrawText(TextFormat("Numero randomizado = %d",game->target), 20, ALTURA-140, DEBUGFONT, PS_DEBUG); // apenas pro debug
+            DrawText(TextFormat("Pontuação atual = %d",game->score), 20, ALTURA-120, DEBUGFONT, PS_DEBUG); // apenas pro debug
+            DrawText(game->trivia, 20, ALTURA-100, DEBUGFONT, PS_DEBUG); // apenas pro debug
             
             if (game->guessCount > 0){
                 float currentAdvance = 0.0f;
                 for (int i =0; i < game->guessCount; i++){
                     Vector2 itemSize = MeasureTextEx(font, TextFormat("%d", game->guessHistory[i]), 20, 2);
-                    DrawTextEx(font, TextFormat("%d", game->guessHistory[i]), (Vector2){50 + currentAdvance,50}, 20, 2, MAROON);
+                    DrawTextEx(font, TextFormat("%d", game->guessHistory[i]), (Vector2){50 + currentAdvance,50}, 20, 2, PS_DEBUG);
                     currentAdvance += itemSize.x + 10;
                 }
             }
@@ -180,10 +191,10 @@ void startRaylibMode(Session *game){
 
             if (game->state == STATE_GAMEOVER) {
                 int winTextWidth = MeasureText("YOU WIN!", 40);
-                DrawText("YOU WIN!", LARGURA / 2 - winTextWidth / 2, ALTURA / 2, 40, ORANGE);
+                DrawText("YOU WIN!", LARGURA / 2 - winTextWidth / 2, ALTURA / 2, 40, PS_GREEN);
             } else {
-                DrawText(game->message, 50, 100, 20, RED);
-                DrawText(game->temperature, LARGURA - 100, ALTURA - 100, 20, RED);
+                DrawText(game->message, 50, 100, 20, PS_DEBUG);
+                DrawText(game->temperature, LARGURA - 100, ALTURA - 100, 20, PS_DEBUG);
             }
         EndDrawing();
     }
