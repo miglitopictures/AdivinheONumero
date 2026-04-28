@@ -39,7 +39,13 @@ int imap(int value, int fromStart, int fromEnd, int toStart, int toEnd){
 }
 
 
-// Régua (Linha Numerica 1d) UH9 //
+typedef struct {
+    char text[16];
+    float currentY[15];
+    float targetY[15];
+    int count;
+} DigitInput;
+
 typedef struct{
     Rectangle rect;
     int divisions;
@@ -58,7 +64,6 @@ void drawCircleMark(CircleMark circlemark, Color bodyColor, float y){
                 1.0f,
                 bodyColor);
 }
-
 
 Ruler createRuler(int divisions, float bodyHeight){
     Rectangle rect = {0,ALTURA - bodyHeight, LARGURA, bodyHeight};
@@ -82,14 +87,6 @@ void drawRuler(Ruler ruler, Color bodyColor, Color divisionColor) {
     }
 }
 
-// User Input Digits //
-typedef struct {
-    char text[16];
-    float currentY[15];
-    float targetY[15];
-    int count;
-} DigitInput;
-
 void drawAnimatedNumberInput(DigitInput input, int posX, int posY, int fontSize, int spacing, Color color, Font font){
     if (input.count <= 0) return; // Nothing to draw
 
@@ -108,6 +105,11 @@ void drawAnimatedNumberInput(DigitInput input, int posX, int posY, int fontSize,
         Vector2 charSize = MeasureTextEx(font, buf, fontSize, 0);
         currentAdvance += charSize.x + spacing;
     }
+}
+
+void drawScoreBar(int currentScore, int max, Color bodyColor){
+    int c = imap(currentScore, 0, max, 0 , LARGURA);
+    DrawRectangle(0,0,c, 15, PS_BLUE);
 }
 
 void updateNumberInput(DigitInput *input, int maxSize){
@@ -164,10 +166,6 @@ void clearNumberInput(DigitInput *input){
     }
 }
 
-void drawScoreBar(int currentScore, int max, Color bodyColor){
-    int c = imap(currentScore, 0, max, 0 , LARGURA);
-    DrawRectangle(0,0,c, 15, PS_BLUE);
-}
 
 void startRaylibMode(Session *game){
     
