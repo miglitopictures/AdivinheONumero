@@ -20,9 +20,24 @@ Color PS_GREEN = {28, 121, 0, 255};
 Color PS_DEBUG = PURPLE;
 
 // Interpolação linear //
-float lerp(float start, float end, float amount){
+float flerp(float start, float end, float amount){
     return start + (end - start) * amount;
 }
+
+float fmap(float value, float fromStart, float fromEnd, float toStart, float toEnd){
+    float t = (value - fromStart) / (fromEnd - fromStart);
+    return flerp(toStart, toEnd, t);
+}
+
+int ilerp(int start, int end, float amount){
+    return start + (int) ((end - start) * amount);
+}
+
+int imap(int value, int fromStart, int fromEnd, int toStart, int toEnd){
+    float t = (float)(value - fromStart) / (float)(fromEnd - fromStart);
+    return ilerp(toStart, toEnd, t);
+}
+
 
 // Régua (Linha Numerica 1d) UH9 //
 typedef struct{
@@ -120,7 +135,7 @@ void updateNumberInput(DigitInput *input, int maxSize){
 
     for (int i = 0; i < input->count; i++) {
         
-        input->currentY[i] = lerp(input->currentY[i], input->targetY[i], 0.3f);
+        input->currentY[i] = flerp(input->currentY[i], input->targetY[i], 0.3f);
 
         if (input->currentY[i] <= -20) {
             input->count--;
@@ -149,6 +164,10 @@ void clearNumberInput(DigitInput *input){
     }
 }
 
+void drawScoreBar(int currentScore, int max, Color bodyColor){
+    int c = imap(currentScore, 0, max, 0 , LARGURA);
+    DrawRectangle(0,0,c, 15, PS_BLUE);
+}
 
 void startRaylibMode(Session *game){
     
@@ -160,12 +179,16 @@ void startRaylibMode(Session *game){
     //Font font = LoadFontEx("assets/font/ChonkyPixels.ttf", 32, 0, 250);
     Font font = GetFontDefault();
 
+    
+
     Ruler basicRuler = createRuler(101, 70);
 
     CircleMark circlemark = {(Vector2) {-10 , ALTURA-90}, 10};
 
     SetTargetFPS(30);
     IniciarJogo(game);
+
+    int startingScore = game->score;
 
     while (!WindowShouldClose()) {
 
@@ -191,7 +214,11 @@ void startRaylibMode(Session *game){
         BeginDrawing();
             ClearBackground(PS_GREY);
 
-            
+            drawScoreBar(game->score, startingScore, PS_BLUE);
+
+            // int c = imap(game->score, 0, startingScore, 0 , LARGURA);
+            // DrawRectangle(0,0,c, 100, PS_BLUE);
+
             drawRuler(basicRuler, PS_WHITE, PS_BLACK);
             drawCircleMark(circlemark, PS_BLUE, ALTURA - basicRuler.rect.height + (basicRuler.rect.height * 0.46));
             
