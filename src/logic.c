@@ -2,6 +2,7 @@
 #include <string.h>
 #include <time.h>
 #include <tipos.h>
+#include <stdio.h>
 
 
 // Gerar numero aleatorio RNG
@@ -65,12 +66,62 @@ int calcularPalpiteScore(Session *game){
     return 10;
 }
 
-// Recebe dados de arquivo de highscore a partir dele e da ultima partida
-void atualizarHighscore(Session *game){
+
+struct Teste {
+    char nome[50];
+    int score;
+    int tentativas;
+};
+
+void atualizarHighscore(Session *game) {
+    struct Teste lista[11];
+    int total = 0;
+
+    FILE *salvarscore = fopen("highscore.txt", "r");
+
+    if (salvarscore != NULL) {
+        while (total < 10 && fscanf(salvarscore, "%s %d", lista[total].nome, &lista[total].score) == 2) {
+            total++;
+        }
+        fclose(salvarscore);
+    }
+
+    //NÃO TENHO IDEIA DE COMO FAZER
+    //strncpy(lista[total].nome, game->nome, 49);
+    //lista[total].nome[49] = '\0';
+    //lista[total].score = game->score;
+    //total++;
+
+    //bubble sort pra organizar 
+    for (int i = 0; i < total - 1; i++) {
+        for (int j = 0; j < total - i - 1; j++) {
+            if (lista[j].score < lista[j + 1].score) {
+                struct Teste temp = lista[j];
+                lista[j] = lista[j + 1];
+                lista[j + 1] = temp;
+            }
+        }
+    }
+
+    //salva o top 10
+    FILE *arquivo = fopen("highscore.txt", "w");
+    if (arquivo == NULL) {
+        printf("Erro ao salvar ranking!\n");
+        return;
+    }
+
+    int limite = (total > 10) ? 10 : total;
+    for (int i = 0; i < limite; i++) {
+        fprintf(arquivo, "%s %d\n", lista[i].nome, lista[i].score);
+    }
+
+    fclose(arquivo);
+   
+
 
 }
 
-// Verifica se o score do jogo é um high score
+// Verifica se o score do jogo é um high score   Lucas e Rodrigo ????
 int checarHighscore(Session *game){
     int a = 1;
     if (a == 1) {
@@ -80,7 +131,7 @@ int checarHighscore(Session *game){
     }
 }
 
-// Salvar estado final da partida
+// Salvar estado final da partida   Lucas e rodrigo????
 void salvarFinalDePartida(Session *game){
 
 }
@@ -108,10 +159,8 @@ void ProcessarTentativa(Session *game, int palpite) {
 
     if (palpite == game->target) { // acertou?
         game->state = STATE_GAMEOVER;
-        
-    } 
-    
-    if (palpite < game->target) {
+        strcpy(game->message, "Voce acertou!"); 
+    } else if (palpite < game->target) {
         strcpy(game->message, "Sonhe mais alto!"); 
     } else {
         strcpy(game->message, "Abaixe essa bola!");
