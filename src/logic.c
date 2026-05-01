@@ -29,6 +29,7 @@ void IniciarJogo(Session *game) {
 
     configurarCuriosidade(game);
 
+    strcpy(game->player, "RAUL");
     game->guessCount = 0; // contador de tentativas
     game->message[0] = '\0';
     game->temperature[0] = '\0';
@@ -67,67 +68,100 @@ int calcularPalpiteScore(Session *game){
 }
 
 
-struct Teste {
+// 
+struct DadosPartida {
     char nome[50];
     int score;
-    int tentativas;
+    int target;
 };
 
+const int MAX_HIGHSCORES = 5;
+
 void atualizarHighscore(Session *game) {
-    struct Teste lista[11];
-    int total = 0;
+    struct DadosPartida lista[MAX_HIGHSCORES + 1]; // 10, o 11 sai da lista
 
-    FILE *salvarscore = fopen("highscore.txt", "r");
+    int totalEntradas = 0; // total de entradas atuais
 
-    if (salvarscore != NULL) {
-        while (total < 10 && fscanf(salvarscore, "%s %d", lista[total].nome, &lista[total].score) == 2) {
-            total++;
+    char formato[] = "%s %d %d"; // Formato das entradas no arquivo
+                     //NOME SCORE TARGET
+
+    // Abrindo arquivo no modo leitura
+    FILE *highscoreFile = fopen("./data/highscores.txt", "r");
+
+    // Pegando os dados do arquivo highscores.txt
+    // e colocando na lista de DadosPartida
+    if (highscoreFile != NULL) {
+                                
+        while (totalEntradas < MAX_HIGHSCORES) {
+            fscanf(highscoreFile, formato,
+                   lista[totalEntradas].nome,
+                   &lista[totalEntradas].score,
+                   &lista[totalEntradas].target);
+
+            totalEntradas++;
         }
-        fclose(salvarscore);
+
+        fclose(highscoreFile);
     }
 
-    //NÃO TENHO IDEIA DE COMO FAZER
-    //strncpy(lista[total].nome, game->nome, 49);
-    //lista[total].nome[49] = '\0';
-    //lista[total].score = game->score;
-    //total++;
 
-    //bubble sort pra organizar 
-    for (int i = 0; i < total - 1; i++) {
-        for (int j = 0; j < total - i - 1; j++) {
+    // Adicionando partida atual na lista
+    struct DadosPartida partidaAtual;
+    strcpy(partidaAtual.nome, game->player);
+    partidaAtual.score = game->score;
+    partidaAtual.target = game->target;
+    lista[MAX_HIGHSCORES] = partidaAtual; // adiciona na lista
+    totalEntradas++;
+
+
+
+
+    //Organizando a lista
+    for (int i = 0; i < totalEntradas - 1; i++) {
+        for (int j = 0; j < totalEntradas - i - 1; j++) {
             if (lista[j].score < lista[j + 1].score) {
-                struct Teste temp = lista[j];
+                struct DadosPartida temp = lista[j];
                 lista[j] = lista[j + 1];
                 lista[j + 1] = temp;
             }
         }
     }
 
-    //salva o top 10
-    FILE *arquivo = fopen("highscore.txt", "w");
+
+
+    // Abrindo arquivo novamente
+    FILE *arquivo = fopen("./data/highscores.txt", "w");
     if (arquivo == NULL) {
         printf("Erro ao salvar ranking!\n");
         return;
     }
 
-    int limite = (total > 10) ? 10 : total;
+    int limite = (totalEntradas > MAX_HIGHSCORES) ? MAX_HIGHSCORES : totalEntradas;
+    // Salvando a lista de hisghscores atualizada.
     for (int i = 0; i < limite; i++) {
-        fprintf(arquivo, "%s %d\n", lista[i].nome, lista[i].score);
+        fprintf(arquivo, formato, lista[i].nome, lista[i].score, lista[i].target);
+        fprintf(arquivo, "\n");
     }
 
     fclose(arquivo);
-   
-
-
 }
 
-// Verifica se o score do jogo é um high score   Lucas e Rodrigo ????
+// Verifica se o score do jogo esta no TOP  Lucas e Rodrigo ????
 int checarHighscore(Session *game){
-    int a = 1;
-    if (a == 1) {
-        return 1;
-    } else {
-        return 0;
+    // FILE *highscoreFile = fopen("./data/highscores.txt", "r");
+    // int highscoreAtual;
+
+    // fscanf(highscoreFile, "%d", &highscoreAtual);
+
+    // if (highscoreAtual >= game->score){
+    //     return 1;
+    // }
+
+    int a = 1; // APAGAR
+    if (a == 1) { // APAGAR
+        return 1; // APAGAR
+    } else { // APAGAR
+        return 0; // APAGAR
     }
 }
 
@@ -158,8 +192,10 @@ void ProcessarTentativa(Session *game, int palpite) {
     game->score -= calcularPalpiteScore(game); // por enquanto sempre adiciona 10, mas deve ser dinamico
 
     if (palpite == game->target) { // acertou?
+        printf("Acertou");
+        strcpy(game->message, "Voce acertou!");
+        atualizarHighscore(game); 
         game->state = STATE_GAMEOVER;
-        strcpy(game->message, "Voce acertou!"); 
     } else if (palpite < game->target) {
         strcpy(game->message, "Sonhe mais alto!"); 
     } else {
