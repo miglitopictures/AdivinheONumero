@@ -113,7 +113,7 @@ struct DadosPartida {
     int target;
 };
 
-const int MAX_HIGHSCORES = 5;
+#define MAX_HIGHSCORES 5
 
 void atualizarHighscore(Session *game) {
     struct DadosPartida lista[MAX_HIGHSCORES + 1]; // 10, o 11 sai da lista

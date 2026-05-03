@@ -194,9 +194,8 @@ void startRaylibMode(Session *game){
 		// Atualiza o score com base no tempo (deve ser chamado todo frame)
 		if (game->state == STATE_PLAYING) {
             float dt = GetFrameTime(); 
-            float dificuldadePontos = 2.0f; // Exemplo de parâmetro
-            
-            atualizarTempoRealScore(game, dt, dificuldadePontos);
+                      
+            atualizarTempoRealScore(game, dt);
         }
 		
         // INPUTS DO TECLADO
