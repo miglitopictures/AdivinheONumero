@@ -26,7 +26,7 @@ void IniciarJogo(Session *game) {
     game->mode = MODO_NORMAL;
     game->max = 100;
     game->target = numeroAleatorio(0, game->max);
-	game->state = STATE_PLAYING;
+	game->state = STATE_MENU;
 	
     configurarCuriosidade(game);
 
