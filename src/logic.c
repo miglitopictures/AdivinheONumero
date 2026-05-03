@@ -59,21 +59,30 @@ void ProcessarTemperatura(Session *game) {
 // Para atualizar o score em relação ao tempo
 // Será chamada em todos os frames do jogo
 
-void atualizarTempoRealScore(Session *game, double dt, double pontosPorSegundo)    // Verifica  Estado
+void atualizarTempoRealScore(Session *game, double dt)    // Verifica  Estado
 { 
  
     if (game == NULL || game->state != STATE_PLAYING) { 
         return;
     }
 
+    double pontosPorSegundo;  // Define quantos pontos são perdidos por segundo de jogo ativo
+    switch (game->difficulty)
+    {
+    case EASY:
+        pontosPorSegundo = 2;
+        break;
+    case MEDIUM:
+        pontosPorSegundo = 4;
+        break;
+    case HARD:
+        pontosPorSegundo = 8;
+        break;   
+    }
+
     // Aplica o decremento usando o dt (Delta Time) que foi injetado na função
     game->score -= pontosPorSegundo * dt;
-    
-    // Verificação de Game Over
-    if (game->score <= 0) {
-        game->score = 0;
-        game->state = STATE_GAMEOVER;
-    }
+        
 }
 
 //========================================================================================================================================================================
