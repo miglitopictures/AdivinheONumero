@@ -254,11 +254,12 @@ void updatePicker(OptionPicker *picker, Vector2 mouse){
 }
 
 void drawPicker(OptionPicker *picker, int posX, int posY){
-    // pessimo desenho, vou melhorar, mas deixando aqui pra representar.
+    // pessimo desenho, melhorar.
+
     // label
     DrawText(picker->label, posX, posY, 20, PS_BLACK);
     
-    // < current option >
+    // < item atual >
     DrawText("<", posX,        posY + 30, 20, PS_BLACK);
     DrawText(picker->options[picker->current].label, posX + 20, posY + 30, 20, PS_BLUE);
     DrawText(">", posX + 100,  posY + 30, 20, PS_BLACK);
