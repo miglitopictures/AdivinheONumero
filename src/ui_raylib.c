@@ -243,13 +243,29 @@ void drawButton(Button *btn){
                PS_BLACK);
 }
 
+// ___option picker_______________________________________________________________________________________
+
+void updatePicker(OptionPicker *picker, Vector2 mouse){
+    // falta interacao com mouse prra selecionar
+    if (IsKeyPressed(KEY_RIGHT))
+        picker->current = (picker->current + 1) % picker->count;
+    if (IsKeyPressed(KEY_LEFT))
+        picker->current = (picker->current - 1 + picker->count) % picker->count;
+}
+
+void drawPicker(OptionPicker *picker, int posX, int posY){
+    // pessimo desenho, vou melhorar, mas deixando aqui pra representar.
+    // label
+    DrawText(picker->label, posX, posY, 20, PS_BLACK);
+    
+    // < current option >
+    DrawText("<", posX,        posY + 30, 20, PS_BLACK);
+    DrawText(picker->options[picker->current].label, posX + 20, posY + 30, 20, PS_BLUE);
+    DrawText(">", posX + 100,  posY + 30, 20, PS_BLACK);
+}
+
 // ___state menu__________________________________________________________________________________________
 
-void drawPicker(OptionPicker *picker){
-    for (int i = 0; i < picker->count; i++){
-        
-    }
-}
 
 Button btnPlay, btnExit; // MAIN MENU
 
@@ -265,12 +281,12 @@ void initMenu(Session *game){
 
     // Modes Menu
     modePicker = (OptionPicker){
-    "DIFICULDADE",
+    "MODO",
     {
         {"NORMAL",   MODO_NORMAL},
         {"ARCADE",   MODO_ARCADE}
     },
-    2, -1 };
+    2, 0 };
 
     difficultyPicker = (OptionPicker){
     "DIFICULDADE",
@@ -279,9 +295,9 @@ void initMenu(Session *game){
         {"MEDIO",   MEDIUM},
         {"DIFICIL", HARD}
     },
-    3, -1 };
+    3, 0};
 
-    btnStart = (Button){{LARGURA/2 - 75, ALTURA/2, 150, 40}, "COMEÇAR", BT_IDLE};
+    btnStart = (Button){{LARGURA/2 - 75, ALTURA/2 + 60, 150, 40}, "COMEÇAR", BT_IDLE};
 
 }
 
@@ -296,6 +312,7 @@ void updateMenu(Session *game){
         if (updateButton(&btnExit, mousePosition)) game->state = STATE_EXIT;
         break;
     case MODES:
+        updatePicker(&modePicker, mousePosition);
         if (updateButton(&btnStart, mousePosition)) game->state = STATE_PLAYING;
         break;
     case STATS:
@@ -316,7 +333,7 @@ void drawMenu(Session *game){
         break;
     case MODES:
         drawButton(&btnStart);
-        drawPicker(&modePicker);
+        drawPicker(&modePicker, LARGURA /2, ALTURA /2);
         break;
     case STATS:
         break;
