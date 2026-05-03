@@ -24,7 +24,7 @@ typedef struct {
     int guessCount; // contador de tentativas
     int guessHistory[64];
     
-    
+    char player[32];
     char message[64]; // "Muito Alto", "Muito Baixo", etc.
     char temperature[32]; // "Quente", "Morno", "Frio"
 
