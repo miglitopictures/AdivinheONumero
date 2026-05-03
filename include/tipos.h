@@ -5,7 +5,7 @@ typedef enum { STATE_MENU, STATE_PLAYING, STATE_GAMEOVER, STATE_EXIT } State;
 
 typedef enum {MODO_NORMAL, MODO_ARCADE} Mode;
 
-typedef enum {EASY, MEDIUM, HARD} Dificulty;
+typedef enum {EASY, MEDIUM, HARD} Difficulty;
 
 typedef enum {DECIMAL, BINARY, HEXADECIMAL, OCTAL} NumericalSystem;
 
@@ -13,7 +13,7 @@ typedef enum {DECIMAL, BINARY, HEXADECIMAL, OCTAL} NumericalSystem;
 typedef struct {
     State state;
     Mode mode;
-    Dificulty dificulty;
+    Difficulty difficulty;
     NumericalSystem numericalSystem;
 
     int max; // 100

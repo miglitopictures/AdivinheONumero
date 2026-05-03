@@ -191,7 +191,13 @@ void startRaylibMode(Session *game){
     while (!WindowShouldClose()) {
 
         // UPDATE //
-
+		// Atualiza o score com base no tempo (deve ser chamado todo frame)
+		if (game->state == STATE_PLAYING) {
+            float dt = GetFrameTime(); 
+                      
+            atualizarTempoRealScore(game, dt);
+        }
+		
         // INPUTS DO TECLADO
         if(input.count == 0) {
             circlemark.centro.x = -10;

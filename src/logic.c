@@ -22,11 +22,12 @@ void configurarCuriosidade(Session *game){
  * * @param game Ponteiro para a estrutura GameState que será inicializada.
  */
 void IniciarJogo(Session *game) {
-    game->dificulty = EASY;
+    game->difficulty = EASY;
     game->mode = MODO_NORMAL;
     game->max = 100;
     game->target = numeroAleatorio(0, game->max);
-
+	game->state = STATE_PLAYING;
+	
     configurarCuriosidade(game);
 
     strcpy(game->player, "RAUL");
@@ -56,15 +57,52 @@ void ProcessarTemperatura(Session *game) {
     }
 }
 
+//=======================================================================================================================================================================
 // Para atualizar o score em relação ao tempo
 // Será chamada em todos os frames do jogo
-void atualizarTempoRealScore (Session *game){
 
+void atualizarTempoRealScore(Session *game, double dt)    // Verifica  Estado
+{ 
+ 
+    if (game == NULL || game->state != STATE_PLAYING) { 
+        return;
+    }
+
+    double pontosPorSegundo;  // Define quantos pontos são perdidos por segundo de jogo ativo
+    switch (game->difficulty)
+    {
+    case EASY:
+        pontosPorSegundo = 2;
+        break;
+    case MEDIUM:
+        pontosPorSegundo = 4;
+        break;
+    case HARD:
+        pontosPorSegundo = 8;
+        break;   
+    }
+
+    // Aplica o decremento usando o dt (Delta Time) que foi injetado na função
+    game->score -= pontosPorSegundo * dt;
+        
 }
 
+//========================================================================================================================================================================
 // Para atualizar o score em relação ao palpite
 int calcularPalpiteScore(Session *game){
-    return 10;
+    if (game == NULL) return 0;
+	
+    int distancia = abs(game->guess - game->target);
+	
+	if (distancia == 0) { 
+        return 0;   // Verifica primeiro se acertou exatamente (distância 0). Sem penalidade.
+    } else if (distancia >= 15){
+        return 30;  // Frio
+    } else if (distancia > 5){
+        return 15;  // Morno
+	} else {
+        return 5;   // Quente (inclui distância 1 a 5)
+    }
 }
 
 
@@ -75,7 +113,7 @@ struct DadosPartida {
     int target;
 };
 
-const int MAX_HIGHSCORES = 5;
+#define MAX_HIGHSCORES 5
 
 void atualizarHighscore(Session *game) {
     struct DadosPartida lista[MAX_HIGHSCORES + 1]; // 10, o 11 sai da lista
@@ -176,21 +214,30 @@ char* buscarCuriosidade(int target){
     return curiosidade;
 }
 
+//=====================================================================================================================================================================
 // Essa função, no momento, executa todos os passos necessários
 // para atualizar estado do jogo (GameState) a partir do novo palpite (int) do usuário.
 // * provavelmente separar em mais funcoes
 void ProcessarTentativa(Session *game, int palpite) {
+	if (game->state != STATE_PLAYING) return;
+	
     game->guessCount++; // incrementa tentativas
+    game->guess = palpite; // atribui o palpite do user ao GameState game.
+ 
+    ProcessarTemperatura(game); // Atualizar a temperatura com base na distância.
 
-    game->guess = palpite; // atribui o palpite do user
-                             // ao GameState game 
+    game->guessHistory[game->guessCount - 1] = game->guess; // salvar palpite no historico de palpites dessa rodada.
 
-    ProcessarTemperatura(game); // "Quente", "Frio" ...
-
-    game->guessHistory[game->guessCount - 1] = game->guess; // salvar palpite no historico de palpites dessa rodada
-
-    game->score -= calcularPalpiteScore(game); // por enquanto sempre adiciona 10, mas deve ser dinamico
-
+    game->score -= calcularPalpiteScore(game); // Deduzir os pontos dinamicamente baseado na temperatura calculada em ProcessarTemperatura(game).
+	
+	if (game->score < 0) { // Impede que o score fique negativo devido aos palpites.
+        game->score = 0;
+        game->state = STATE_GAMEOVER; // Opcional: declarar Game Over se zerar os pontos.
+    }
+	
+	
+	// Verificar condições de vitória ou dicas
+	
     if (palpite == game->target) { // acertou?
         printf("Acertou");
         strcpy(game->message, "Voce acertou!");
