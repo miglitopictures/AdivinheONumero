@@ -215,11 +215,16 @@ void salvarFinalDePartida(Session *game){
     char timestamp[20];
     strftime(timestamp, sizeof(timestamp), "%Y-%m-%d %H:%M:%S", t);
     
-    fprintf(partidasFile, "%d|%d|%s|%d|%d|", game->mode, game->score, timestamp, game->target, game->guessCount);
+    fprintf(partidasFile, "%d;%d;%s;%d;%d;", game->mode, game->score, timestamp, game->target, game->guessCount);
     for (int i = 0; i < game->guessCount; i++) {
-        fprintf(partidasFile, "%d ", game->guessHistory[i]);
+        if (i == game->guessCount - 1) {
+            fprintf(partidasFile, "%d", game->guessHistory[i]);
+        } else {
+            fprintf(partidasFile, "%d,", game->guessHistory[i]);
+        }
+        
     }
-    fprintf(partidasFile, "|\n");
+    fprintf(partidasFile, ";\n");
 
     fclose(partidasFile);
 }
