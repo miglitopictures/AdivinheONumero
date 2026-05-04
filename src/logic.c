@@ -30,7 +30,7 @@ void IniciarJogo(Session *game) {
 	
     configurarCuriosidade(game);
 
-    strcpy(game->player, "RAUL");
+    strcpy(game->player, "AAA");
     game->guessCount = 0; // contador de tentativas
     game->message[0] = '\0';
     game->temperature[0] = '\0';
@@ -215,7 +215,11 @@ void salvarFinalDePartida(Session *game){
     char timestamp[20];
     strftime(timestamp, sizeof(timestamp), "%Y-%m-%d %H:%M:%S", t);
     
-    fprintf(partidasFile, "%d|%d|%s|%d|%d\n", game->mode, game->score, timestamp, game->target, game->guessHistory);
+    fprintf(partidasFile, "%d|%d|%s|%d|%d|", game->mode, game->score, timestamp, game->target, game->guessCount);
+    for (int i = 0; i < game->guessCount; i++) {
+        fprintf(partidasFile, "%d ", game->guessHistory[i]);
+    }
+    fprintf(partidasFile, "|\n");
 
     fclose(partidasFile);
 }
@@ -251,9 +255,9 @@ void ProcessarTentativa(Session *game, int palpite) {
 	// Verificar condições de vitória ou dicas
 	
     if (palpite == game->target) { // acertou?
-        salvarFinalDePartida(game);
         printf("Acertou");
         strcpy(game->message, "Voce acertou!");
+        salvarFinalDePartida(game);
         atualizarHighscore(game); 
         game->state = STATE_GAMEOVER;
     } else if (palpite < game->target) {
