@@ -136,12 +136,13 @@ void updateNumberInput(DigitInput *input, int maxSize){
         }
     }
     
-
-    if (input->currentY[input->count - 1] <= -20) {
-        input->count--;
-        if (input->count < 0) input->count = 0;
-        input->text[input->count] = '\0';
-    }
+    // Caso de problema na animação de saida quando apagar o digito, provavelmente ta aqui a solução.
+    //
+    // if (input->currentY[input->count - 1] <= -20) {
+    //     input->count--;
+    //     if (input->count < 0) input->count = 0;
+    //     input->text[input->count] = '\0';
+    // }
 }
 
 void clearNumberInput(DigitInput *input){

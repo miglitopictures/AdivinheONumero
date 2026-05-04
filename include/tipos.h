@@ -22,7 +22,7 @@ typedef struct {
     int guess;
 
     int guessCount; // contador de tentativas
-    int guessHistory[64];
+    int guessHistory[10];
     
     char player[32];
     char message[64]; // "Muito Alto", "Muito Baixo", etc.
