@@ -205,7 +205,19 @@ int checarHighscore(Session *game){
 
 // Salvar estado final da partida   Lucas e rodrigo????
 void salvarFinalDePartida(Session *game){
+    FILE *partidasFile = fopen("./data/partidas.txt", "a");
+    if (partidasFile == NULL) return;
 
+    //Pegar data e hora
+    time_t agora = time(NULL);
+    struct tm *t = localtime(&agora);
+
+    char timestamp[20];
+    strftime(timestamp, sizeof(timestamp), "%Y-%m-%d %H:%M:%S", t);
+    
+    fprintf(partidasFile, "%d|%d|%s|%d|%d\n", game->mode, game->score, timestamp, game->target, game->guessHistory);
+
+    fclose(partidasFile);
 }
 
 // Buscar curiosidade a partir do valor acertado
@@ -239,6 +251,7 @@ void ProcessarTentativa(Session *game, int palpite) {
 	// Verificar condições de vitória ou dicas
 	
     if (palpite == game->target) { // acertou?
+        salvarFinalDePartida(game);
         printf("Acertou");
         strcpy(game->message, "Voce acertou!");
         atualizarHighscore(game); 
