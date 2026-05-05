@@ -3,6 +3,7 @@
 #include <stdlib.h>
 #include <tipos.h>
 #include <stdio.h>
+#include <math.h>
 
 #define DEBUGFONT 20
 
@@ -45,7 +46,10 @@ typedef struct{
     float margin;
 } Ruler;
 
+enum CicleMarkState{ CM_FREE, CM_LOCKED };
+
 typedef struct{
+    enum CicleMarkState state;
     Vector2 centro;
     float raio;
 } CircleMark;
@@ -72,7 +76,7 @@ int startingScore;
 
 Font font;
 Ruler basicRuler;
-CircleMark circlemark;
+CircleMark circlemarks[100];
 DigitInput input = {0};
 
 // ___math utils_______________________________________________________________________________________
@@ -206,11 +210,46 @@ void drawRuler(Ruler ruler, Color bodyColor, Color divisionColor) {
 
 // ___circle mark_________________________________________________________________________________________
 
-void drawCircleMark(CircleMark circlemark, Color bodyColor, float y){
+// Retorna posicao no eixo x que corresponde ao numero digitado.
+float getXFromRulerPoint(Ruler ruler, int rulerPoint){
+    float spacing = (ruler.rect.width - ruler.margin * 2) / (ruler.divisions - 1);
+    return rulerPoint * spacing + ruler.margin;
+}
+
+// Retorna numero digitado que corresponde ponto no eixo X.
+int getRulerPointFromX(Ruler ruler, float x){
+    float spacing = (ruler.rect.width - ruler.margin * 2) / (ruler.divisions - 1);
+    return (int)roundf((x - ruler.margin) / spacing);
+}
+
+void updateCircleMark(CircleMark *circlemark){
+
+    if(circlemark->state == CM_FREE){
+
+        circlemark->centro.y = ALTURA - basicRuler.rect.height - circlemark->raio;
+
+        if(input.count == 0) {
+            circlemark->centro.x = -10;
+        } else {
+            circlemark->centro.x = getXFromRulerPoint(basicRuler, atof(input.text));
+        }
+        if(atoi(input.text) > 100){
+            circlemark->centro.x = -10;
+        }
+
+    } else {
+        circlemark->centro.y = ALTURA - basicRuler.rect.height +  (basicRuler.rect.height * 0.46);
+    }
+
+}
+
+void drawCircleMark(CircleMark circlemark, Color bodyColor){
+    float alturaLinha = (basicRuler.rect.height * 0.46) + circlemark.raio;
+
     DrawCircleV(circlemark.centro, circlemark.raio, bodyColor);
     DrawLineEx( circlemark.centro, 
-                (Vector2) {circlemark.centro.x, y},
-                1.0f,
+                (Vector2) {circlemark.centro.x, circlemark.centro.y + alturaLinha},
+                2.0f,
                 bodyColor);
 }
 
@@ -352,7 +391,10 @@ void drawPlaying(Session *game){
     drawScoreBar(game->score, startingScore, PS_BLUE);
 
     drawRuler(basicRuler, PS_WHITE, PS_BLACK);
-    drawCircleMark(circlemark, PS_BLUE, ALTURA - basicRuler.rect.height + (basicRuler.rect.height * 0.46));
+
+    for (int i = 0; i < game->guessCount + 1; i++){
+        drawCircleMark(circlemarks[i], PS_BLUE);
+    }
 
     drawAnimatedNumberInput(input, LARGURA / 2, ALTURA / 2, 200, 10, PS_RED, font);
 
@@ -379,19 +421,18 @@ void updatePlaying(Session *game){
     float dt = GetFrameTime(); 
     atualizarTempoRealScore(game, dt);
 
-    
-    // CIRCLE MARK POSTIONING
-    if(input.count == 0) {
-        circlemark.centro.x = -10;
-    } else {
-        circlemark.centro.x = atof(input.text) * ((basicRuler.rect.width - basicRuler.margin*2) / (basicRuler.divisions - 1)) + basicRuler.margin;
-    }
-    if(atoi(input.text) > 100){
-        circlemark.centro.x = -10;
-    }
+    // CIRCLE MARK X POSTIONING
+    // for (int i = 0; i < game->guessCount + 1; i++){
+    //     updateCircleMark(&circlemarks[i]);
+    // }
+
+    updateCircleMark(&circlemarks[game->guessCount - 1]);
+    updateCircleMark(&circlemarks[game->guessCount]);
+
 
     // KEYBOARD INPUT
     if (IsKeyPressed(KEY_ENTER)) {
+        circlemarks[game->guessCount].state = CM_LOCKED;
         ProcessarTentativa(game, atoi(input.text)); //ACSII to INTEGER //
         clearNumberInput(&input);
     }
@@ -425,9 +466,13 @@ void init(Session *game){
     startingScore = game->score;
     input.text[0] = '\0';
     basicRuler = createRuler(101, 70);
-    circlemark.centro = (Vector2) {-10 , ALTURA-90};
-    circlemark.raio = 10;
 
+    for (int i = 0; i < 100; i++){
+        circlemarks[i].centro = (Vector2) {-10 , ALTURA-90};
+        circlemarks[i].raio = 10;
+        circlemarks[i].state = CM_FREE;
+    }
+    
     InitWindow(LARGURA, ALTURA, "Pablo Software's Numbers");
     SetTargetFPS(30);
     font = GetFontDefault();
