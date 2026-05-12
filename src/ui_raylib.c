@@ -61,6 +61,9 @@ int inputClearing = 0;
 
 // ___globals_________________________________________________________________________________________
 
+// debug info toggler
+int debugMode = 1;
+
 // janela aplicacao
 int LARGURA = 800;
 int ALTURA = 450;
@@ -234,12 +237,6 @@ void spawnActiveMark(int index, int rulerPoint) {
     activeMarkIndex = index;
 }
 
-
-void setActiveMarkToPoint(int rulerPoint) {
-    if (activeMarkIndex < 0) return;
-    circlemarks[activeMarkIndex].targetX = getXFromRulerPoint(basicRuler, rulerPoint);
-}
-
 void updateCircleMarks(Session *game) {
     Vector2 mouse = GetMousePosition();
 
@@ -289,30 +286,22 @@ void updateCircleMarks(Session *game) {
         m->currentX = flerp(m->currentX, m->targetX, 0.4f);
         m->y = ALTURA - basicRuler.rect.height - m->raio;
     }
+}
 
-    // --- Confirm guess ---
-    if (activeMarkIndex >= 0 && (IsKeyPressed(KEY_ENTER) || IsMouseButtonReleased(MOUSE_LEFT_BUTTON))) {
-        CircleMark *m = &circlemarks[activeMarkIndex];
-        int point = atoi(input.text);
-        m->currentX = getXFromRulerPoint(basicRuler, point);
-        m->raio = 7;
-        m->y = ALTURA - basicRuler.rect.height + (basicRuler.rect.height * 0.46f);
-        m->state = CM_LOCKED;
-        ProcessarTentativa(game, atoi(input.text));
-        clearNumberInput(&input);
-        activeMarkIndex = -1; // back to waiting
-    }
+void lockActiveCircleMark(void) {
+    CircleMark *m = &circlemarks[activeMarkIndex];
+    int point = atoi(input.text);
+    m->currentX = getXFromRulerPoint(basicRuler, point);
+    m->raio = 7;
+    m->y = ALTURA - basicRuler.rect.height + (basicRuler.rect.height * 0.46f);
+    m->state = CM_LOCKED;
 }
 
 void drawCircleMarks(Session *game) {
     // Draw all locked (confirmed) markers
     for (int i = 0; i < game->guessCount; i++) {
         CircleMark m = circlemarks[i];
-        // float lineBottom = m.y + basicRuler.rect.height * 0.46f + m.raio;
         DrawCircleV((Vector2){m.currentX, m.y}, m.raio, PS_BLUE);
-        // DrawLineEx((Vector2){m.currentX, m.y},
-        //            (Vector2){m.currentX, lineBottom},
-        //            2.0f, PS_BLUE);
     }
 
     // Draw active marker only if one exists
@@ -460,6 +449,27 @@ void drawMenu(Session *game){
 // ___state playing______________________________________________________________________________________
 
 
+void updatePlaying(Session *game){
+
+    float dt = GetFrameTime(); 
+    atualizarTempoRealScore(game, dt);
+
+    updateCircleMarks(game); 
+
+    // update debug mode
+    if (IsKeyPressed(KEY_D)) debugMode *= -1;
+
+    // Confirmar tentativa
+    if (activeMarkIndex >= 0 && (IsKeyPressed(KEY_ENTER) || IsMouseButtonReleased(MOUSE_LEFT_BUTTON))) {
+        lockActiveCircleMark();
+        ProcessarTentativa(game, atoi(input.text));
+        clearNumberInput(&input);
+        activeMarkIndex = -1; 
+    }
+
+    updateNumberInput(&input, 3);
+}
+
 void drawPlaying(Session *game){
     drawScoreBar(game->score, startingScore, PS_BLUE);
 
@@ -469,32 +479,22 @@ void drawPlaying(Session *game){
 
     drawAnimatedNumberInput(input, LARGURA / 2, ALTURA / 2, 200, 10, PS_RED, font);
 
-    DrawText(TextFormat("Numero randomizado = %d",game->target), 20, ALTURA-140, DEBUGFONT, PS_DEBUG); // apenas pro debug
-    DrawText(TextFormat("Pontuação atual = %d",game->score), 20, ALTURA-120, DEBUGFONT, PS_DEBUG); // apenas pro debug
-    DrawText(game->trivia, 20, ALTURA-100, DEBUGFONT, PS_DEBUG); // apenas pro debug
-    
-    if (game->guessCount > 0){
-        float currentAdvance = 0.0f;
-        for (int i =0; i < game->guessCount; i++){
-            Vector2 itemSize = MeasureTextEx(font, TextFormat("%d", game->guessHistory[i]), 20, 2);
-            DrawTextEx(font, TextFormat("%d", game->guessHistory[i]), (Vector2){50 + currentAdvance,50}, 20, 2, PS_DEBUG);
-            currentAdvance += itemSize.x + 10;
+    if (debugMode == 1){
+        DrawText(TextFormat("Numero randomizado = %d",game->target), 20, ALTURA-140, DEBUGFONT, PS_DEBUG); // apenas pro debug
+        DrawText(TextFormat("Pontuação atual = %d",game->score), 20, ALTURA-120, DEBUGFONT, PS_DEBUG); // apenas pro debug
+        DrawText(game->trivia, 20, ALTURA-100, DEBUGFONT, PS_DEBUG); // apenas pro debug
+        if (game->guessCount > 0){
+            float currentAdvance = 0.0f;
+            for (int i =0; i < game->guessCount; i++){
+                Vector2 itemSize = MeasureTextEx(font, TextFormat("%d", game->guessHistory[i]), 20, 2);
+                DrawTextEx(font, TextFormat("%d", game->guessHistory[i]), (Vector2){50 + currentAdvance,50}, 20, 2, PS_DEBUG);
+                currentAdvance += itemSize.x + 10;
+            }
         }
+        DrawText(game->message, 50, 100, 20, PS_DEBUG);
     }
 
-    DrawText(game->message, 50, 100, 20, PS_DEBUG);
     DrawText(game->temperature, LARGURA - 100, ALTURA - 100, 20, PS_DEBUG);
-}
-
-
-void updatePlaying(Session *game){
-
-    float dt = GetFrameTime(); 
-    atualizarTempoRealScore(game, dt);
-
-    updateCircleMarks(game); 
-
-    updateNumberInput(&input, 3);
 }
 
 // ___state gameover___________________________________________________________________________________________
