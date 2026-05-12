@@ -105,36 +105,35 @@ int calcularPalpiteScore(Session *game){
     }
 }
 
-
-// 
 struct DadosPartida {
     char nome[50];
     int score;
     int target;
 };
 
-#define MAX_HIGHSCORES 5
+#define MAX_HIGHSCORES 10
 
 void atualizarHighscore(Session *game) {
-    struct DadosPartida lista[MAX_HIGHSCORES + 1]; // 10, o 11 sai da lista
 
-    int totalEntradas = 0; // total de entradas atuais
+    struct DadosPartida lista[MAX_HIGHSCORES + 1];
 
-    char formato[] = "%s %d %d"; // Formato das entradas no arquivo
-                     //NOME SCORE TARGET
+    int totalEntradas = 0;
 
-    // Abrindo arquivo no modo leitura
     FILE *highscoreFile = fopen("./data/highscores.txt", "r");
 
-    // Pegando os dados do arquivo highscores.txt
-    // e colocando na lista de DadosPartida
     if (highscoreFile != NULL) {
-                                
-        while (totalEntradas < MAX_HIGHSCORES) {
-            fscanf(highscoreFile, formato,
-                   lista[totalEntradas].nome,
-                   &lista[totalEntradas].score,
-                   &lista[totalEntradas].target);
+
+        // Lê os highscores válidos do arquivo
+        while (
+            totalEntradas < MAX_HIGHSCORES &&
+            fscanf(
+                highscoreFile,
+                "%49s %d %d",
+                lista[totalEntradas].nome,
+                &lista[totalEntradas].score,
+                &lista[totalEntradas].target
+            ) == 3 // Se colocar outra entrada, mudar o número.
+        ) {
 
             totalEntradas++;
         }
@@ -142,65 +141,100 @@ void atualizarHighscore(Session *game) {
         fclose(highscoreFile);
     }
 
+    // Adiciona a partida atual na lista
+    strcpy(lista[totalEntradas].nome, game->player);
+    lista[totalEntradas].score = game->score;
+    lista[totalEntradas].target = game->target;
 
-    // Adicionando partida atual na lista
-    struct DadosPartida partidaAtual;
-    strcpy(partidaAtual.nome, game->player);
-    partidaAtual.score = game->score;
-    partidaAtual.target = game->target;
-    lista[MAX_HIGHSCORES] = partidaAtual; // adiciona na lista
     totalEntradas++;
 
-
-
-
-    //Organizando a lista
+    // Ordena os scores do maior para o menor
     for (int i = 0; i < totalEntradas - 1; i++) {
+
         for (int j = 0; j < totalEntradas - i - 1; j++) {
+
             if (lista[j].score < lista[j + 1].score) {
+
                 struct DadosPartida temp = lista[j];
+
                 lista[j] = lista[j + 1];
                 lista[j + 1] = temp;
             }
         }
     }
 
-
-
-    // Abrindo arquivo novamente
     FILE *arquivo = fopen("./data/highscores.txt", "w");
+
     if (arquivo == NULL) {
+
         printf("Erro ao salvar ranking!\n");
         return;
     }
 
-    int limite = (totalEntradas > MAX_HIGHSCORES) ? MAX_HIGHSCORES : totalEntradas;
-    // Salvando a lista de hisghscores atualizada.
+    int limite = totalEntradas;
+
+    if (limite > MAX_HIGHSCORES) {
+        limite = MAX_HIGHSCORES;
+    }
+
+    // Salva apenas o TOP 10
     for (int i = 0; i < limite; i++) {
-        fprintf(arquivo, formato, lista[i].nome, lista[i].score, lista[i].target);
-        fprintf(arquivo, "\n");
+
+        fprintf(
+            arquivo,
+            "%s %d %d\n",
+            lista[i].nome,
+            lista[i].score,
+            lista[i].target
+        );
     }
 
     fclose(arquivo);
 }
 
-// Verifica se o score do jogo esta no TOP  Lucas e Rodrigo ????
-int checarHighscore(Session *game){
-    // FILE *highscoreFile = fopen("./data/highscores.txt", "r");
-    // int highscoreAtual;
+int checarHighscore(Session *game) {
 
-    // fscanf(highscoreFile, "%d", &highscoreAtual);
+    struct DadosPartida lista[MAX_HIGHSCORES];
 
-    // if (highscoreAtual >= game->score){
-    //     return 1;
-    // }
+    int totalEntradas = 0;
 
-    int a = 1; // APAGAR
-    if (a == 1) { // APAGAR
-        return 1; // APAGAR
-    } else { // APAGAR
-        return 0; // APAGAR
+    FILE *highscoreFile = fopen("./data/highscores.txt", "r");
+
+    if (highscoreFile != NULL) {
+
+        // Lê os highscores válidos do arquivo
+        while (
+            totalEntradas < MAX_HIGHSCORES &&
+            fscanf(
+                highscoreFile,
+                "%49s %d %d",
+                lista[totalEntradas].nome,
+                &lista[totalEntradas].score,
+                &lista[totalEntradas].target
+            ) == 3
+        ) {
+
+            totalEntradas++;
+        }
+
+        fclose(highscoreFile);
     }
+
+    // Se houver menos de 10 scores,
+    // o jogador entra automaticamente
+    if (totalEntradas < MAX_HIGHSCORES) {
+        return 1;
+    }
+
+    // Verifica se o score atual supera algum score existente
+    for (int i = 0; i < totalEntradas; i++) {
+
+        if (game->score > lista[i].score) {
+            return 1;
+        }
+    }
+
+    return 0;
 }
 
 // Salvar estado final da partida   Lucas e rodrigo????
