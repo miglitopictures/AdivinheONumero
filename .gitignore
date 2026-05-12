@@ -1,6 +1,12 @@
-.vscode
-game
+.vscode/
+
+# Game binary
 game.exe
-/data/curiosidades.txt
-/data/highscores.txt
-/data/partidas.txt
+
+# Game executable (if running on Unix)
+game
+
+# User data/highscores
+data/curiosidades.txt
+data/highscores.txt
+data/partidas.txt
