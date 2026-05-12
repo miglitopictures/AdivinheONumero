@@ -370,7 +370,7 @@ void drawPicker(OptionPicker *picker, int posX, int posY){
 // ___state menu__________________________________________________________________________________________
 
 
-Button btnPlay, btnExit; // MAIN MENU
+Button btnPlay, btnExit, btnStats; // MAIN MENU
 
 OptionPicker modePicker, difficultyPicker;
 Button btnStart;
@@ -379,8 +379,9 @@ enum MenuState menuState = MAIN;
 
 void initMenu(Session *game){
     // Main Menu
-    btnPlay = (Button){{LARGURA/2 - 75, ALTURA/2, 150, 40}, "JOGAR", BT_IDLE};
-    btnExit = (Button){{LARGURA/2 + 75, ALTURA/2, 150, 40}, "SAIR", BT_IDLE};
+    btnPlay = (Button){{LARGURA/2 - 150 - 75, ALTURA/2, 140, 40}, "JOGAR", BT_IDLE};
+    btnStats = (Button){{LARGURA/2 - 75, ALTURA/2, 140, 40}, "ANALISAR", BT_IDLE};
+    btnExit = (Button){{LARGURA/2 + 150 - 75, ALTURA/2, 140, 40}, "SAIR", BT_IDLE};
 
     // Modes Menu
     modePicker = (OptionPicker){
@@ -411,6 +412,7 @@ void updateMenu(Session *game){
     case LOGO:
         break;
     case MAIN:
+        updateButton(&btnStats, mousePosition);
         if (updateButton(&btnPlay, mousePosition)) menuState = MODES;
         if (updateButton(&btnExit, mousePosition)) game->state = STATE_EXIT;
         break;
@@ -432,6 +434,7 @@ void drawMenu(Session *game){
         break;
     case MAIN:
         drawButton(&btnPlay);
+        drawButton(&btnStats);
         drawButton(&btnExit);
         break;
     case MODES:
