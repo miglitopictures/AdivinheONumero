@@ -1,4 +1,6 @@
 .vscode
 game
 game.exe
-./data
+/data/curiosidades.txt
+/data/highscores.txt
+/data/partidas.txt
