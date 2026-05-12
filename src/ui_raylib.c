@@ -3,6 +3,7 @@
 #include <stdlib.h>
 #include <tipos.h>
 #include <stdio.h>
+#include <math.h>
 
 #define DEBUGFONT 20
 
@@ -45,12 +46,18 @@ typedef struct{
     float margin;
 } Ruler;
 
+enum CicleMarkState{ CM_FREE, CM_LOCKED, CM_WAIT };
+
 typedef struct{
-    Vector2 centro;
+    enum CicleMarkState state;
+    float currentX;
+    float targetX;
+    float y;
     float raio;
 } CircleMark;
 
-
+int activeMarkIndex = -1;
+int inputClearing = 0;
 
 // ___globals_________________________________________________________________________________________
 
@@ -72,7 +79,7 @@ int startingScore;
 
 Font font;
 Ruler basicRuler;
-CircleMark circlemark;
+CircleMark circlemarks[100];
 DigitInput input = {0};
 
 // ___math utils_______________________________________________________________________________________
@@ -135,20 +142,16 @@ void updateNumberInput(DigitInput *input, int maxSize){
             input->text[i] = '\0';
         }
     }
-    
-    // Caso de problema na animação de saida quando apagar o digito, provavelmente ta aqui a solução.
-    //
-    // if (input->currentY[input->count - 1] <= -20) {
-    //     input->count--;
-    //     if (input->count < 0) input->count = 0;
-    //     input->text[input->count] = '\0';
-    // }
+
+    if (input->count == 0) inputClearing = false;  // ← done clearing
+
 }
 
 void clearNumberInput(DigitInput *input){
     for (int i = 0; i < input->count; i++){
         input->targetY[i] = -30;
     }
+    inputClearing = 1;
 }
 
 
@@ -206,12 +209,121 @@ void drawRuler(Ruler ruler, Color bodyColor, Color divisionColor) {
 
 // ___circle mark_________________________________________________________________________________________
 
-void drawCircleMark(CircleMark circlemark, Color bodyColor, float y){
-    DrawCircleV(circlemark.centro, circlemark.raio, bodyColor);
-    DrawLineEx( circlemark.centro, 
-                (Vector2) {circlemark.centro.x, y},
-                1.0f,
-                bodyColor);
+// Retorna posicao no eixo x que corresponde ao numero digitado.
+float getXFromRulerPoint(Ruler ruler, int point){
+    float spacing = (ruler.rect.width - ruler.margin * 2) / (ruler.divisions - 1);
+    return point * spacing + ruler.margin;
+}
+
+// Retorna numero digitado que corresponde ponto no eixo X.
+int getRulerPointFromX(Ruler ruler, float x) {
+    float spacing = (ruler.rect.width - ruler.margin * 2) / (ruler.divisions - 1);
+    int point = (int)roundf((x - ruler.margin) / spacing);
+    if (point < 0) point = 0;
+    if (point >= ruler.divisions) point = ruler.divisions - 1;
+    return point;
+}
+
+void spawnActiveMark(int index, int rulerPoint) {
+    float x = getXFromRulerPoint(basicRuler, rulerPoint);
+    circlemarks[index].currentX = x;
+    circlemarks[index].targetX  = x;
+    circlemarks[index].raio  = 10;
+    circlemarks[index].y = ALTURA - basicRuler.rect.height - circlemarks[index].raio;
+    circlemarks[index].state = CM_FREE;
+    activeMarkIndex = index;
+}
+
+
+void setActiveMarkToPoint(int rulerPoint) {
+    if (activeMarkIndex < 0) return;
+    circlemarks[activeMarkIndex].targetX = getXFromRulerPoint(basicRuler, rulerPoint);
+}
+
+void updateCircleMarks(Session *game) {
+    Vector2 mouse = GetMousePosition();
+
+    // mouse overlapping detection
+    bool mouseOnRuler = CheckCollisionPointRec(mouse, basicRuler.rect);
+
+    // --- Spawn new marker ---
+    // From mouse click on ruler
+    if (activeMarkIndex < 0 && mouseOnRuler && IsMouseButtonPressed(MOUSE_LEFT_BUTTON)) {
+        int point = getRulerPointFromX(basicRuler, mouse.x);
+        // sync input text
+        input.count = 0;
+        char buf[4];
+        snprintf(buf, sizeof(buf), "%d", point);
+        for (int i = 0; buf[i] != '\0'; i++) numberInputAdd(&input, buf[i]);
+        spawnActiveMark(game->guessCount, point);
+    }
+    // From first digit typed
+    if (activeMarkIndex < 0 && !inputClearing && input.count > 0) {
+        int point = atoi(input.text);
+        spawnActiveMark(game->guessCount, point);
+    }
+
+    // --- Drive active marker ---
+    if (activeMarkIndex >= 0) {
+        CircleMark *m = &circlemarks[activeMarkIndex];
+
+        // Mouse drag overrides keyboard
+        if (mouseOnRuler && IsMouseButtonDown(MOUSE_LEFT_BUTTON)) {
+            int point = getRulerPointFromX(basicRuler, mouse.x);
+            m->targetX = getXFromRulerPoint(basicRuler, point);
+            // sync input text to mouse position
+            input.count = 0;
+            char buf[4];
+            snprintf(buf, sizeof(buf), "%d", point);
+            for (int i = 0; buf[i] != '\0'; i++) numberInputAdd(&input, buf[i]);
+        } else {
+            // Keyboard drives target
+            if (input.count > 0) {
+                int point = atoi(input.text);
+                if (point > basicRuler.divisions - 1) point = basicRuler.divisions - 1;
+                m->targetX = getXFromRulerPoint(basicRuler, point);
+            }
+        }
+
+        // Lerp currentX toward targetX
+        m->currentX = flerp(m->currentX, m->targetX, 0.4f);
+        m->y = ALTURA - basicRuler.rect.height - m->raio;
+    }
+
+    // --- Confirm guess ---
+    if (activeMarkIndex >= 0 && (IsKeyPressed(KEY_ENTER) || IsMouseButtonReleased(MOUSE_LEFT_BUTTON))) {
+        CircleMark *m = &circlemarks[activeMarkIndex];
+        int point = atoi(input.text);
+        m->currentX = getXFromRulerPoint(basicRuler, point);
+        m->raio = 7;
+        m->y = ALTURA - basicRuler.rect.height + (basicRuler.rect.height * 0.46f);
+        m->state = CM_LOCKED;
+        ProcessarTentativa(game, atoi(input.text));
+        clearNumberInput(&input);
+        activeMarkIndex = -1; // back to waiting
+    }
+}
+
+void drawCircleMarks(Session *game) {
+    // Draw all locked (confirmed) markers
+    for (int i = 0; i < game->guessCount; i++) {
+        CircleMark m = circlemarks[i];
+        // float lineBottom = m.y + basicRuler.rect.height * 0.46f + m.raio;
+        DrawCircleV((Vector2){m.currentX, m.y}, m.raio, PS_BLUE);
+        // DrawLineEx((Vector2){m.currentX, m.y},
+        //            (Vector2){m.currentX, lineBottom},
+        //            2.0f, PS_BLUE);
+    }
+
+    // Draw active marker only if one exists
+    if (activeMarkIndex >= 0) {
+        CircleMark m = circlemarks[activeMarkIndex];
+        float lineBottom = m.y + basicRuler.rect.height * 0.46f + m.raio;
+        DrawCircleV((Vector2){m.currentX, m.y}, m.raio, PS_BLUE);
+        DrawLineEx((Vector2){m.currentX, m.y},
+                   (Vector2){m.currentX, lineBottom},
+                   2.0f, PS_BLUE);
+    }
 }
 
 // ___button______________________________________________________________________________________________
@@ -352,7 +464,8 @@ void drawPlaying(Session *game){
     drawScoreBar(game->score, startingScore, PS_BLUE);
 
     drawRuler(basicRuler, PS_WHITE, PS_BLACK);
-    drawCircleMark(circlemark, PS_BLUE, ALTURA - basicRuler.rect.height + (basicRuler.rect.height * 0.46));
+
+    drawCircleMarks(game);   
 
     drawAnimatedNumberInput(input, LARGURA / 2, ALTURA / 2, 200, 10, PS_RED, font);
 
@@ -379,22 +492,8 @@ void updatePlaying(Session *game){
     float dt = GetFrameTime(); 
     atualizarTempoRealScore(game, dt);
 
-    
-    // CIRCLE MARK POSTIONING
-    if(input.count == 0) {
-        circlemark.centro.x = -10;
-    } else {
-        circlemark.centro.x = atof(input.text) * ((basicRuler.rect.width - basicRuler.margin*2) / (basicRuler.divisions - 1)) + basicRuler.margin;
-    }
-    if(atoi(input.text) > 100){
-        circlemark.centro.x = -10;
-    }
+    updateCircleMarks(game); 
 
-    // KEYBOARD INPUT
-    if (IsKeyPressed(KEY_ENTER)) {
-        ProcessarTentativa(game, atoi(input.text)); //ACSII to INTEGER //
-        clearNumberInput(&input);
-    }
     updateNumberInput(&input, 3);
 }
 
@@ -404,6 +503,13 @@ void updatePlaying(Session *game){
 void updateGameover(Session *game){
     if (IsKeyPressed(KEY_R)) {
         IniciarJogo(game);
+        for (int i = 0; i < 100; i++){
+            circlemarks[i].currentX = -10;
+            circlemarks[i].y = ALTURA - 90;
+            circlemarks[i].raio = 10;
+            circlemarks[i].state = CM_FREE; // will be ignored until spawned
+        }
+        activeMarkIndex = -1;
         game->state = STATE_PLAYING;
     }
 }
@@ -425,9 +531,7 @@ void init(Session *game){
     startingScore = game->score;
     input.text[0] = '\0';
     basicRuler = createRuler(101, 70);
-    circlemark.centro = (Vector2) {-10 , ALTURA-90};
-    circlemark.raio = 10;
-
+    
     InitWindow(LARGURA, ALTURA, "Pablo Software's Numbers");
     SetTargetFPS(30);
     font = GetFontDefault();
