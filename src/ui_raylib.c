@@ -150,11 +150,23 @@ void updateNumberInput(DigitInput *input, int maxSize){
 
 }
 
-void clearNumberInput(DigitInput *input){
+void clearAnimNumberInput(DigitInput *input){
     for (int i = 0; i < input->count; i++){
         input->targetY[i] = -30;
     }
     inputClearing = 1;
+}
+
+void clearInstantNumberInput(DigitInput *input){
+    inputClearing = 0; 
+
+    for (int i = 0; i < input->count; i++) {
+
+        input->count--;
+        if (input->count < 0) input->count = 0;
+        input->text[i] = '\0';
+
+    }
 }
 
 
@@ -466,7 +478,7 @@ void updatePlaying(Session *game){
     if (activeMarkIndex >= 0 && (IsKeyPressed(KEY_ENTER) || IsMouseButtonReleased(MOUSE_LEFT_BUTTON))) {
         lockActiveCircleMark();
         ProcessarTentativa(game, atoi(input.text));
-        clearNumberInput(&input);
+        clearAnimNumberInput(&input);
         activeMarkIndex = -1; 
     }
 
@@ -475,7 +487,6 @@ void updatePlaying(Session *game){
 
 void drawPlaying(Session *game){
     drawScoreBar(game->score, startingScore, PS_BLUE);
-
     drawRuler(basicRuler, PS_WHITE, PS_BLACK);
 
     drawCircleMarks(game);   
@@ -506,6 +517,7 @@ void drawPlaying(Session *game){
 void updateGameover(Session *game){
     if (IsKeyPressed(KEY_R)) {
         IniciarJogo(game);
+        clearInstantNumberInput(&input);
         for (int i = 0; i < 100; i++){
             circlemarks[i].currentX = -10;
             circlemarks[i].y = ALTURA - 90;
