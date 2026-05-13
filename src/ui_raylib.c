@@ -253,7 +253,10 @@ void updateCircleMarks(Session *game) {
     Vector2 mouse = GetMousePosition();
 
     // mouse overlapping detection
-    bool mouseOnRuler = CheckCollisionPointRec(mouse, basicRuler.rect);
+    int detectionPadding = 100;
+    bool mouseOnRuler = CheckCollisionPointRec(mouse,
+        (Rectangle){basicRuler.rect.x, basicRuler.rect.y-detectionPadding,
+                    basicRuler.rect.width, basicRuler.rect.height+detectionPadding});
 
     // --- Spawn new marker ---
     // From mouse click on ruler
@@ -461,8 +464,27 @@ void drawMenu(Session *game){
     
 }
 
+void drawArrow(int x, int y, int length, int thick){
+    // Base
+    DrawRectangle(x - length/2, y - thick/2, length, thick, PS_BLUE);
+
+    // Ponta, retangulo base para o V
+    Rectangle arrowHeadRect = {x + length/2, y, thick, length / 2};  // use thick x thick, not thick x length/2
+
+    // Metade superior
+    DrawRectanglePro(arrowHeadRect,
+                     (Vector2){thick / 2, thick / 2},
+                     45, PS_BLUE);
+    // Metade inferior
+    DrawRectanglePro(arrowHeadRect,
+                     (Vector2){thick / 2, thick / 2},
+                     45+90, PS_BLUE);
+
+}
+
 // ___state playing______________________________________________________________________________________
 
+int shouldDrawArrow = 0;
 
 void updatePlaying(Session *game){
 
@@ -482,6 +504,8 @@ void updatePlaying(Session *game){
         activeMarkIndex = -1; 
     }
 
+    shouldDrawArrow = (game->guessCount != 0 && input.count == 0) ? 1 : 0;
+
     updateNumberInput(&input, 3);
 }
 
@@ -493,7 +517,12 @@ void drawPlaying(Session *game){
 
     drawAnimatedNumberInput(input, LARGURA / 2, ALTURA / 2, 200, 10, PS_RED, font);
 
+    drawArrow(LARGURA / 2, ALTURA / 2 - 10, 200, 20);
+
     if (debugMode == 1){
+        DrawText(TextFormat("shouldDrawArrow = %d", shouldDrawArrow), 20, ALTURA-200, DEBUGFONT, PS_DEBUG); // apenas pro debug
+        DrawText(TextFormat("guessCount = %d",game->guessCount), 20, ALTURA-180, DEBUGFONT, PS_DEBUG); // apenas pro debug
+        DrawText(TextFormat("inputCount = %d",input.count), 20, ALTURA-160, DEBUGFONT, PS_DEBUG); // apenas pro debug
         DrawText(TextFormat("Numero randomizado = %d",game->target), 20, ALTURA-140, DEBUGFONT, PS_DEBUG); // apenas pro debug
         DrawText(TextFormat("Pontuação atual = %d",game->score), 20, ALTURA-120, DEBUGFONT, PS_DEBUG); // apenas pro debug
         DrawText(game->trivia, 20, ALTURA-100, DEBUGFONT, PS_DEBUG); // apenas pro debug

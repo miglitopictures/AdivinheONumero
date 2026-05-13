@@ -2,8 +2,6 @@
 
 # Game binary
 game.exe
-
-# Game executable (if running on Unix)
 game
 
 # User data/highscores

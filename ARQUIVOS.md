@@ -26,8 +26,8 @@ Lista arquivos que o Git deve ignorar (como o executável final `game`).
 
 Contém as definições de estruturas e as "assinaturas" das funções. É o contrato que diz o que cada parte do código pode fazer.
 
-### **`gamestate.h`**
-Define o "objeto" do jogo. Contém a estrutura `struct GameState`, que armazena todas as variáveis importantes (numeroSecreto, tentativas, historicoTentativas e estados como `STATE_MENU` ou `STATE_PLAYING`).
+### **`tipos.h`**
+Define o "objeto" do jogo. Contém a estrutura `struct Session game`, que armazena todas as variáveis importantes (numeroSecreto, tentativas, historicoTentativas e estados como `STATE_MENU` ou `STATE_PLAYING`).
 ### **`logic.h`**
 Declara as funções matemáticas e de processamento, como a inicialização do sorteio e o processamento de palpites.
 ### **`ui.h`**
@@ -45,11 +45,9 @@ Onde a mágica acontece. Aqui o código é implementado de fato.
 ### **`main.c`**
 O ponto de partida. Ele decide, através de argumentos de linha de comando (como `-term`), qual interface deve ser iniciada.
 ### **`logic.c`**
-O "cérebro" do jogo. Não possui código visual. Cuida de gerar números aleatórios, verificar se o palpite está perto (Temperatura) e atualizar o status do jogo (GameState).
+O "cérebro" do jogo. Não possui código visual. Cuida de gerar números aleatórios, verificar se o palpite está perto (Temperatura) e atualizar o status do jogo (Session game).
 ### **`ui_raylib.c`**
 Implementa a interface gráfica usando a biblioteca Raylib. Cuida da janela, desenho de textos, caixas de input e feedback visual.
-### **`ui_terminal.c`**
-Implementa a interface de texto simples. Utiliza `printf` e `scanf` para permitir que o jogo rode inteiramente dentro do terminal.
 
 ---
 
@@ -71,5 +69,5 @@ Destinada a arquivos externos como imagens, texturas ou sons. Atualmente contém
 ### Resumo da Arquitetura
 Para o esse projeto decidimos separar as preopações:
 1.  **Lógica (`logic.c`)** não sabe que existe interface.
-2.  **Interface (`ui_*.c`)** não sabe como o cálculo de temperatura é feito, ela apenas pede para a lógica processar e exibe o resultado.
-3.  **Estado (`gamestate.h`)** é a ponte que carrega os dados entre todos eles.
+2.  **Interface (`ui_raylib.c`)** não sabe como o cálculo de temperatura é feito, ela apenas pede para a lógica processar e exibe o resultado.
+3.  **Estado (`tipos.h`)** é a ponte que carrega os dados entre todos eles.
