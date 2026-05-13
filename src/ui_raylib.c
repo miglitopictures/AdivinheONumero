@@ -89,6 +89,9 @@ DigitInput input = {0};
 int shouldDrawArrow = 0, arrowDir = 1;
 Vector2 arrowPos, arrowTarget;
 
+//sounds
+Sound fxWav;
+
 
 // ___math utils_______________________________________________________________________________________
 
@@ -255,6 +258,9 @@ void spawnActiveMark(int index, int rulerPoint) {
 }
 
 void updateCircleMarks(Session *game) {
+    static float soundCooldown = 0.0f;
+    float dt = GetFrameTime();
+    if (soundCooldown > 0.0f) soundCooldown -= dt;
     Vector2 mouse = GetMousePosition();
 
     // mouse overlapping detection
@@ -283,10 +289,19 @@ void updateCircleMarks(Session *game) {
     // --- Drive active marker ---
     if (activeMarkIndex >= 0) {
         CircleMark *m = &circlemarks[activeMarkIndex];
+        int prevPoint = getRulerPointFromX(basicRuler, m->currentX);
 
         // Mouse drag overrides keyboard
         if (mouseOnRuler && IsMouseButtonDown(MOUSE_LEFT_BUTTON)) {
             int point = getRulerPointFromX(basicRuler, mouse.x);
+            
+            
+            if (point != prevPoint && soundCooldown <= 0.0f) {
+                float t = (float)point / (basicRuler.divisions - 1); // 0.0 to 1.0
+                SetSoundPitch(fxWav, 0.8f + t * 0.8f); // 0.8 to 1.6
+                PlaySound(fxWav);
+                soundCooldown = 0.08f; // 80ms
+            };
             m->targetX = getXFromRulerPoint(basicRuler, point);
             // sync input text to mouse position
             input.count = 0;
@@ -612,6 +627,9 @@ void init(Session *game){
     arrowTarget.y = ALTURA / 2;
     
     InitWindow(LARGURA, ALTURA, "Pablo Software's Numbers");
+    InitAudioDevice();      // Initialize audio device
+    fxWav = LoadSound("assets/sfx/changeMarkPoint_Beep.wav");
+
     SetTargetFPS(60);
     font = GetFontDefault();
 
