@@ -65,8 +65,8 @@ int inputClearing = 0;
 int debugMode = 1;
 
 // janela aplicacao
-int LARGURA = 800;
-int ALTURA = 450;
+int LARGURA = 1280;
+int ALTURA = 720;
 
 // paleta de cores
 Color PS_BLACK = BLACK;
@@ -84,6 +84,11 @@ Font font;
 Ruler basicRuler;
 CircleMark circlemarks[100];
 DigitInput input = {0};
+
+// arrow feedback
+int shouldDrawArrow = 0, arrowDir = 1;
+Vector2 arrowPos, arrowTarget;
+
 
 // ___math utils_______________________________________________________________________________________
 
@@ -253,7 +258,7 @@ void updateCircleMarks(Session *game) {
     Vector2 mouse = GetMousePosition();
 
     // mouse overlapping detection
-    int detectionPadding = 100;
+    int detectionPadding = 400;
     bool mouseOnRuler = CheckCollisionPointRec(mouse,
         (Rectangle){basicRuler.rect.x, basicRuler.rect.y-detectionPadding,
                     basicRuler.rect.width, basicRuler.rect.height+detectionPadding});
@@ -464,27 +469,42 @@ void drawMenu(Session *game){
     
 }
 
-void drawArrow(int x, int y, int length, int thick){
+void drawArrow(int x, int y, int length, int thick, int dir){
     // Base
     DrawRectangle(x - length/2, y - thick/2, length, thick, PS_BLUE);
 
-    // Ponta, retangulo base para o V
-    Rectangle arrowHeadRect = {x + length/2, y, thick, length / 2};  // use thick x thick, not thick x length/2
 
-    // Metade superior
-    DrawRectanglePro(arrowHeadRect,
-                     (Vector2){thick / 2, thick / 2},
-                     45, PS_BLUE);
-    // Metade inferior
-    DrawRectanglePro(arrowHeadRect,
-                     (Vector2){thick / 2, thick / 2},
-                     45+90, PS_BLUE);
+    if(dir == 1){
+        // Ponta, retangulo base para o V
+        Rectangle arrowHeadRect = {x + length/2, y, thick, length / 2};  // use thick x thick, not thick x length/2
+
+        // Metade superior
+        DrawRectanglePro(arrowHeadRect,
+                            (Vector2){thick / 2, thick / 2},
+                            45, PS_BLUE);
+        // Metade inferior
+        DrawRectanglePro(arrowHeadRect,
+                            (Vector2){thick / 2, thick / 2},
+                            45+90, PS_BLUE);
+
+    } else {
+        // Ponta, retangulo base para o V
+        Rectangle arrowHeadRect = {x - length/2, y, thick, length / 2};  // use thick x thick, not thick x length/2
+
+        // Metade superior
+        DrawRectanglePro(arrowHeadRect,
+                            (Vector2){thick / 2, thick / 2},
+                            45+180, PS_BLUE);
+        // Metade inferior
+        DrawRectanglePro(arrowHeadRect,
+                            (Vector2){thick / 2, thick / 2},
+                            45+90+180, PS_BLUE);
+    }
+
 
 }
 
 // ___state playing______________________________________________________________________________________
-
-int shouldDrawArrow = 0;
 
 void updatePlaying(Session *game){
 
@@ -501,10 +521,21 @@ void updatePlaying(Session *game){
         lockActiveCircleMark();
         ProcessarTentativa(game, atoi(input.text));
         clearAnimNumberInput(&input);
-        activeMarkIndex = -1; 
+        activeMarkIndex = -1;
+        arrowPos.y = ALTURA / 2 + 50;
     }
 
-    shouldDrawArrow = (game->guessCount != 0 && input.count == 0) ? 1 : 0;
+    // update arrow feedback
+    if (game->guessCount != 0 && input.count == 0){
+        shouldDrawArrow = 1;
+        arrowPos.y = flerp(arrowPos.y, arrowTarget.y, 0.3);
+
+    } else {
+        shouldDrawArrow = 0;
+    }
+
+    // shouldDrawArrow = (game->guessCount != 0 && input.count == 0) ? 1 : 0;
+    arrowDir = game->guess < game->target ? 1 : 0;
 
     updateNumberInput(&input, 3);
 }
@@ -517,15 +548,16 @@ void drawPlaying(Session *game){
 
     drawAnimatedNumberInput(input, LARGURA / 2, ALTURA / 2, 200, 10, PS_RED, font);
 
-    drawArrow(LARGURA / 2, ALTURA / 2 - 10, 200, 20);
+    if (shouldDrawArrow) drawArrow(arrowPos.x, arrowPos.y, 200, 20, arrowDir);
 
+    // DEBUG DRAW // aperte "D" para ativar e desativar o desenho de debug.
     if (debugMode == 1){
-        DrawText(TextFormat("shouldDrawArrow = %d", shouldDrawArrow), 20, ALTURA-200, DEBUGFONT, PS_DEBUG); // apenas pro debug
-        DrawText(TextFormat("guessCount = %d",game->guessCount), 20, ALTURA-180, DEBUGFONT, PS_DEBUG); // apenas pro debug
-        DrawText(TextFormat("inputCount = %d",input.count), 20, ALTURA-160, DEBUGFONT, PS_DEBUG); // apenas pro debug
-        DrawText(TextFormat("Numero randomizado = %d",game->target), 20, ALTURA-140, DEBUGFONT, PS_DEBUG); // apenas pro debug
-        DrawText(TextFormat("Pontuação atual = %d",game->score), 20, ALTURA-120, DEBUGFONT, PS_DEBUG); // apenas pro debug
-        DrawText(game->trivia, 20, ALTURA-100, DEBUGFONT, PS_DEBUG); // apenas pro debug
+        DrawText(TextFormat("shouldDrawArrow = %d", shouldDrawArrow), 20, ALTURA-200, DEBUGFONT, PS_DEBUG); 
+        DrawText(TextFormat("guessCount = %d",game->guessCount), 20, ALTURA-180, DEBUGFONT, PS_DEBUG); 
+        DrawText(TextFormat("inputCount = %d",input.count), 20, ALTURA-160, DEBUGFONT, PS_DEBUG); 
+        DrawText(TextFormat("Numero randomizado = %d",game->target), 20, ALTURA-140, DEBUGFONT, PS_DEBUG); 
+        DrawText(TextFormat("Pontuação atual = %d",game->score), 20, ALTURA-120, DEBUGFONT, PS_DEBUG); 
+        DrawText(game->trivia, 20, ALTURA-100, DEBUGFONT, PS_DEBUG); 
         if (game->guessCount > 0){
             float currentAdvance = 0.0f;
             for (int i =0; i < game->guessCount; i++){
@@ -536,8 +568,6 @@ void drawPlaying(Session *game){
         }
         DrawText(game->message, 50, 100, 20, PS_DEBUG);
     }
-
-    DrawText(game->temperature, LARGURA - 100, ALTURA - 100, 20, PS_DEBUG);
 }
 
 // ___state gameover___________________________________________________________________________________________
@@ -575,9 +605,14 @@ void init(Session *game){
     startingScore = game->score;
     input.text[0] = '\0';
     basicRuler = createRuler(101, 70);
+
+    arrowPos.x = LARGURA / 2;
+    arrowPos.y = ALTURA / 2 + 50;
+    arrowTarget.x = LARGURA / 2;
+    arrowTarget.y = ALTURA / 2;
     
     InitWindow(LARGURA, ALTURA, "Pablo Software's Numbers");
-    SetTargetFPS(30);
+    SetTargetFPS(60);
     font = GetFontDefault();
 
 }
@@ -593,7 +628,7 @@ void update(Session *game){
 
 void draw(Session *game){
     BeginDrawing();
-
+        DrawFPS(20,20);
         ClearBackground(PS_GREY);
 
         switch (game->state) {
