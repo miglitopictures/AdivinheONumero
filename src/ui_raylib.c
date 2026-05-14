@@ -90,7 +90,7 @@ int shouldDrawArrow = 0, arrowDir = 1;
 Vector2 arrowPos, arrowTarget;
 
 //sounds
-Sound fxWav;
+Sound sfxChangeMark, sfxSelectSynth;
 
 
 // ___math utils_______________________________________________________________________________________
@@ -295,13 +295,14 @@ void updateCircleMarks(Session *game) {
         if (mouseOnRuler && IsMouseButtonDown(MOUSE_LEFT_BUTTON)) {
             int point = getRulerPointFromX(basicRuler, mouse.x);
             
-            
+            // experimentando com som,isso aqui pode acabar saindo
             if (point != prevPoint && soundCooldown <= 0.0f) {
                 float t = (float)point / (basicRuler.divisions - 1); // 0.0 to 1.0
-                SetSoundPitch(fxWav, 0.8f + t * 0.8f); // 0.8 to 1.6
-                PlaySound(fxWav);
+                SetSoundPitch(sfxChangeMark, 0.8f + t * 0.8f); // 0.8 to 1.6
+                PlaySound(sfxChangeMark);
                 soundCooldown = 0.08f; // 80ms
             };
+
             m->targetX = getXFromRulerPoint(basicRuler, point);
             // sync input text to mouse position
             input.count = 0;
@@ -484,38 +485,22 @@ void drawMenu(Session *game){
     
 }
 
-void drawArrow(int x, int y, int length, int thick, int dir){
-    // Base
-    DrawRectangle(x - length/2, y - thick/2, length, thick, PS_BLUE);
-
-
-    if(dir == 1){
-        // Ponta, retangulo base para o V
-        Rectangle arrowHeadRect = {x + length/2, y, thick, length / 2};  // use thick x thick, not thick x length/2
-
-        // Metade superior
-        DrawRectanglePro(arrowHeadRect,
-                            (Vector2){thick / 2, thick / 2},
-                            45, PS_BLUE);
-        // Metade inferior
-        DrawRectanglePro(arrowHeadRect,
-                            (Vector2){thick / 2, thick / 2},
-                            45+90, PS_BLUE);
-
-    } else {
-        // Ponta, retangulo base para o V
-        Rectangle arrowHeadRect = {x - length/2, y, thick, length / 2};  // use thick x thick, not thick x length/2
-
-        // Metade superior
-        DrawRectanglePro(arrowHeadRect,
-                            (Vector2){thick / 2, thick / 2},
-                            45+180, PS_BLUE);
-        // Metade inferior
-        DrawRectanglePro(arrowHeadRect,
-                            (Vector2){thick / 2, thick / 2},
-                            45+90+180, PS_BLUE);
-    }
-
+void drawArrow(int x, int y, int length, int weight, int dir){
+    float headOffsetX = dir ? length/2 : -length/2; // troca a posicao no eixo x dependendo da direcao
+    float headAngleOffset = dir ? 0 : 180; // troca a direcao 
+    // Ponta da seta, retangulo base para a ">" ponta
+    Rectangle arrowHeadRect = {x + headOffsetX, y, weight, length / 2};
+    
+    // Base (sempre igual)
+    DrawRectangle(x - length/2, y - weight/2, length, weight, PS_BLUE);
+    // Metade superior
+    DrawRectanglePro(arrowHeadRect,
+                        (Vector2){weight / 2, weight / 2},
+                        45 + headAngleOffset, PS_BLUE);
+    // Metade inferior
+    DrawRectanglePro(arrowHeadRect,
+                        (Vector2){weight / 2, weight / 2},
+                        45+90 + headAngleOffset, PS_BLUE);
 
 }
 
@@ -538,6 +523,7 @@ void updatePlaying(Session *game){
         clearAnimNumberInput(&input);
         activeMarkIndex = -1;
         arrowPos.y = ALTURA / 2 + 50;
+        PlaySound(sfxSelectSynth);
     }
 
     // update arrow feedback
@@ -628,7 +614,8 @@ void init(Session *game){
     
     InitWindow(LARGURA, ALTURA, "Pablo Software's Numbers");
     InitAudioDevice();      // Initialize audio device
-    fxWav = LoadSound("assets/sfx/changeMarkPoint_Beep.wav");
+    sfxChangeMark = LoadSound("assets/sfx/changeMarkPoint_Beep.wav");
+    sfxSelectSynth = LoadSound("assets/sfx/select_synth.wav");
 
     SetTargetFPS(60);
     font = GetFontDefault();
