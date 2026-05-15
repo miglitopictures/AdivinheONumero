@@ -130,6 +130,7 @@ void handleKeysNumberInput(DigitInput *input, int maxSize){
         // NOTE: para numeros seria (48 até 57)
         if ((key >= 48) && (key <= 57) && input->count < maxSize) {
             numberInputAdd(input, (char)key);
+            PlaySound(sfxChangeMark);
         }
         key = GetCharPressed();
     }
@@ -535,7 +536,6 @@ void updatePlaying(Session *game){
         shouldDrawArrow = 0;
     }
 
-    // shouldDrawArrow = (game->guessCount != 0 && input.count == 0) ? 1 : 0;
     arrowDir = game->guess < game->target ? 1 : 0;
 
     updateNumberInput(&input, 3);
@@ -599,21 +599,25 @@ void drawGameover(Session *game){
 // ___main loop__________________________________________________________________________________________________
 
 void init(Session *game){
-    IniciarJogo(game);
 
-    initMenu(game);
+    // Initialize stuff
+    IniciarJogo(game); // state
+    initMenu(game);    // menu
 
-    startingScore = game->score;
+    startingScore = game->score; // pega score inicial para mapear no scoreBar
     input.text[0] = '\0';
-    basicRuler = createRuler(101, 70);
+    basicRuler = createRuler(101, 70); // cria a régua
 
+    // NOTE miguel: isso aqui pode ser separado numa funcao initArrow();
     arrowPos.x = LARGURA / 2;
     arrowPos.y = ALTURA / 2 + 50;
     arrowTarget.x = LARGURA / 2;
     arrowTarget.y = ALTURA / 2;
     
     InitWindow(LARGURA, ALTURA, "Pablo Software's Numbers");
-    InitAudioDevice();      // Initialize audio device
+    InitAudioDevice();
+
+    // Load sound files
     sfxChangeMark = LoadSound("assets/sfx/changeMarkPoint_Beep.wav");
     sfxSelectSynth = LoadSound("assets/sfx/select_synth.wav");
 
@@ -652,7 +656,7 @@ void startRaylibMode(Session *game){
 
     init(game);
 
-    while (!WindowShouldClose() && game->state != STATE_EXIT) {
+    while (!WindowShouldClose() && (game->state != STATE_EXIT)) {
         update(game);
         draw(game);
     }
