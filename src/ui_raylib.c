@@ -627,7 +627,7 @@ void update(Session *game){
         case STATE_MENU:     updateMenu(game);     break;
         case STATE_PLAYING:  updatePlaying(game);  break;
         case STATE_GAMEOVER: updateGameover(game); break;
-        case STATE_EXIT:     CloseWindow();        break;
+        case STATE_EXIT:                           break;
     }
 }
 
@@ -652,8 +652,11 @@ void startRaylibMode(Session *game){
 
     init(game);
 
-    while (!WindowShouldClose()) {
+    while (!WindowShouldClose() && game->state != STATE_EXIT) {
         update(game);
         draw(game);
     }
+
+    CloseAudioDevice();
+    CloseWindow();
 }
