@@ -491,26 +491,7 @@ void drawMenu(Session *game){
     
 }
 
-void drawArrow(int x, int y, int length, int weight, int dir){
-    float headOffsetX = dir ? length/2 : -length/2; // troca a posicao no eixo x dependendo da direcao
-    float headAngleOffset = dir ? 0 : 180; // troca a direcao 
-    // Ponta da seta, retangulo base para a ">" ponta
-    Rectangle arrowHeadRect = {x + headOffsetX, y, weight, length / 2};
-    
-    // Base (sempre igual)
-    DrawRectangle(x - length/2, y - weight/2, length, weight, PS_BLUE);
-    // Metade superior
-    DrawRectanglePro(arrowHeadRect,
-                        (Vector2){weight / 2, weight / 2},
-                        45 + headAngleOffset, PS_BLUE);
-    // Metade inferior
-    DrawRectanglePro(arrowHeadRect,
-                        (Vector2){weight / 2, weight / 2},
-                        45+90 + headAngleOffset, PS_BLUE);
-
-}
-
-void DrawArrow(FeedbackArrow arrow, int length, int weight){
+void drawArrow(FeedbackArrow arrow, int length, int weight){
     float headOffsetX = arrow.dir ? length/2 : -length/2; // troca a posicao no eixo x dependendo da direcao
     float headAngleOffset = arrow.dir ? 0 : 180; // troca a direcao 
     // Ponta da seta, retangulo base para a ">" ponta
@@ -574,12 +555,12 @@ void drawPlaying(Session *game){
 
     drawAnimatedNumberInput(input, LARGURA / 2, ALTURA / 2, 200, 10, PS_RED, font);
 
-    // if (shouldDrawArrow) drawArrow(arrowPos.x, arrowPos.y, 200, 20, arrowDir);
-    if (arrow.shoudDraw) DrawArrow(arrow, 200, 20);
+    // if (shoulddrawArrow) drawArrow(arrowPos.x, arrowPos.y, 200, 20, arrowDir);
+    if (arrow.shoudDraw) drawArrow(arrow, 200, 20);
 
     // DEBUG DRAW // aperte "D" para ativar e desativar o desenho de debug.
     if (debugMode == 1){
-        DrawText(TextFormat("shouldDrawArrow = %d", arrow.shoudDraw), 20, ALTURA-200, DEBUGFONT, PS_DEBUG); 
+        DrawText(TextFormat("shoulddrawArrow = %d", arrow.shoudDraw), 20, ALTURA-200, DEBUGFONT, PS_DEBUG); 
         DrawText(TextFormat("guessCount = %d",game->guessCount), 20, ALTURA-180, DEBUGFONT, PS_DEBUG); 
         DrawText(TextFormat("inputCount = %d",input.count), 20, ALTURA-160, DEBUGFONT, PS_DEBUG); 
         DrawText(TextFormat("Numero randomizado = %d",game->target), 20, ALTURA-140, DEBUGFONT, PS_DEBUG); 
@@ -634,6 +615,7 @@ void init(Session *game){
     input.text[0] = '\0';
     basicRuler = createRuler(101, 70); // cria a régua
 
+    // init arrow
     arrow.pos.x = LARGURA / 2;
     arrow.pos.y = ALTURA / 2 + 50;
     arrow.target.x = LARGURA / 2;
