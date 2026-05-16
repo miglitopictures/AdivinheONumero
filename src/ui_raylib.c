@@ -135,6 +135,7 @@ void handleKeysNumberInput(DigitInput *input, int maxSize){
         // NOTE: para numeros seria (48 até 57)
         if ((key >= 48) && (key <= 57) && input->count < maxSize) {
             numberInputAdd(input, (char)key);
+            PlaySound(sfxChangeMark);
         }
         key = GetCharPressed();
     }
@@ -624,13 +625,14 @@ void drawGameover(Session *game){
 // ___main loop__________________________________________________________________________________________________
 
 void init(Session *game){
-    IniciarJogo(game);
 
-    initMenu(game);
+    // Initialize stuff
+    IniciarJogo(game); // state
+    initMenu(game);    // menu
 
-    startingScore = game->score;
+    startingScore = game->score; // pega score inicial para mapear no scoreBar
     input.text[0] = '\0';
-    basicRuler = createRuler(101, 70);
+    basicRuler = createRuler(101, 70); // cria a régua
 
     arrow.pos.x = LARGURA / 2;
     arrow.pos.y = ALTURA / 2 + 50;
@@ -638,7 +640,9 @@ void init(Session *game){
     arrow.target.y = ALTURA / 2;
     
     InitWindow(LARGURA, ALTURA, "Pablo Software's Numbers");
-    InitAudioDevice();      // Initialize audio device
+    InitAudioDevice();
+
+    // Load sound files
     sfxChangeMark = LoadSound("assets/sfx/changeMarkPoint_Beep.wav");
     sfxSelectSynth = LoadSound("assets/sfx/select_synth.wav");
 
@@ -652,7 +656,7 @@ void update(Session *game){
         case STATE_MENU:     updateMenu(game);     break;
         case STATE_PLAYING:  updatePlaying(game);  break;
         case STATE_GAMEOVER: updateGameover(game); break;
-        case STATE_EXIT:     CloseWindow();        break;
+        case STATE_EXIT:                           break;
     }
 }
 
@@ -677,8 +681,11 @@ void startRaylibMode(Session *game){
 
     init(game);
 
-    while (!WindowShouldClose()) {
+    while (!WindowShouldClose() && (game->state != STATE_EXIT)) {
         update(game);
         draw(game);
     }
+
+    CloseAudioDevice();
+    CloseWindow();
 }
