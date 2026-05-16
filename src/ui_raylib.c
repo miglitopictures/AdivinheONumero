@@ -56,6 +56,13 @@ typedef struct{
     float raio;
 } CircleMark;
 
+typedef struct{
+    int dir;
+    int shoudDraw;
+    Vector2 pos;
+    Vector2 target;
+} FeedbackArrow;
+
 int activeMarkIndex = -1;
 int inputClearing = 0;
 
@@ -85,9 +92,7 @@ Ruler basicRuler;
 CircleMark circlemarks[100];
 DigitInput input = {0};
 
-// arrow feedback
-int shouldDrawArrow = 0, arrowDir = 1;
-Vector2 arrowPos, arrowTarget;
+FeedbackArrow arrow;
 
 //sounds
 Sound sfxChangeMark, sfxSelectSynth;
@@ -504,6 +509,25 @@ void drawArrow(int x, int y, int length, int weight, int dir){
 
 }
 
+void DrawArrow(FeedbackArrow arrow, int length, int weight){
+    float headOffsetX = arrow.dir ? length/2 : -length/2; // troca a posicao no eixo x dependendo da direcao
+    float headAngleOffset = arrow.dir ? 0 : 180; // troca a direcao 
+    // Ponta da seta, retangulo base para a ">" ponta
+    Rectangle arrowHeadRect = {arrow.pos.x + headOffsetX, arrow.pos.y, weight, length / 2};
+    
+    // Base (sempre igual)
+    DrawRectangle(arrow.pos.x - length/2, arrow.pos.y - weight/2, length, weight, PS_BLUE);
+    // Metade superior
+    DrawRectanglePro(arrowHeadRect,
+                        (Vector2){weight / 2, weight / 2},
+                        45 + headAngleOffset, PS_BLUE);
+    // Metade inferior
+    DrawRectanglePro(arrowHeadRect,
+                        (Vector2){weight / 2, weight / 2},
+                        45+90 + headAngleOffset, PS_BLUE);
+
+}
+
 // ___state playing______________________________________________________________________________________
 
 void updatePlaying(Session *game){
@@ -522,21 +546,21 @@ void updatePlaying(Session *game){
         ProcessarTentativa(game, atoi(input.text));
         clearAnimNumberInput(&input);
         activeMarkIndex = -1;
-        arrowPos.y = ALTURA / 2 + 50;
+        arrow.pos.y = ALTURA / 2 + 50;
         PlaySound(sfxSelectSynth);
     }
 
+
     // update arrow feedback
     if (game->guessCount != 0 && input.count == 0){
-        shouldDrawArrow = 1;
-        arrowPos.y = flerp(arrowPos.y, arrowTarget.y, 0.3);
+        arrow.shoudDraw = 1;
+        arrow.pos.y = flerp(arrow.pos.y, arrow.target.y, 0.3);
 
     } else {
-        shouldDrawArrow = 0;
+        arrow.shoudDraw = 0;
     }
 
-    // shouldDrawArrow = (game->guessCount != 0 && input.count == 0) ? 1 : 0;
-    arrowDir = game->guess < game->target ? 1 : 0;
+    arrow.dir = game->guess < game->target ? 1 : 0;
 
     updateNumberInput(&input, 3);
 }
@@ -549,11 +573,12 @@ void drawPlaying(Session *game){
 
     drawAnimatedNumberInput(input, LARGURA / 2, ALTURA / 2, 200, 10, PS_RED, font);
 
-    if (shouldDrawArrow) drawArrow(arrowPos.x, arrowPos.y, 200, 20, arrowDir);
+    // if (shouldDrawArrow) drawArrow(arrowPos.x, arrowPos.y, 200, 20, arrowDir);
+    if (arrow.shoudDraw) DrawArrow(arrow, 200, 20);
 
     // DEBUG DRAW // aperte "D" para ativar e desativar o desenho de debug.
     if (debugMode == 1){
-        DrawText(TextFormat("shouldDrawArrow = %d", shouldDrawArrow), 20, ALTURA-200, DEBUGFONT, PS_DEBUG); 
+        DrawText(TextFormat("shouldDrawArrow = %d", arrow.shoudDraw), 20, ALTURA-200, DEBUGFONT, PS_DEBUG); 
         DrawText(TextFormat("guessCount = %d",game->guessCount), 20, ALTURA-180, DEBUGFONT, PS_DEBUG); 
         DrawText(TextFormat("inputCount = %d",input.count), 20, ALTURA-160, DEBUGFONT, PS_DEBUG); 
         DrawText(TextFormat("Numero randomizado = %d",game->target), 20, ALTURA-140, DEBUGFONT, PS_DEBUG); 
@@ -607,10 +632,10 @@ void init(Session *game){
     input.text[0] = '\0';
     basicRuler = createRuler(101, 70);
 
-    arrowPos.x = LARGURA / 2;
-    arrowPos.y = ALTURA / 2 + 50;
-    arrowTarget.x = LARGURA / 2;
-    arrowTarget.y = ALTURA / 2;
+    arrow.pos.x = LARGURA / 2;
+    arrow.pos.y = ALTURA / 2 + 50;
+    arrow.target.x = LARGURA / 2;
+    arrow.target.y = ALTURA / 2;
     
     InitWindow(LARGURA, ALTURA, "Pablo Software's Numbers");
     InitAudioDevice();      // Initialize audio device
