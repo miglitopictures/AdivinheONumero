@@ -320,13 +320,18 @@ void ProcessarTentativa(Session *game, int palpite) {
 	// Verificar condições de vitória ou dicas
 	
     if (palpite == game->target) { // acertou?
-        printf("Acertou");
-        configurarCuriosidade(game); // <-- adicionei aqui pra atualizar a curiosidade no momento do acerto
-        strcpy(game->message, "Voce acertou!");
-        salvarFinalDePartida(game);
-        atualizarHighscore(game); 
+        if (game->mode == MODO_ARCADE){
+            avancarRodadaArcade(game);
+        } else{
+            printf("Acertou");
+            configurarCuriosidade(game); // <-- adicionei aqui pra atualizar a curiosidade no momento do acerto
+            strcpy(game->message, "Voce acertou!");
+            salvarFinalDePartida(game);
+            atualizarHighscore(game); 
+            
+            game->state = STATE_WIN;
+        }
         
-        game->state = STATE_GAMEOVER;
     }
 
         else if (palpite < game->target) {
