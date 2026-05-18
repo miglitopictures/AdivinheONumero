@@ -1,0 +1,100 @@
+1|historia|O número 1 simboliza unidade e é usado como início em quase todas as contagens do mundo|0
+2|historia|O número 2 representa dualidade: dia e noite, bem e mal|0
+3|historia|Muitas histórias clássicas usam o número 3, como três desejos ou três desafios|0
+4|historia|Em alguns países asiáticos, o número 4 é evitado por soar como a palavra "morte"|0
+5|historia|A estrela de cinco pontas é um símbolo antigo usado em diversas culturas|0
+6|historia|O número 6 aparece em jogos de dados tradicionais até hoje|0
+7|historia|O número 7 é considerado mágico em várias culturas ao redor do mundo|0
+8|historia|Na China, o número 8 é associado à prosperidade e riqueza|0
+9|historia|O número 9 simboliza completude em várias tradições|0
+10|historia|Top 10 é uma das formas mais populares de ranking no mundo|0
+11|historia|11:11 é visto por muitos como um momento especial para fazer um pedido|0
+12|historia|O número 12 aparece em várias tradições, como os meses do ano|0
+13|historia|Muitos prédios pulam o 13º andar por superstição|0
+14|historia|O número 14 está ligado ao Valentine’s Day em fevereiro|0
+15|historia|Quinze anos é idade de festa marcante em várias culturas|0
+16|historia|16 anos é idade de liberdade em muitos países|0
+17|historia|Na Itália, o número 17 é considerado azar|0
+18|historia|18 anos marca a entrada na vida adulta em muitos lugares|0
+19|historia|19 anos costuma marcar transição entre juventude e vida adulta|0
+20|historia|O número 20 representa uma dezena dupla, usado em sistemas antigos|0
+21|historia|21 anos é idade legal para beber em alguns países|0
+22|historia|22 é visto como número mestre em numerologia|0
+23|historia|O número 23 aparece em várias teorias misteriosas e curiosas|0
+24|historia|24 horas formam um ciclo completo do dia|0
+25|historia|25 anos é conhecido como bodas de prata|0
+26|historia|O número 26 é o total de letras do alfabeto inglês|0
+27|historia|27 anos é famoso pelo "Clube dos 27" na música|0
+28|historia|28 dias tem fevereiro em anos comuns|0
+29|historia|29 de fevereiro só existe em anos bissextos|0
+30|historia|30 anos é visto como início da vida adulta consolidada|0
+31|historia|31 é o máximo de dias em um mês|0
+32|historia|32 dentes compõem uma dentição adulta completa|0
+33|historia|33 anos é associado à idade de figuras históricas importantes|0
+34|historia|34 aparece em rankings e listas populares|0
+35|historia|35 anos é considerado auge de muitas carreiras|0
+36|historia|36 aparece em jogos e dados combinatórios|0
+37|historia|37 aparece frequentemente em curiosidades da cultura pop|0
+38|historia|38 pode representar quase 40, uma marca simbólica|0
+39|historia|39 é muitas vezes associado a quase chegar nos 40|0
+40|historia|40 aparece em histórias como período de transformação|0
+41|historia|41 aparece em várias estatísticas curiosas|0
+42|filmes|42 é a resposta para a vida no Guia do Mochileiro das Galáxias|0
+43|historia|43 aparece em várias listas curiosas ao redor do mundo|0
+44|historia|44 é considerado número de equilíbrio em algumas crenças|0
+45|historia|45 rotações por minuto eram padrão em discos antigos|0
+46|historia|46 cromossomos formam o DNA humano|0
+47|historia|47 aparece em várias referências culturais e misteriosas|0
+48|historia|48 é usado em contagem de horas em dois dias|0
+49|historia|49 aparece em tradições espirituais como ciclos|0
+50|historia|50 marca metade de um século|0
+51|filmes|Área 51 é famosa por teorias sobre alienígenas|0
+52|historia|52 semanas formam um ano|0
+53|historia|53 aparece em jogos de cartas (com coringa)|0
+54|historia|54 pode aparecer em combinações de jogos|0
+55|historia|55 representa equilíbrio em algumas culturas|0
+56|historia|56 aparece em contagens simbólicas|0
+57|historia|57 é conhecido por um famoso molho de ketchup|0
+58|historia|58 aparece em listas curiosas diversas|0
+59|historia|59 minutos quase completam uma hora|0
+60|historia|60 segundos formam um minuto|0
+61|historia|61 aparece em registros históricos curiosos|0
+62|historia|62 pode representar fases da vida|0
+63|historia|63 aparece em ciclos culturais|0
+64|historia|64 casas formam um tabuleiro de xadrez|0
+65|historia|65 anos é idade de aposentadoria em vários países|0
+66|historia|66 aparece em símbolos culturais populares|0
+67|historia|67 é associado a eventos históricos específicos|0
+68|historia|68 pode representar quase 70 anos|0
+69|historia|69 aparece como símbolo em várias culturas|0
+70|historia|70 anos representam uma longa trajetória de vida|0
+71|historia|71 aparece em registros históricos|0
+72|historia|72 aparece em diversas tradições antigas|0
+73|historia|73 aparece em séries e cultura pop|0
+74|historia|74 representa estabilidade em alguns contextos|0
+75|historia|75 anos é chamado de jubileu de diamante|0
+76|historia|76 aparece em datas históricas importantes|0
+77|historia|77 é considerado um número especial em crenças|0
+78|historia|78 rotações por minuto eram usadas em discos antigos|0
+79|historia|79 aparece em estatísticas curiosas|0
+80|historia|80 anos representam uma vida longa|0
+81|historia|81 aparece em jogos e padrões culturais|0
+82|historia|82 pode representar longevidade|0
+83|historia|83 aparece em listas históricas|0
+84|historia|84 aparece em combinações culturais|0
+85|historia|85 representa experiência acumulada|0
+86|historia|86 aparece em códigos culturais|0
+87|historia|87 aparece em registros curiosos|0
+88|historia|88 é símbolo de sorte em culturas asiáticas|0
+89|historia|89 aparece em referências culturais|0
+90|historia|90 representa quase um século|0
+91|historia|91 aparece em eventos históricos|0
+92|historia|92 aparece em registros diversos|0
+93|historia|93 aparece em estatísticas culturais|0
+94|historia|94 aparece em dados históricos|0
+95|historia|95 representa quase um século|0
+96|historia|96 aparece em padrões culturais|0
+97|historia|97 aparece em referências curiosas|0
+98|historia|98 aparece em registros históricos|0
+99|historia|99 representa quase 100|0
+100|historia|100 representa um século completo|0

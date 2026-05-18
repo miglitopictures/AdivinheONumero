@@ -5,6 +5,9 @@
 #include <stdio.h>
 
 
+// declaração da função
+char* buscarCuriosidadeArquivo(int target);
+
 // Gerar numero aleatorio RNG
 void resetarRandomSeed(){
     srand(time(NULL)); // gerando novo seed para randomizacao do numero
@@ -13,8 +16,14 @@ int numeroAleatorio(int min, int max){
     return (rand() % (max - min + 1)) + min;
 }
 
+// mantém compatibilidade com o que já existia, mas adiciona busca real
 void configurarCuriosidade(Session *game){
-    strcpy(game->trivia, "Uma curiosidade sobre o numero sorteado");
+    char* curiosidade = buscarCuriosidadeArquivo(game->target);
+
+    strcpy(game->trivia, curiosidade);
+
+    // só pra testar se está funcionando
+    printf("DEBUG curiosidade: %s\n", game->trivia);
 }
 
 /**
@@ -27,7 +36,7 @@ void IniciarJogo(Session *game) {
     game->target = numeroAleatorio(0, game->max);
 	game->state = STATE_MENU;
 	
-    configurarCuriosidade(game);
+    // configurarCuriosidade(game); // carregava curiosidade no início, movido para o momento do acerto
 
     game->round = 0;
     game->totalGuesses = 0;
@@ -311,19 +320,56 @@ void ProcessarTentativa(Session *game, int palpite) {
 	// Verificar condições de vitória ou dicas
 	
     if (palpite == game->target) { // acertou?
-        if (game->mode == MODO_ARCADE){
-            avancarRodadaArcade(game);
-        } else{
-            printf("Acertou");
-            strcpy(game->message, "Voce acertou!");
-            salvarFinalDePartida(game);
-            atualizarHighscore(game); 
-            game->state = STATE_WIN;
-        }
+        printf("Acertou");
+        configurarCuriosidade(game); // <-- adicionei aqui pra atualizar a curiosidade no momento do acerto
+        strcpy(game->message, "Voce acertou!");
+        salvarFinalDePartida(game);
+        atualizarHighscore(game); 
         
-    } else if (palpite < game->target) {
+        game->state = STATE_GAMEOVER;
+    }
+
+        else if (palpite < game->target) {
         strcpy(game->message, "Sonhe mais alto!"); 
-    } else {
+     } else {
         strcpy(game->message, "Abaixe essa bola!");
     }
+}
+
+// implementação de busca de curiosidade baseada no arquivo
+// não mexi na função original pra não correr o risco de quebrar algo
+
+char* buscarCuriosidadeArquivo(int target){
+    static char resultado[256];
+
+    FILE *file = fopen("./data/curiosidades.txt", "r");
+
+    if (!file) {
+        strcpy(resultado, "Erro ao carregar curiosidades");
+        return resultado;
+    }
+
+    char linha[512];
+
+    while (fgets(linha, sizeof(linha), file)) {
+
+        int num;
+        char tema[50];
+        char texto[300];
+        int exibida;
+
+        sscanf(linha, "%d|%[^|]|%[^|]|%d", &num, tema, texto, &exibida);
+
+        if (num == target) {
+            fclose(file);
+
+            strcpy(resultado, texto);
+            return resultado;
+        }
+    }
+
+    fclose(file);
+
+    strcpy(resultado, "Nenhuma curiosidade encontrada.");
+    return resultado;
 }
