@@ -602,7 +602,10 @@ void updateGameover(Session *game){
 
 void drawGameover(Session *game){
     int winTextWidth = MeasureText("YOU WIN!", 40);
-    DrawText("YOU WIN!", LARGURA / 2 - winTextWidth / 2, ALTURA / 2, 40, PS_GREEN);    
+    DrawText("YOU WIN!", LARGURA / 2 - winTextWidth / 2, ALTURA / 2, 40, PS_GREEN);
+
+    // exibindo a curiosidade depois de ganhar
+    DrawText("TESTE CURIOSIDADE", 50, 100, 20, RED);
 }
 
 
