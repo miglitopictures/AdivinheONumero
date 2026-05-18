@@ -29,6 +29,9 @@ void IniciarJogo(Session *game) {
 	
     configurarCuriosidade(game);
 
+    game->round = 0;
+    game->totalGuesses = 0;
+
     strcpy(game->player, "AAA");
     game->guessCount = 0; // contador de tentativas
     game->message[0] = '\0';
@@ -268,6 +271,16 @@ char* buscarCuriosidade(int target){
     return curiosidade;
 }
 
+void avancarRodadaArcade(Session *game){
+    int bonus = 200; // devemos calcular dinamicamente
+
+    game->target = numeroAleatorio(0, game->max);
+    game->round++;
+    game->guessCount = 0;
+    game->score+=bonus; // bonus por acertar
+    
+}
+
 //=====================================================================================================================================================================
 // Essa função, no momento, executa todos os passos necessários
 // para atualizar estado do jogo (GameState) a partir do novo palpite (int) do usuário.
@@ -293,11 +306,16 @@ void ProcessarTentativa(Session *game, int palpite) {
 	// Verificar condições de vitória ou dicas
 	
     if (palpite == game->target) { // acertou?
-        printf("Acertou");
-        strcpy(game->message, "Voce acertou!");
-        salvarFinalDePartida(game);
-        atualizarHighscore(game); 
-        game->state = STATE_GAMEOVER;
+        if (game->mode == MODO_ARCADE){
+            avancarRodadaArcade(game);
+        } else{
+            printf("Acertou");
+            strcpy(game->message, "Voce acertou!");
+            salvarFinalDePartida(game);
+            atualizarHighscore(game); 
+            game->state = STATE_GAMEOVER;
+        }
+        
     } else if (palpite < game->target) {
         strcpy(game->message, "Sonhe mais alto!"); 
     } else {

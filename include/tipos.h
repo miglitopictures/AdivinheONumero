@@ -17,6 +17,10 @@ typedef struct {
     Difficulty difficulty;
     NumericalSystem numericalSystem;
 
+    int round;
+    int roundBonus;
+    int totalGuesses;
+
     int max; // 100
     int target; // numero secreto
 
