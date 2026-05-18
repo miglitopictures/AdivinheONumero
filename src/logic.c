@@ -22,7 +22,6 @@ void configurarCuriosidade(Session *game){
  * * @param game Ponteiro para a estrutura GameState que será inicializada.
  */
 void IniciarJogo(Session *game) {
-    game->difficulty = EASY;
     game->mode = MODO_NORMAL;
     game->max = 100;
     game->target = numeroAleatorio(0, game->max);
@@ -75,10 +74,10 @@ void atualizarTempoRealScore(Session *game, double dt)    // Verifica  Estado
         pontosPorSegundo = 2;
         break;
     case MEDIUM:
-        pontosPorSegundo = 4;
+        pontosPorSegundo = 10;
         break;
     case HARD:
-        pontosPorSegundo = 8;
+        pontosPorSegundo = 30;
         break;   
     }
 

@@ -38,6 +38,11 @@ typedef struct {
     Option options[MAX_PICKER_OPTIONS];
     int count;
     int current;
+
+    int hoverLeft;  
+    int hoverRight;
+
+    int isActive;
 } OptionPicker;
 
 typedef struct{
@@ -413,24 +418,84 @@ void drawButton(Button *btn){
 
 // ___option picker_______________________________________________________________________________________
 
-void updatePicker(OptionPicker *picker, Vector2 mouse){
-    // falta interacao com mouse prra selecionar
-    if (IsKeyPressed(KEY_RIGHT))
-        picker->current = (picker->current + 1) % picker->count;
-    if (IsKeyPressed(KEY_LEFT))
-        picker->current = (picker->current - 1 + picker->count) % picker->count;
+void updatePicker(OptionPicker *picker, Vector2 mouse, int posX, int posY) {
+    if (!picker->isActive) return;
+    int btnW = 30, totalW = 200, h = 36;
+    Rectangle leftBtn  = { posX,                   posY, btnW, h };
+    Rectangle rightBtn = { posX + totalW - btnW,   posY, btnW, h };
+
+    picker->hoverLeft  = CheckCollisionPointRec(mouse, leftBtn);
+    picker->hoverRight = CheckCollisionPointRec(mouse, rightBtn);
+
+    if (IsMouseButtonPressed(MOUSE_LEFT_BUTTON)) {
+        if (picker->hoverLeft)
+            picker->current = (picker->current - 1 + picker->count) % picker->count;
+        if (picker->hoverRight)
+            picker->current = (picker->current + 1) % picker->count;
+    }
+
+    // Keep keyboard fallback
+    if (IsKeyPressed(KEY_RIGHT)) picker->current = (picker->current + 1) % picker->count;
+    if (IsKeyPressed(KEY_LEFT))  picker->current = (picker->current - 1 + picker->count) % picker->count;
 }
 
-void drawPicker(OptionPicker *picker, int posX, int posY){
-    // pessimo desenho, melhorar.
+void drawPicker(OptionPicker *picker, int posX, int posY) {
+    float alpha = picker->isActive ? 1.0f : 0.35f;  // NEW
+    int totalW = 200, h = 36, btnW = 30;
+//    int radius = 6;
 
-    // label
-    DrawText(picker->label, posX, posY, 20, PS_BLACK);
+    Color colBg     = ColorAlpha(PS_WHITE,    alpha);
+    Color colBorder = ColorAlpha(PS_BLACK,    alpha);
+    Color colLabel  = ColorAlpha(PS_BLACK,    alpha);
+    Color colHover  = ColorAlpha(PS_GREY,    alpha);
+    Color colValue  = ColorAlpha(PS_BLUE,     alpha);
+    Color colDotOn  = ColorAlpha(PS_BLACK,    alpha);
+    Color colDotOff = ColorAlpha(PS_DARKGREY, alpha);
+
+    // Background pill
+    DrawRectangleRec((Rectangle){posX, posY, totalW, h}, colBg);
     
-    // < item atual >
-    DrawText("<", posX,        posY + 30, 20, PS_BLACK);
-    DrawText(picker->options[picker->current].label, posX + 20, posY + 30, 20, PS_BLUE);
-    DrawText(">", posX + 100,  posY + 30, 20, PS_BLACK);
+    
+    // Left button highlight
+    if (picker->hoverLeft)
+    DrawRectangleRec((Rectangle){posX, posY, btnW, h}, colHover);
+    
+    // Right button highlight
+    if (picker->hoverRight)
+    DrawRectangleRec((Rectangle){posX + totalW - btnW, posY, btnW, h}, colHover);
+    
+    // Outline
+    DrawRectangleLinesEx((Rectangle){posX, posY, totalW, h}, 1.0f, colBorder);
+
+    // Divider lines
+    DrawLineEx((Vector2){posX + btnW, posY + 6}, (Vector2){posX + btnW, posY + h - 6}, 1.0f, colLabel);
+    DrawLineEx((Vector2){posX + totalW - btnW, posY + 6}, (Vector2){posX + totalW - btnW, posY + h - 6}, 1.0f, colLabel);
+
+    // Chevron arrows (simple triangles or text)
+    DrawTextEx(font, "<", (Vector2){posX + 9, posY + h/2 - 9}, 20, 0, colLabel);
+    DrawTextEx(font, ">", (Vector2){posX + totalW - btnW + 9, posY + h/2 - 9}, 20, 0, colLabel);
+
+    // Current option label (centered)
+    const char *val = picker->options[picker->current].label;
+    Vector2 valSize = MeasureTextEx(font, val, 20, 1);
+    DrawTextEx(font, val,
+        (Vector2){posX + totalW/2 - valSize.x/2, posY + h/2 - valSize.y/2},
+        20, 1, colValue);
+
+    // Label above
+    Vector2 labelSize = MeasureTextEx(font, picker->label, 20, 1);
+    DrawTextEx(font, picker->label,
+        (Vector2){posX + totalW/2 - labelSize.x/2, posY - 22},
+        20, 1, colLabel);
+
+    // Dot indicators below
+    float dotR = 3.0f, dotSpacing = 10.0f;
+    float dotsW = picker->count * dotSpacing - dotSpacing;
+    float dotStartX = posX + totalW/2 - dotsW/2;
+    for (int i = 0; i < picker->count; i++) {
+        Color dotColor = (i == picker->current) ? colDotOn : colDotOff;
+        DrawCircleV((Vector2){dotStartX + i * dotSpacing, posY + h + 10}, dotR, dotColor);
+    }
 }
 
 // ___state menu__________________________________________________________________________________________
@@ -449,23 +514,24 @@ void initMenu(Session *game){
     btnStats = (Button){{LARGURA/2 - 75, ALTURA/2, 140, 40}, "ANALISAR", BT_IDLE};
     btnExit = (Button){{LARGURA/2 + 150 - 75, ALTURA/2, 140, 40}, "SAIR", BT_IDLE};
 
-    // Modes Menu
     modePicker = (OptionPicker){
     "MODO",
     {
-        {"NORMAL",   MODO_NORMAL},
-        {"ARCADE",   MODO_ARCADE}
+        {"NORMAL", MODO_NORMAL},
+        {"ARCADE", MODO_ARCADE}
     },
-    2, 0 };
+    2, 0, 0, 0, 1  // count, current, hoverLeft, hoverRight, isActive
+};
 
-    difficultyPicker = (OptionPicker){
+difficultyPicker = (OptionPicker){
     "DIFICULDADE",
     {
         {"FACIL",   EASY},
         {"MEDIO",   MEDIUM},
         {"DIFICIL", HARD}
     },
-    3, 0};
+    3, 0, 0, 0, 1  // count, current, hoverLeft, hoverRight, isActive
+};
 
     btnStart = (Button){{LARGURA/2 - 75, ALTURA/2 + 60, 150, 40}, "COMEÇAR", BT_IDLE};
 
@@ -483,8 +549,20 @@ void updateMenu(Session *game){
         if (updateButton(&btnExit, mousePosition)) game->state = STATE_EXIT;
         break;
     case MODES:
-        updatePicker(&modePicker, mousePosition);
-        if (updateButton(&btnStart, mousePosition)) game->state = STATE_PLAYING;
+        updatePicker(&modePicker, mousePosition, LARGURA/2 - 220, ALTURA/2);
+
+        difficultyPicker.isActive = (modePicker.options[modePicker.current].value == MODO_NORMAL);
+
+        updatePicker(&difficultyPicker, mousePosition, LARGURA/2 + 20, ALTURA/2);
+        // apply selection on start
+        if (updateButton(&btnStart, mousePosition)) {
+            game->mode       = modePicker.options[modePicker.current].value;
+            game->difficulty = difficultyPicker.isActive
+                            ? difficultyPicker.options[difficultyPicker.current].value
+                            : EASY;
+            game->state = STATE_PLAYING;
+        
+        }
         break;
     case STATS:
         break;
@@ -505,7 +583,8 @@ void drawMenu(Session *game){
         break;
     case MODES:
         drawButton(&btnStart);
-        drawPicker(&modePicker, LARGURA /2, ALTURA /2);
+        drawPicker(&modePicker,       LARGURA/2 - 220, ALTURA/2);
+        drawPicker(&difficultyPicker, LARGURA/2 + 20,  ALTURA/2);
         break;
     case STATS:
         break;
@@ -564,7 +643,9 @@ void drawPlaying(Session *game){
 
     // DEBUG DRAW // aperte "D" para ativar e desativar o desenho de debug.
     if (debugMode == 1){
-        DrawText(TextFormat("shoulddrawArrow = %d", arrow.shoudDraw), 20, ALTURA-200, DEBUGFONT, PS_DEBUG); 
+        DrawText(TextFormat("shoulddrawArrow = %d", arrow.shoudDraw), 20, ALTURA-240, DEBUGFONT, PS_DEBUG); 
+        DrawText(TextFormat("dificulty = %d", game->difficulty), 20, ALTURA-220, DEBUGFONT, PS_DEBUG); 
+        DrawText(TextFormat("mode = %d", game->mode), 20, ALTURA-200, DEBUGFONT, PS_DEBUG); 
         DrawText(TextFormat("guessCount = %d",game->guessCount), 20, ALTURA-180, DEBUGFONT, PS_DEBUG); 
         DrawText(TextFormat("inputCount = %d",input.count), 20, ALTURA-160, DEBUGFONT, PS_DEBUG); 
         DrawText(TextFormat("Numero randomizado = %d",game->target), 20, ALTURA-140, DEBUGFONT, PS_DEBUG); 
@@ -588,6 +669,7 @@ void drawPlaying(Session *game){
 void updateGameover(Session *game){
     if (IsKeyPressed(KEY_R)) {
         IniciarJogo(game);
+
         clearInstantNumberInput(&input);
         for (int i = 0; i < 100; i++){
             circlemarks[i].currentX = -10;
@@ -596,7 +678,7 @@ void updateGameover(Session *game){
             circlemarks[i].state = CM_FREE; // will be ignored until spawned
         }
         activeMarkIndex = -1;
-        game->state = STATE_PLAYING;
+        game->state = STATE_MENU;
     }
 }
 
