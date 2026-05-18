@@ -33,7 +33,7 @@ void IniciarJogo(Session *game) {
     strcpy(game->player, "AAA");
     game->guessCount = 0; // contador de tentativas
     game->message[0] = '\0';
-    game->temperature[0] = '\0';
+    game->temperature = COLD;
     game->score = 600;
 
 }
@@ -48,12 +48,12 @@ void ProcessarTemperatura(Session *game) {
 
     // Mudamos a mensagem se temperatura a partir dessa "distância"
     if (distancia >= 15){
-        strcpy(game->temperature, "Frio"); 
+        game->temperature = COLD; 
         //game->temperatura = "Frio"
     } else if (distancia > 5 && distancia < 15){
-        strcpy(game->temperature, "Morno"); 
+        game->temperature = WARM; 
     } else {
-        strcpy(game->temperature, "Quente"); 
+        game->temperature = HOT;
     }
 }
 

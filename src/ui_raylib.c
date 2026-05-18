@@ -56,14 +56,24 @@ typedef struct{
     float raio;
 } CircleMark;
 
+typedef struct{
+    int dir;
+    int shoudDraw;
+    Vector2 pos;
+    Vector2 target;
+} FeedbackArrow;
+
 int activeMarkIndex = -1;
 int inputClearing = 0;
 
 // ___globals_________________________________________________________________________________________
 
+// debug info toggler
+int debugMode = 1;
+
 // janela aplicacao
-int LARGURA = 800;
-int ALTURA = 450;
+int LARGURA = 1280;
+int ALTURA = 720;
 
 // paleta de cores
 Color PS_BLACK = BLACK;
@@ -81,6 +91,12 @@ Font font;
 Ruler basicRuler;
 CircleMark circlemarks[100];
 DigitInput input = {0};
+
+FeedbackArrow arrow;
+
+//sounds
+Sound sfxChangeMark, sfxSelectSynth;
+
 
 // ___math utils_______________________________________________________________________________________
 
@@ -119,6 +135,7 @@ void handleKeysNumberInput(DigitInput *input, int maxSize){
         // NOTE: para numeros seria (48 até 57)
         if ((key >= 48) && (key <= 57) && input->count < maxSize) {
             numberInputAdd(input, (char)key);
+            PlaySound(sfxChangeMark);
         }
         key = GetCharPressed();
     }
@@ -147,11 +164,25 @@ void updateNumberInput(DigitInput *input, int maxSize){
 
 }
 
-void clearNumberInput(DigitInput *input){
+// limpa o number input com animação
+void clearAnimNumberInput(DigitInput *input){
     for (int i = 0; i < input->count; i++){
         input->targetY[i] = -30;
     }
     inputClearing = 1;
+}
+
+// limpa o number input instantaneamente
+void clearInstantNumberInput(DigitInput *input){
+    inputClearing = 0; 
+
+    for (int i = 0; i < input->count; i++) {
+
+        input->count--;
+        if (input->count < 0) input->count = 0;
+        input->text[i] = '\0';
+
+    }
 }
 
 
@@ -178,10 +209,9 @@ void drawAnimatedNumberInput(DigitInput input, int posX, int posY, int fontSize,
 // ___score bar____________________________________________________________________________________________
 
 void drawScoreBar(int currentScore, int max, Color bodyColor){
-    int c = imap(currentScore, 0, max, 0 , LARGURA);
-    DrawRectangle(0,0,c, 15, PS_BLUE);
+    int scorebarWidth = imap(currentScore, 0, max, 0 , LARGURA);
+    DrawRectangle(0,0,scorebarWidth, 15, PS_BLUE);
 }
-
 
 // ___ruler_______________________________________________________________________________________________
 
@@ -234,17 +264,17 @@ void spawnActiveMark(int index, int rulerPoint) {
     activeMarkIndex = index;
 }
 
-
-void setActiveMarkToPoint(int rulerPoint) {
-    if (activeMarkIndex < 0) return;
-    circlemarks[activeMarkIndex].targetX = getXFromRulerPoint(basicRuler, rulerPoint);
-}
-
 void updateCircleMarks(Session *game) {
+    static float soundCooldown = 0.0f;
+    float dt = GetFrameTime();
+    if (soundCooldown > 0.0f) soundCooldown -= dt;
     Vector2 mouse = GetMousePosition();
 
     // mouse overlapping detection
-    bool mouseOnRuler = CheckCollisionPointRec(mouse, basicRuler.rect);
+    int detectionPadding = 400;
+    bool mouseOnRuler = CheckCollisionPointRec(mouse,
+        (Rectangle){basicRuler.rect.x, basicRuler.rect.y-detectionPadding,
+                    basicRuler.rect.width, basicRuler.rect.height+detectionPadding});
 
     // --- Spawn new marker ---
     // From mouse click on ruler
@@ -266,10 +296,20 @@ void updateCircleMarks(Session *game) {
     // --- Drive active marker ---
     if (activeMarkIndex >= 0) {
         CircleMark *m = &circlemarks[activeMarkIndex];
+        int prevPoint = getRulerPointFromX(basicRuler, m->currentX);
 
         // Mouse drag overrides keyboard
         if (mouseOnRuler && IsMouseButtonDown(MOUSE_LEFT_BUTTON)) {
             int point = getRulerPointFromX(basicRuler, mouse.x);
+            
+            // experimentando com som,isso aqui pode acabar saindo
+            if (point != prevPoint && soundCooldown <= 0.0f) {
+                float t = (float)point / (basicRuler.divisions - 1); // 0.0 to 1.0
+                SetSoundPitch(sfxChangeMark, 0.8f + t * 0.8f); // 0.8 to 1.6
+                PlaySound(sfxChangeMark);
+                soundCooldown = 0.08f; // 80ms
+            };
+
             m->targetX = getXFromRulerPoint(basicRuler, point);
             // sync input text to mouse position
             input.count = 0;
@@ -289,30 +329,22 @@ void updateCircleMarks(Session *game) {
         m->currentX = flerp(m->currentX, m->targetX, 0.4f);
         m->y = ALTURA - basicRuler.rect.height - m->raio;
     }
+}
 
-    // --- Confirm guess ---
-    if (activeMarkIndex >= 0 && (IsKeyPressed(KEY_ENTER) || IsMouseButtonReleased(MOUSE_LEFT_BUTTON))) {
-        CircleMark *m = &circlemarks[activeMarkIndex];
-        int point = atoi(input.text);
-        m->currentX = getXFromRulerPoint(basicRuler, point);
-        m->raio = 7;
-        m->y = ALTURA - basicRuler.rect.height + (basicRuler.rect.height * 0.46f);
-        m->state = CM_LOCKED;
-        ProcessarTentativa(game, atoi(input.text));
-        clearNumberInput(&input);
-        activeMarkIndex = -1; // back to waiting
-    }
+void lockActiveCircleMark(void) {
+    CircleMark *m = &circlemarks[activeMarkIndex];
+    int point = atoi(input.text);
+    m->currentX = getXFromRulerPoint(basicRuler, point);
+    m->raio = 7;
+    m->y = ALTURA - basicRuler.rect.height + (basicRuler.rect.height * 0.46f);
+    m->state = CM_LOCKED;
 }
 
 void drawCircleMarks(Session *game) {
     // Draw all locked (confirmed) markers
     for (int i = 0; i < game->guessCount; i++) {
         CircleMark m = circlemarks[i];
-        // float lineBottom = m.y + basicRuler.rect.height * 0.46f + m.raio;
         DrawCircleV((Vector2){m.currentX, m.y}, m.raio, PS_BLUE);
-        // DrawLineEx((Vector2){m.currentX, m.y},
-        //            (Vector2){m.currentX, lineBottom},
-        //            2.0f, PS_BLUE);
     }
 
     // Draw active marker only if one exists
@@ -325,6 +357,29 @@ void drawCircleMarks(Session *game) {
                    2.0f, PS_BLUE);
     }
 }
+
+// ___arrow______________________________________________________________________________________________
+
+
+void drawArrow(FeedbackArrow arrow, int length, int weight){
+    float headOffsetX = arrow.dir ? length/2 : -length/2; // troca a posicao no eixo x dependendo da direcao
+    float headAngleOffset = arrow.dir ? 0 : 180; // troca a direcao 
+    // Ponta da seta, retangulo base para a ">" ponta
+    Rectangle arrowHeadRect = {arrow.pos.x + headOffsetX, arrow.pos.y, weight, length / 2};
+    
+    // Base (sempre igual)
+    DrawRectangle(arrow.pos.x - length/2, arrow.pos.y - weight/2, length, weight, PS_BLUE);
+    // Metade superior
+    DrawRectanglePro(arrowHeadRect,
+                        (Vector2){weight / 2, weight / 2},
+                        45 + headAngleOffset, PS_BLUE);
+    // Metade inferior
+    DrawRectanglePro(arrowHeadRect,
+                        (Vector2){weight / 2, weight / 2},
+                        45+90 + headAngleOffset, PS_BLUE);
+
+}
+
 
 // ___button______________________________________________________________________________________________
 
@@ -381,7 +436,7 @@ void drawPicker(OptionPicker *picker, int posX, int posY){
 // ___state menu__________________________________________________________________________________________
 
 
-Button btnPlay, btnExit; // MAIN MENU
+Button btnPlay, btnExit, btnStats; // MAIN MENU
 
 OptionPicker modePicker, difficultyPicker;
 Button btnStart;
@@ -390,8 +445,9 @@ enum MenuState menuState = MAIN;
 
 void initMenu(Session *game){
     // Main Menu
-    btnPlay = (Button){{LARGURA/2 - 75, ALTURA/2, 150, 40}, "JOGAR", BT_IDLE};
-    btnExit = (Button){{LARGURA/2 + 75, ALTURA/2, 150, 40}, "SAIR", BT_IDLE};
+    btnPlay = (Button){{LARGURA/2 - 150 - 75, ALTURA/2, 140, 40}, "JOGAR", BT_IDLE};
+    btnStats = (Button){{LARGURA/2 - 75, ALTURA/2, 140, 40}, "ANALISAR", BT_IDLE};
+    btnExit = (Button){{LARGURA/2 + 150 - 75, ALTURA/2, 140, 40}, "SAIR", BT_IDLE};
 
     // Modes Menu
     modePicker = (OptionPicker){
@@ -422,6 +478,7 @@ void updateMenu(Session *game){
     case LOGO:
         break;
     case MAIN:
+        updateButton(&btnStats, mousePosition);
         if (updateButton(&btnPlay, mousePosition)) menuState = MODES;
         if (updateButton(&btnExit, mousePosition)) game->state = STATE_EXIT;
         break;
@@ -443,6 +500,7 @@ void drawMenu(Session *game){
         break;
     case MAIN:
         drawButton(&btnPlay);
+        drawButton(&btnStats);
         drawButton(&btnExit);
         break;
     case MODES:
@@ -459,34 +517,6 @@ void drawMenu(Session *game){
 
 // ___state playing______________________________________________________________________________________
 
-
-void drawPlaying(Session *game){
-    drawScoreBar(game->score, startingScore, PS_BLUE);
-
-    drawRuler(basicRuler, PS_WHITE, PS_BLACK);
-
-    drawCircleMarks(game);   
-
-    drawAnimatedNumberInput(input, LARGURA / 2, ALTURA / 2, 200, 10, PS_RED, font);
-
-    DrawText(TextFormat("Numero randomizado = %d",game->target), 20, ALTURA-140, DEBUGFONT, PS_DEBUG); // apenas pro debug
-    DrawText(TextFormat("Pontuação atual = %d",game->score), 20, ALTURA-120, DEBUGFONT, PS_DEBUG); // apenas pro debug
-    DrawText(game->trivia, 20, ALTURA-100, DEBUGFONT, PS_DEBUG); // apenas pro debug
-    
-    if (game->guessCount > 0){
-        float currentAdvance = 0.0f;
-        for (int i =0; i < game->guessCount; i++){
-            Vector2 itemSize = MeasureTextEx(font, TextFormat("%d", game->guessHistory[i]), 20, 2);
-            DrawTextEx(font, TextFormat("%d", game->guessHistory[i]), (Vector2){50 + currentAdvance,50}, 20, 2, PS_DEBUG);
-            currentAdvance += itemSize.x + 10;
-        }
-    }
-
-    DrawText(game->message, 50, 100, 20, PS_DEBUG);
-    DrawText(game->temperature, LARGURA - 100, ALTURA - 100, 20, PS_DEBUG);
-}
-
-
 void updatePlaying(Session *game){
 
     float dt = GetFrameTime(); 
@@ -494,7 +524,62 @@ void updatePlaying(Session *game){
 
     updateCircleMarks(game); 
 
+    // update debug mode
+    if (IsKeyPressed(KEY_D)) debugMode *= -1;
+
+    // Confirmar tentativa
+    if (activeMarkIndex >= 0 && (IsKeyPressed(KEY_ENTER) || IsMouseButtonReleased(MOUSE_LEFT_BUTTON))) {
+        lockActiveCircleMark();
+        ProcessarTentativa(game, atoi(input.text));
+        clearAnimNumberInput(&input);
+        activeMarkIndex = -1;
+        arrow.pos.y = ALTURA / 2 + 50;
+        PlaySound(sfxSelectSynth);
+    }
+
+
+    // update arrow feedback
+    if (game->guessCount != 0 && input.count == 0){
+        arrow.shoudDraw = 1;
+        arrow.pos.y = flerp(arrow.pos.y, arrow.target.y, 0.3);
+
+    } else {
+        arrow.shoudDraw = 0;
+    }
+
+    arrow.dir = game->guess < game->target ? 1 : 0;
+
     updateNumberInput(&input, 3);
+}
+
+void drawPlaying(Session *game){
+    drawScoreBar(game->score, startingScore, PS_BLUE);
+    drawRuler(basicRuler, PS_WHITE, PS_BLACK);
+
+    drawCircleMarks(game);   
+
+    drawAnimatedNumberInput(input, LARGURA / 2, ALTURA / 2, 200, 10, PS_RED, font);
+
+    if (arrow.shoudDraw) { drawArrow(arrow, 200, 20); }
+
+    // DEBUG DRAW // aperte "D" para ativar e desativar o desenho de debug.
+    if (debugMode == 1){
+        DrawText(TextFormat("shoulddrawArrow = %d", arrow.shoudDraw), 20, ALTURA-200, DEBUGFONT, PS_DEBUG); 
+        DrawText(TextFormat("guessCount = %d",game->guessCount), 20, ALTURA-180, DEBUGFONT, PS_DEBUG); 
+        DrawText(TextFormat("inputCount = %d",input.count), 20, ALTURA-160, DEBUGFONT, PS_DEBUG); 
+        DrawText(TextFormat("Numero randomizado = %d",game->target), 20, ALTURA-140, DEBUGFONT, PS_DEBUG); 
+        DrawText(TextFormat("Pontuação atual = %d",game->score), 20, ALTURA-120, DEBUGFONT, PS_DEBUG); 
+        DrawText(game->trivia, 20, ALTURA-100, DEBUGFONT, PS_DEBUG); 
+        if (game->guessCount > 0){
+            float currentAdvance = 0.0f;
+            for (int i =0; i < game->guessCount; i++){
+                Vector2 itemSize = MeasureTextEx(font, TextFormat("%d", game->guessHistory[i]), 20, 2);
+                DrawTextEx(font, TextFormat("%d", game->guessHistory[i]), (Vector2){50 + currentAdvance,50}, 20, 2, PS_DEBUG);
+                currentAdvance += itemSize.x + 10;
+            }
+        }
+        DrawText(game->message, 50, 100, 20, PS_DEBUG);
+    }
 }
 
 // ___state gameover___________________________________________________________________________________________
@@ -503,6 +588,7 @@ void updatePlaying(Session *game){
 void updateGameover(Session *game){
     if (IsKeyPressed(KEY_R)) {
         IniciarJogo(game);
+        clearInstantNumberInput(&input);
         for (int i = 0; i < 100; i++){
             circlemarks[i].currentX = -10;
             circlemarks[i].y = ALTURA - 90;
@@ -524,16 +610,29 @@ void drawGameover(Session *game){
 // ___main loop__________________________________________________________________________________________________
 
 void init(Session *game){
-    IniciarJogo(game);
 
-    initMenu(game);
+    // Initialize stuff
+    IniciarJogo(game); // state
+    initMenu(game);    // menu
 
-    startingScore = game->score;
+    startingScore = game->score; // pega score inicial para mapear no scoreBar
     input.text[0] = '\0';
-    basicRuler = createRuler(101, 70);
+    basicRuler = createRuler(101, 70); // cria a régua
+
+    // init arrow
+    arrow.pos.x = LARGURA / 2;
+    arrow.pos.y = ALTURA / 2 + 50;
+    arrow.target.x = LARGURA / 2;
+    arrow.target.y = ALTURA / 2;
     
     InitWindow(LARGURA, ALTURA, "Pablo Software's Numbers");
-    SetTargetFPS(30);
+    InitAudioDevice();
+
+    // Load sound files
+    sfxChangeMark = LoadSound("assets/sfx/changeMarkPoint_Beep.wav");
+    sfxSelectSynth = LoadSound("assets/sfx/select_synth.wav");
+
+    SetTargetFPS(60);
     font = GetFontDefault();
 
 }
@@ -543,13 +642,13 @@ void update(Session *game){
         case STATE_MENU:     updateMenu(game);     break;
         case STATE_PLAYING:  updatePlaying(game);  break;
         case STATE_GAMEOVER: updateGameover(game); break;
-        case STATE_EXIT:     CloseWindow();        break;
+        case STATE_EXIT:                           break;
     }
 }
 
 void draw(Session *game){
     BeginDrawing();
-
+        DrawFPS(20,20);
         ClearBackground(PS_GREY);
 
         switch (game->state) {
@@ -568,8 +667,11 @@ void startRaylibMode(Session *game){
 
     init(game);
 
-    while (!WindowShouldClose()) {
+    while (!WindowShouldClose() && (game->state != STATE_EXIT)) {
         update(game);
         draw(game);
     }
+
+    CloseAudioDevice();
+    CloseWindow();
 }

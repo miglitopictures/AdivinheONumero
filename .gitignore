@@ -1,4 +1,10 @@
-.vscode
-game
+.vscode/
+
+# Game binary
 game.exe
-./data
+game
+
+# User data/highscores
+data/curiosidades.txt
+data/highscores.txt
+data/partidas.txt
