@@ -164,6 +164,7 @@ void updateNumberInput(DigitInput *input, int maxSize){
 
 }
 
+// limpa o number input com animação
 void clearAnimNumberInput(DigitInput *input){
     for (int i = 0; i < input->count; i++){
         input->targetY[i] = -30;
@@ -171,6 +172,7 @@ void clearAnimNumberInput(DigitInput *input){
     inputClearing = 1;
 }
 
+// limpa o number input instantaneamente
 void clearInstantNumberInput(DigitInput *input){
     inputClearing = 0; 
 
@@ -207,10 +209,9 @@ void drawAnimatedNumberInput(DigitInput input, int posX, int posY, int fontSize,
 // ___score bar____________________________________________________________________________________________
 
 void drawScoreBar(int currentScore, int max, Color bodyColor){
-    int c = imap(currentScore, 0, max, 0 , LARGURA);
-    DrawRectangle(0,0,c, 15, PS_BLUE);
+    int scorebarWidth = imap(currentScore, 0, max, 0 , LARGURA);
+    DrawRectangle(0,0,scorebarWidth, 15, PS_BLUE);
 }
-
 
 // ___ruler_______________________________________________________________________________________________
 
@@ -357,6 +358,29 @@ void drawCircleMarks(Session *game) {
     }
 }
 
+// ___arrow______________________________________________________________________________________________
+
+
+void drawArrow(FeedbackArrow arrow, int length, int weight){
+    float headOffsetX = arrow.dir ? length/2 : -length/2; // troca a posicao no eixo x dependendo da direcao
+    float headAngleOffset = arrow.dir ? 0 : 180; // troca a direcao 
+    // Ponta da seta, retangulo base para a ">" ponta
+    Rectangle arrowHeadRect = {arrow.pos.x + headOffsetX, arrow.pos.y, weight, length / 2};
+    
+    // Base (sempre igual)
+    DrawRectangle(arrow.pos.x - length/2, arrow.pos.y - weight/2, length, weight, PS_BLUE);
+    // Metade superior
+    DrawRectanglePro(arrowHeadRect,
+                        (Vector2){weight / 2, weight / 2},
+                        45 + headAngleOffset, PS_BLUE);
+    // Metade inferior
+    DrawRectanglePro(arrowHeadRect,
+                        (Vector2){weight / 2, weight / 2},
+                        45+90 + headAngleOffset, PS_BLUE);
+
+}
+
+
 // ___button______________________________________________________________________________________________
 
 
@@ -491,25 +515,6 @@ void drawMenu(Session *game){
     
 }
 
-void drawArrow(FeedbackArrow arrow, int length, int weight){
-    float headOffsetX = arrow.dir ? length/2 : -length/2; // troca a posicao no eixo x dependendo da direcao
-    float headAngleOffset = arrow.dir ? 0 : 180; // troca a direcao 
-    // Ponta da seta, retangulo base para a ">" ponta
-    Rectangle arrowHeadRect = {arrow.pos.x + headOffsetX, arrow.pos.y, weight, length / 2};
-    
-    // Base (sempre igual)
-    DrawRectangle(arrow.pos.x - length/2, arrow.pos.y - weight/2, length, weight, PS_BLUE);
-    // Metade superior
-    DrawRectanglePro(arrowHeadRect,
-                        (Vector2){weight / 2, weight / 2},
-                        45 + headAngleOffset, PS_BLUE);
-    // Metade inferior
-    DrawRectanglePro(arrowHeadRect,
-                        (Vector2){weight / 2, weight / 2},
-                        45+90 + headAngleOffset, PS_BLUE);
-
-}
-
 // ___state playing______________________________________________________________________________________
 
 void updatePlaying(Session *game){
@@ -555,8 +560,7 @@ void drawPlaying(Session *game){
 
     drawAnimatedNumberInput(input, LARGURA / 2, ALTURA / 2, 200, 10, PS_RED, font);
 
-    // if (shoulddrawArrow) drawArrow(arrowPos.x, arrowPos.y, 200, 20, arrowDir);
-    if (arrow.shoudDraw) drawArrow(arrow, 200, 20);
+    if (arrow.shoudDraw) { drawArrow(arrow, 200, 20); }
 
     // DEBUG DRAW // aperte "D" para ativar e desativar o desenho de debug.
     if (debugMode == 1){
