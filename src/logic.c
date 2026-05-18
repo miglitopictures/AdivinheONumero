@@ -31,13 +31,15 @@ void configurarCuriosidade(Session *game){
  * * @param game Ponteiro para a estrutura GameState que será inicializada.
  */
 void IniciarJogo(Session *game) {
-    game->difficulty = EASY;
     game->mode = MODO_NORMAL;
     game->max = 100;
     game->target = numeroAleatorio(0, game->max);
 	game->state = STATE_MENU;
 	
     // configurarCuriosidade(game); // carregava curiosidade no início, movido para o momento do acerto
+
+    game->round = 0;
+    game->totalGuesses = 0;
 
     strcpy(game->player, "AAA");
     game->guessCount = 0; // contador de tentativas
@@ -84,10 +86,10 @@ void atualizarTempoRealScore(Session *game, double dt)    // Verifica  Estado
         pontosPorSegundo = 2;
         break;
     case MEDIUM:
-        pontosPorSegundo = 4;
+        pontosPorSegundo = 10;
         break;
     case HARD:
-        pontosPorSegundo = 8;
+        pontosPorSegundo = 30;
         break;   
     }
 
@@ -278,6 +280,24 @@ char* buscarCuriosidade(int target){
     return curiosidade;
 }
 
+void avancarRodadaArcade(Session *game){
+    int bonus = 200; // devemos calcular dinamicamente
+
+    game->target = numeroAleatorio(0, game->max);
+    game->round++;
+    game->totalGuesses += game->guessCount;
+    game->guessCount = 0;
+    game->score+=bonus; // bonus por acertar
+    
+}
+
+void ProcessarGameover(Session *game){
+    if (game->score <= 0) { // Impede que o score fique negativo devido aos palpites.
+        game->score = 0;
+        game->state = STATE_GAMEOVER; // Opcional: declarar Game Over se zerar os pontos.
+    }
+}
+
 //=====================================================================================================================================================================
 // Essa função, no momento, executa todos os passos necessários
 // para atualizar estado do jogo (GameState) a partir do novo palpite (int) do usuário.
@@ -294,22 +314,24 @@ void ProcessarTentativa(Session *game, int palpite) {
 
     game->score -= calcularPalpiteScore(game); // Deduzir os pontos dinamicamente baseado na temperatura calculada em ProcessarTemperatura(game).
 	
-	if (game->score < 0) { // Impede que o score fique negativo devido aos palpites.
-        game->score = 0;
-        game->state = STATE_GAMEOVER; // Opcional: declarar Game Over se zerar os pontos.
-    }
+	ProcessarGameover(game);
 	
 	
 	// Verificar condições de vitória ou dicas
 	
     if (palpite == game->target) { // acertou?
-        printf("Acertou");
-        configurarCuriosidade(game); // <-- adicionei aqui pra atualizar a curiosidade no momento do acerto
-        strcpy(game->message, "Voce acertou!");
-        salvarFinalDePartida(game);
-        atualizarHighscore(game); 
+        if (game->mode == MODO_ARCADE){
+            avancarRodadaArcade(game);
+        } else{
+            printf("Acertou");
+            configurarCuriosidade(game); // <-- adicionei aqui pra atualizar a curiosidade no momento do acerto
+            strcpy(game->message, "Voce acertou!");
+            salvarFinalDePartida(game);
+            atualizarHighscore(game); 
+            
+            game->state = STATE_WIN;
+        }
         
-        game->state = STATE_GAMEOVER;
     }
 
         else if (palpite < game->target) {

@@ -38,6 +38,11 @@ typedef struct {
     Option options[MAX_PICKER_OPTIONS];
     int count;
     int current;
+
+    int hoverLeft;  
+    int hoverRight;
+
+    int isActive;
 } OptionPicker;
 
 typedef struct{
@@ -95,7 +100,7 @@ DigitInput input = {0};
 FeedbackArrow arrow;
 
 //sounds
-Sound sfxChangeMark, sfxSelectSynth;
+Sound sfxChangeMark, sfxSelectSynth, sfxWin, sfxLose;
 
 
 // ___math utils_______________________________________________________________________________________
@@ -413,30 +418,92 @@ void drawButton(Button *btn){
 
 // ___option picker_______________________________________________________________________________________
 
-void updatePicker(OptionPicker *picker, Vector2 mouse){
-    // falta interacao com mouse prra selecionar
-    if (IsKeyPressed(KEY_RIGHT))
-        picker->current = (picker->current + 1) % picker->count;
-    if (IsKeyPressed(KEY_LEFT))
-        picker->current = (picker->current - 1 + picker->count) % picker->count;
+void updatePicker(OptionPicker *picker, Vector2 mouse, int posX, int posY) {
+    if (!picker->isActive) return;
+    int btnW = 30, totalW = 200, h = 36;
+    Rectangle leftBtn  = { posX,                   posY, btnW, h };
+    Rectangle rightBtn = { posX + totalW - btnW,   posY, btnW, h };
+
+    picker->hoverLeft  = CheckCollisionPointRec(mouse, leftBtn);
+    picker->hoverRight = CheckCollisionPointRec(mouse, rightBtn);
+
+    if (IsMouseButtonPressed(MOUSE_LEFT_BUTTON)) {
+        if (picker->hoverLeft)
+            picker->current = (picker->current - 1 + picker->count) % picker->count;
+        if (picker->hoverRight)
+            picker->current = (picker->current + 1) % picker->count;
+    }
+
+    // Keep keyboard fallback
+    if (IsKeyPressed(KEY_RIGHT)) picker->current = (picker->current + 1) % picker->count;
+    if (IsKeyPressed(KEY_LEFT))  picker->current = (picker->current - 1 + picker->count) % picker->count;
 }
 
-void drawPicker(OptionPicker *picker, int posX, int posY){
-    // pessimo desenho, melhorar.
+void drawPicker(OptionPicker *picker, int posX, int posY) {
+    float alpha = picker->isActive ? 1.0f : 0.35f;  // NEW
+    int totalW = 200, h = 36, btnW = 30;
+//    int radius = 6;
 
-    // label
-    DrawText(picker->label, posX, posY, 20, PS_BLACK);
+    Color colBg     = ColorAlpha(PS_WHITE,    alpha);
+    Color colBorder = ColorAlpha(PS_BLACK,    alpha);
+    Color colLabel  = ColorAlpha(PS_BLACK,    alpha);
+    Color colHover  = ColorAlpha(PS_GREY,    alpha);
+    Color colValue  = ColorAlpha(PS_BLUE,     alpha);
+    Color colDotOn  = ColorAlpha(PS_BLACK,    alpha);
+    Color colDotOff = ColorAlpha(PS_DARKGREY, alpha);
+
+    // Background pill
+    DrawRectangleRec((Rectangle){posX, posY, totalW, h}, colBg);
     
-    // < item atual >
-    DrawText("<", posX,        posY + 30, 20, PS_BLACK);
-    DrawText(picker->options[picker->current].label, posX + 20, posY + 30, 20, PS_BLUE);
-    DrawText(">", posX + 100,  posY + 30, 20, PS_BLACK);
+    
+    // Left button highlight
+    if (picker->hoverLeft)
+    DrawRectangleRec((Rectangle){posX, posY, btnW, h}, colHover);
+    
+    // Right button highlight
+    if (picker->hoverRight)
+    DrawRectangleRec((Rectangle){posX + totalW - btnW, posY, btnW, h}, colHover);
+    
+    // Outline
+    DrawRectangleLinesEx((Rectangle){posX, posY, totalW, h}, 1.0f, colBorder);
+
+    // Divider lines
+    DrawLineEx((Vector2){posX + btnW, posY + 6}, (Vector2){posX + btnW, posY + h - 6}, 1.0f, colLabel);
+    DrawLineEx((Vector2){posX + totalW - btnW, posY + 6}, (Vector2){posX + totalW - btnW, posY + h - 6}, 1.0f, colLabel);
+
+    // Chevron arrows (simple triangles or text)
+    DrawTextEx(font, "<", (Vector2){posX + 9, posY + h/2 - 9}, 20, 0, colLabel);
+    DrawTextEx(font, ">", (Vector2){posX + totalW - btnW + 9, posY + h/2 - 9}, 20, 0, colLabel);
+
+    // Current option label (centered)
+    const char *val = picker->options[picker->current].label;
+    Vector2 valSize = MeasureTextEx(font, val, 20, 1);
+    DrawTextEx(font, val,
+        (Vector2){posX + totalW/2 - valSize.x/2, posY + h/2 - valSize.y/2},
+        20, 1, colValue);
+
+    // Label above
+    Vector2 labelSize = MeasureTextEx(font, picker->label, 20, 1);
+    DrawTextEx(font, picker->label,
+        (Vector2){posX + totalW/2 - labelSize.x/2, posY - 22},
+        20, 1, colLabel);
+
+    // Dot indicators below
+    float dotR = 3.0f, dotSpacing = 10.0f;
+    float dotsW = picker->count * dotSpacing - dotSpacing;
+    float dotStartX = posX + totalW/2 - dotsW/2;
+    for (int i = 0; i < picker->count; i++) {
+        Color dotColor = (i == picker->current) ? colDotOn : colDotOff;
+        DrawCircleV((Vector2){dotStartX + i * dotSpacing, posY + h + 10}, dotR, dotColor);
+    }
 }
 
 // ___state menu__________________________________________________________________________________________
 
 
 Button btnPlay, btnExit, btnStats; // MAIN MENU
+
+Button btnPlayAgain; // END MENU
 
 OptionPicker modePicker, difficultyPicker;
 Button btnStart;
@@ -449,25 +516,29 @@ void initMenu(Session *game){
     btnStats = (Button){{LARGURA/2 - 75, ALTURA/2, 140, 40}, "ANALISAR", BT_IDLE};
     btnExit = (Button){{LARGURA/2 + 150 - 75, ALTURA/2, 140, 40}, "SAIR", BT_IDLE};
 
-    // Modes Menu
     modePicker = (OptionPicker){
     "MODO",
     {
-        {"NORMAL",   MODO_NORMAL},
-        {"ARCADE",   MODO_ARCADE}
+        {"NORMAL", MODO_NORMAL},
+        {"ARCADE", MODO_ARCADE}
     },
-    2, 0 };
+    2, 0, 0, 0, 1  // count, current, hoverLeft, hoverRight, isActive
+};
 
-    difficultyPicker = (OptionPicker){
+difficultyPicker = (OptionPicker){
     "DIFICULDADE",
     {
         {"FACIL",   EASY},
         {"MEDIO",   MEDIUM},
         {"DIFICIL", HARD}
     },
-    3, 0};
+    3, 0, 0, 0, 1  // count, current, hoverLeft, hoverRight, isActive
+};
 
     btnStart = (Button){{LARGURA/2 - 75, ALTURA/2 + 60, 150, 40}, "COMEÇAR", BT_IDLE};
+
+
+    btnPlayAgain = (Button){{LARGURA/2 - 100, ALTURA - 160, 200, 44}, "PLAY AGAIN", BT_IDLE}; // ENDMENU
 
 }
 
@@ -483,8 +554,20 @@ void updateMenu(Session *game){
         if (updateButton(&btnExit, mousePosition)) game->state = STATE_EXIT;
         break;
     case MODES:
-        updatePicker(&modePicker, mousePosition);
-        if (updateButton(&btnStart, mousePosition)) game->state = STATE_PLAYING;
+        updatePicker(&modePicker, mousePosition, LARGURA/2 - 220, ALTURA/2);
+
+        difficultyPicker.isActive = (modePicker.options[modePicker.current].value == MODO_NORMAL);
+
+        updatePicker(&difficultyPicker, mousePosition, LARGURA/2 + 20, ALTURA/2);
+        // apply selection on start
+        if (updateButton(&btnStart, mousePosition)) {
+            game->mode       = modePicker.options[modePicker.current].value;
+            game->difficulty = difficultyPicker.isActive
+                            ? difficultyPicker.options[difficultyPicker.current].value
+                            : EASY;
+            game->state = STATE_PLAYING;
+        
+        }
         break;
     case STATS:
         break;
@@ -505,7 +588,8 @@ void drawMenu(Session *game){
         break;
     case MODES:
         drawButton(&btnStart);
-        drawPicker(&modePicker, LARGURA /2, ALTURA /2);
+        drawPicker(&modePicker,       LARGURA/2 - 220, ALTURA/2);
+        drawPicker(&difficultyPicker, LARGURA/2 + 20,  ALTURA/2);
         break;
     case STATS:
         break;
@@ -520,7 +604,15 @@ void drawMenu(Session *game){
 void updatePlaying(Session *game){
 
     float dt = GetFrameTime(); 
+
+    State prevState = game->state; 
+
     atualizarTempoRealScore(game, dt);
+    ProcessarGameover(game);
+
+    if (prevState == STATE_PLAYING && game->state == STATE_GAMEOVER) {
+        PlaySound(sfxLose);
+    }
 
     updateCircleMarks(game); 
 
@@ -535,6 +627,12 @@ void updatePlaying(Session *game){
         activeMarkIndex = -1;
         arrow.pos.y = ALTURA / 2 + 50;
         PlaySound(sfxSelectSynth);
+
+        // play end sounds based on resulting state
+        SetSoundVolume(sfxWin, 0.6f);
+        SetSoundVolume(sfxLose, 0.6f);
+        if (game->state == STATE_WIN)      PlaySound(sfxWin);
+        if (game->state == STATE_GAMEOVER) PlaySound(sfxLose);
     }
 
 
@@ -564,7 +662,9 @@ void drawPlaying(Session *game){
 
     // DEBUG DRAW // aperte "D" para ativar e desativar o desenho de debug.
     if (debugMode == 1){
-        DrawText(TextFormat("shoulddrawArrow = %d", arrow.shoudDraw), 20, ALTURA-200, DEBUGFONT, PS_DEBUG); 
+        DrawText(TextFormat("shoulddrawArrow = %d", arrow.shoudDraw), 20, ALTURA-240, DEBUGFONT, PS_DEBUG); 
+        DrawText(TextFormat("dificulty = %d", game->difficulty), 20, ALTURA-220, DEBUGFONT, PS_DEBUG); 
+        DrawText(TextFormat("mode = %d", game->mode), 20, ALTURA-200, DEBUGFONT, PS_DEBUG); 
         DrawText(TextFormat("guessCount = %d",game->guessCount), 20, ALTURA-180, DEBUGFONT, PS_DEBUG); 
         DrawText(TextFormat("inputCount = %d",input.count), 20, ALTURA-160, DEBUGFONT, PS_DEBUG); 
         DrawText(TextFormat("Numero randomizado = %d",game->target), 20, ALTURA-140, DEBUGFONT, PS_DEBUG); 
@@ -582,30 +682,134 @@ void drawPlaying(Session *game){
     }
 }
 
-// ___state gameover___________________________________________________________________________________________
+// ___state win___________________________________________________________________________________________
 
-
-void updateGameover(Session *game){
-    if (IsKeyPressed(KEY_R)) {
+void updateWin(Session *game) {
+    Vector2 mouse = GetMousePosition();
+    if (IsKeyPressed(KEY_R) || updateButton(&btnPlayAgain, mouse)) {
         IniciarJogo(game);
         clearInstantNumberInput(&input);
-        for (int i = 0; i < 100; i++){
+        for (int i = 0; i < 100; i++) {
             circlemarks[i].currentX = -10;
-            circlemarks[i].y = ALTURA - 90;
-            circlemarks[i].raio = 10;
-            circlemarks[i].state = CM_FREE; // will be ignored until spawned
+            circlemarks[i].y        = ALTURA - 90;
+            circlemarks[i].raio     = 10;
+            circlemarks[i].state    = CM_FREE;
         }
         activeMarkIndex = -1;
-        game->state = STATE_PLAYING;
+        menuState = MODES;
     }
 }
 
-void drawGameover(Session *game){
-    int winTextWidth = MeasureText("YOU WIN!", 40);
-    DrawText("YOU WIN!", LARGURA / 2 - winTextWidth / 2, ALTURA / 2, 40, PS_GREEN);
+void drawWin(Session *game) {
+    // trivia at the top area
+    Vector2 triviaSize = MeasureTextEx(font, game->trivia, 20, 1);
+    DrawTextEx(font, game->trivia,
+        (Vector2){LARGURA/2 - triviaSize.x/2, ALTURA/2 - 220},
+        20, 1, PS_BLACK);
 
-    // exibindo a curiosidade depois de ganhar
-    DrawText("TESTE CURIOSIDADE", 50, 100, 20, RED);
+    // big target number as hero
+    const char *targetStr = TextFormat("%d", game->target);
+    Vector2 targetSize = MeasureTextEx(font, targetStr, 200, 1);
+    DrawTextEx(font, targetStr,
+        (Vector2){LARGURA/2 - targetSize.x/2, ALTURA/2 - 160},
+        200, 1, PS_GREEN);
+
+    // stats below, two columns: label left, value right
+    int statsX     = LARGURA/2 - 160;
+    int statsValX  = LARGURA/2 + 160;
+    int statsY     = ALTURA/2 + 80;
+    int statsStep  = 40;
+
+
+    const char *scoreLabel = "SCORE";
+    DrawTextEx(font, scoreLabel, (Vector2){statsX, statsY}, 24, 1, PS_DARKGREY);
+    const char *scoreVal = TextFormat("%d", game->score);
+    Vector2 scoreValSize = MeasureTextEx(font, scoreVal, 24, 1);
+    DrawTextEx(font, scoreVal, (Vector2){statsValX - scoreValSize.x, statsY}, 24, 1, PS_BLACK);
+
+    const char *guessLabel = "TENTATIVAS";
+    DrawTextEx(font, guessLabel, (Vector2){statsX, statsY + statsStep}, 24, 1, PS_DARKGREY);
+    const char *guessVal = TextFormat("%d", game->guessCount);
+    Vector2 guessValSize = MeasureTextEx(font, guessVal, 24, 1);
+    DrawTextEx(font, guessVal, (Vector2){statsValX - guessValSize.x, statsY + statsStep}, 24, 1, PS_BLACK);
+
+    // button
+    drawButton(&btnPlayAgain);
+}
+
+// ___state gameover______________________________________________________________________________________
+
+void updateGameover(Session *game) {
+    Vector2 mouse = GetMousePosition();
+    if (IsKeyPressed(KEY_R) || updateButton(&btnPlayAgain, mouse)) {
+        IniciarJogo(game);
+        clearInstantNumberInput(&input);
+        for (int i = 0; i < 100; i++) {
+            circlemarks[i].currentX = -10;
+            circlemarks[i].y        = ALTURA - 90;
+            circlemarks[i].raio     = 10;
+            circlemarks[i].state    = CM_FREE;
+        }
+        activeMarkIndex = -1;
+        menuState = MODES;
+    }
+}
+
+void drawGameover(Session *game) {
+    // GAME OVER title
+    const char *title = "GAME OVER";
+    Vector2 titleSize = MeasureTextEx(font, title, 60, 1);
+    DrawTextEx(font, title,
+        (Vector2){LARGURA/2 - titleSize.x/2, ALTURA/2 - 220},
+        60, 1, PS_RED);
+
+    // big target number as hero
+    const char *targetStr = TextFormat("%d", game->target);
+    Vector2 targetSize = MeasureTextEx(font, targetStr, 200, 1);
+    DrawTextEx(font, targetStr,
+        (Vector2){LARGURA/2 - targetSize.x/2, ALTURA/2 - 160},
+        200, 1, PS_DARKGREY);
+
+    // stats
+    int statsX    = LARGURA/2 - 160;
+    int statsValX = LARGURA/2 + 160;
+    int statsY    = ALTURA/2 + 80;
+    int statsStep = 40;
+
+    if (game->mode == MODO_ARCADE) {
+        const char *roundsLabel = "RODADAS";
+        DrawTextEx(font, roundsLabel, (Vector2){statsX, statsY}, 24, 1, PS_DARKGREY);
+        const char *roundsVal = TextFormat("%d", game->round);
+        Vector2 roundsValSize = MeasureTextEx(font, roundsVal, 24, 1);
+        DrawTextEx(font, roundsVal, (Vector2){statsValX - roundsValSize.x, statsY}, 24, 1, PS_BLACK);
+
+        const char *guessLabel = "TENTATIVAS";
+        DrawTextEx(font, guessLabel, (Vector2){statsX, statsY + statsStep}, 24, 1, PS_DARKGREY);
+        const char *guessVal = TextFormat("%d", game->totalGuesses + game->guessCount);
+        Vector2 guessValSize = MeasureTextEx(font, guessVal, 24, 1);
+        DrawTextEx(font, guessVal, (Vector2){statsValX - guessValSize.x, statsY + statsStep}, 24, 1, PS_BLACK);
+
+        const char *scoreLabel = "SCORE";
+        DrawTextEx(font, scoreLabel, (Vector2){statsX, statsY + statsStep*2}, 24, 1, PS_DARKGREY);
+        const char *scoreVal = TextFormat("%d", game->score);
+        Vector2 scoreValSize = MeasureTextEx(font, scoreVal, 24, 1);
+        DrawTextEx(font, scoreVal, (Vector2){statsValX - scoreValSize.x, statsY + statsStep*2}, 24, 1, PS_BLUE);
+
+    } else {
+        const char *scoreLabel = "SCORE";
+        DrawTextEx(font, scoreLabel, (Vector2){statsX, statsY}, 24, 1, PS_DARKGREY);
+        const char *scoreVal = TextFormat("%d", game->score);
+        Vector2 scoreValSize = MeasureTextEx(font, scoreVal, 24, 1);
+        DrawTextEx(font, scoreVal, (Vector2){statsValX - scoreValSize.x, statsY}, 24, 1, PS_BLUE);
+
+        const char *guessLabel = "TENTATIVAS";
+        DrawTextEx(font, guessLabel, (Vector2){statsX, statsY + statsStep}, 24, 1, PS_DARKGREY);
+        const char *guessVal = TextFormat("%d", game->guessCount);
+        Vector2 guessValSize = MeasureTextEx(font, guessVal, 24, 1);
+        DrawTextEx(font, guessVal, (Vector2){statsValX - guessValSize.x, statsY + statsStep}, 24, 1, PS_BLACK);
+    }
+
+    drawButton(&btnPlayAgain);
 }
 
 
@@ -634,6 +838,8 @@ void init(Session *game){
     // Load sound files
     sfxChangeMark = LoadSound("assets/sfx/changeMarkPoint_Beep.wav");
     sfxSelectSynth = LoadSound("assets/sfx/select_synth.wav");
+    sfxLose = LoadSound("assets/sfx/gameLose.wav");
+    sfxWin = LoadSound("assets/sfx/gameWin.wav");
 
     SetTargetFPS(60);
     font = GetFontDefault();
@@ -644,6 +850,7 @@ void update(Session *game){
     switch (game->state) {
         case STATE_MENU:     updateMenu(game);     break;
         case STATE_PLAYING:  updatePlaying(game);  break;
+        case STATE_WIN:      updateWin(game);      break;
         case STATE_GAMEOVER: updateGameover(game); break;
         case STATE_EXIT:                           break;
     }
@@ -657,6 +864,7 @@ void draw(Session *game){
         switch (game->state) {
             case STATE_MENU:     drawMenu(game);     break;
             case STATE_PLAYING:  drawPlaying(game);  break;
+            case STATE_WIN:      drawWin(game);      break;
             case STATE_GAMEOVER: drawGameover(game); break;
             default: break;
         }

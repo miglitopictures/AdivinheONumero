@@ -1,7 +1,7 @@
 #ifndef TIPOS_H
 #define TIPOS_H
 
-typedef enum {STATE_MENU, STATE_PLAYING, STATE_GAMEOVER, STATE_EXIT } State;
+typedef enum {STATE_MENU, STATE_PLAYING, STATE_GAMEOVER, STATE_WIN, STATE_EXIT } State;
 
 typedef enum {MODO_NORMAL, MODO_ARCADE} Mode;
 
@@ -16,6 +16,10 @@ typedef struct {
     Mode mode;
     Difficulty difficulty;
     NumericalSystem numericalSystem;
+
+    int round;
+    int roundBonus;
+    int totalGuesses;
 
     int max; // 100
     int target; // numero secreto
