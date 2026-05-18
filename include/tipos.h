@@ -9,6 +9,7 @@ typedef enum {EASY, MEDIUM, HARD} Difficulty;
 
 typedef enum {DECIMAL, BINARY, HEXADECIMAL, OCTAL} NumericalSystem;
 
+typedef enum {COLD, WARM, HOT} Temperature;
 // Session
 typedef struct {
     State state;
@@ -26,7 +27,7 @@ typedef struct {
     
     char player[32];
     char message[64]; // "Muito Alto", "Muito Baixo", etc.
-    char temperature[32]; // "Quente", "Morno", "Frio"
+    Temperature temperature;
 
     char trivia[256]; // curiosidade sobre o numero sorteado
 
