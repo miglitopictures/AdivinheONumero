@@ -276,9 +276,17 @@ void avancarRodadaArcade(Session *game){
 
     game->target = numeroAleatorio(0, game->max);
     game->round++;
+    game->totalGuesses += game->guessCount;
     game->guessCount = 0;
     game->score+=bonus; // bonus por acertar
     
+}
+
+void ProcessarGameover(Session *game){
+    if (game->score <= 0) { // Impede que o score fique negativo devido aos palpites.
+        game->score = 0;
+        game->state = STATE_GAMEOVER; // Opcional: declarar Game Over se zerar os pontos.
+    }
 }
 
 //=====================================================================================================================================================================
@@ -297,10 +305,7 @@ void ProcessarTentativa(Session *game, int palpite) {
 
     game->score -= calcularPalpiteScore(game); // Deduzir os pontos dinamicamente baseado na temperatura calculada em ProcessarTemperatura(game).
 	
-	if (game->score < 0) { // Impede que o score fique negativo devido aos palpites.
-        game->score = 0;
-        game->state = STATE_GAMEOVER; // Opcional: declarar Game Over se zerar os pontos.
-    }
+	ProcessarGameover(game);
 	
 	
 	// Verificar condições de vitória ou dicas
@@ -313,7 +318,7 @@ void ProcessarTentativa(Session *game, int palpite) {
             strcpy(game->message, "Voce acertou!");
             salvarFinalDePartida(game);
             atualizarHighscore(game); 
-            game->state = STATE_GAMEOVER;
+            game->state = STATE_WIN;
         }
         
     } else if (palpite < game->target) {
