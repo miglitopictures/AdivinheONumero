@@ -1,4 +1,3 @@
-#include <raylib.h>
 #include <ui.h>
 
 DigitInput input = {0};
