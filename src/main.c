@@ -1,7 +1,6 @@
 #include <string.h>
 #include <ui.h>
 #include <logic.h>
-#include <tipos.h>
 
 
 int main(void){
