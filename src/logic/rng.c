@@ -2,9 +2,8 @@
 #include <time.h>
 #include <logic.h>
 
-// Gerar numero aleatorio RNG
 void resetarRandomSeed(){
-    srand(time(NULL)); // gerando novo seed para randomizacao do numero
+    srand(time(NULL));
 }
 
 int numeroAleatorio(int min, int max){

@@ -6,7 +6,7 @@
 void updateWin(Session *game) {
     Vector2 mouse = GetMousePosition();
     if (IsKeyPressed(KEY_R) || updateButton(&btnPlayAgain, mouse)) {
-        IniciarJogo(game);
+        iniciarJogo(game);
         clearInstantNumberInput(&input);
         for (int i = 0; i < 100; i++) {
             circlemarks[i].currentX = -10;
@@ -61,7 +61,7 @@ void drawWin(Session *game) {
 void updateGameover(Session *game) {
     Vector2 mouse = GetMousePosition();
     if (IsKeyPressed(KEY_R) || updateButton(&btnPlayAgain, mouse)) {
-        IniciarJogo(game);
+        iniciarJogo(game);
         clearInstantNumberInput(&input);
         for (int i = 0; i < 100; i++) {
             circlemarks[i].currentX = -10;

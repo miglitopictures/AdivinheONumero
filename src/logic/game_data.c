@@ -6,9 +6,7 @@
 void atualizarHighscore(Session *game) {
 
     struct DadosPartida lista[MAX_HIGHSCORES + 1];
-
     int totalEntradas = 0;
-
     FILE *highscoreFile = fopen("./data/highscores.txt", "r");
 
     if (highscoreFile != NULL) {
@@ -85,9 +83,7 @@ void atualizarHighscore(Session *game) {
 int checarHighscore(Session *game) {
 
     struct DadosPartida lista[MAX_HIGHSCORES];
-
     int totalEntradas = 0;
-
     FILE *highscoreFile = fopen("./data/highscores.txt", "r");
 
     if (highscoreFile != NULL) {
@@ -127,7 +123,6 @@ int checarHighscore(Session *game) {
     return 0;
 }
 
-// Salvar estado final da partida   Lucas e rodrigo????
 void salvarFinalDePartida(Session *game){
     FILE *partidasFile = fopen("./data/partidas.txt", "a");
     if (partidasFile == NULL) return;
@@ -153,10 +148,7 @@ void salvarFinalDePartida(Session *game){
     fclose(partidasFile);
 }
 
-// implementação de busca de curiosidade baseada no arquivo
-// não mexi na função original pra não correr o risco de quebrar algo
-
-char* buscarCuriosidadeArquivo(int target){
+char* buscarCuriosidade(int target){
     static char resultado[256];
 
     FILE *file = fopen("./data/curiosidades.txt", "r");
@@ -191,12 +183,7 @@ char* buscarCuriosidadeArquivo(int target){
     return resultado;
 }
 
-// mantém compatibilidade com o que já existia, mas adiciona busca real
 void configurarCuriosidade(Session *game){
-    char* curiosidade = buscarCuriosidadeArquivo(game->target);
-
+    char* curiosidade = buscarCuriosidade(game->target);
     strcpy(game->trivia, curiosidade);
-
-    // só pra testar se está funcionando
-    printf("DEBUG curiosidade: %s\n", game->trivia);
 }

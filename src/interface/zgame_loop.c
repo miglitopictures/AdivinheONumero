@@ -3,7 +3,6 @@
 // ___globals_________________________________________________________________________________________
 
 int activeMarkIndex = -1;
-int inputClearing = 0;
 
 Sound sfxChangeMark, sfxSelectSynth, sfxWin, sfxLose;
 
@@ -33,7 +32,7 @@ Font font;
 void init(Session *game){
 
     // Initialize stuff
-    IniciarJogo(game); // state
+    iniciarJogo(game); // state
     initMenu(game);    // menu
 
     startingScore = game->score; // pega score inicial para mapear no scoreBar
