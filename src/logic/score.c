@@ -1,7 +1,4 @@
 #include <stdlib.h>
-// #include <string.h>
-// #include <time.h>
-// #include <stdio.h>
 #include <logic.h>
 
 /**
