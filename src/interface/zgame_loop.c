@@ -32,7 +32,7 @@ Font font;
 void init(Session *game){
 
     // Initialize stuff
-    IniciarJogo(game); // state
+    iniciarJogo(game); // state
     initMenu(game);    // menu
 
     startingScore = game->score; // pega score inicial para mapear no scoreBar

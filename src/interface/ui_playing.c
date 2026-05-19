@@ -12,7 +12,7 @@ void updatePlaying(Session *game){
     State prevState = game->state; 
 
     atualizarTempoRealScore(game, dt);
-    ProcessarGameover(game);
+    processarGameover(game);
 
     if (prevState == STATE_PLAYING && game->state == STATE_GAMEOVER) PlaySound(sfxLose);
 
@@ -23,7 +23,7 @@ void updatePlaying(Session *game){
     // Confirmar tentativa
     if (activeMarkIndex >= 0 && (IsKeyPressed(KEY_ENTER) || IsMouseButtonReleased(MOUSE_LEFT_BUTTON))) {
         lockActiveCircleMark();
-        ProcessarTentativa(game, atoi(input.text));
+        processarTentativa(game, atoi(input.text));
         clearAnimNumberInput(&input);
         activeMarkIndex = -1;
         arrow.pos.y = ALTURA / 2 + 50;
@@ -78,6 +78,5 @@ void drawPlaying(Session *game){
                 currentAdvance += itemSize.x + 10;
             }
         }
-        DrawText(game->message, 50, 100, 20, PS_DEBUG);
     }
 }
