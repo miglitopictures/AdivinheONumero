@@ -1,8 +1,3 @@
-#include <raylib.h>
-#include <logic.h>
-#include <stdlib.h>
-#include <stdio.h>
-#include <math.h>
 #include <ui.h>
 
 // ___globals_________________________________________________________________________________________

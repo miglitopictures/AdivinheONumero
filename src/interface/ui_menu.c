@@ -1,8 +1,4 @@
 #include <ui.h>
-#include <raylib.h>
-#include <math.h>
-#include <stdio.h>
-#include <stdlib.h>
 
 // ___state menu__________________________________________________________________________________________
 
@@ -76,7 +72,7 @@ void drawPicker(OptionPicker *picker, int posX, int posY) {
     Color colBg     = ColorAlpha(PS_WHITE,    alpha);
     Color colBorder = ColorAlpha(PS_BLACK,    alpha);
     Color colLabel  = ColorAlpha(PS_BLACK,    alpha);
-    Color colHover  = ColorAlpha(PS_GREY,    alpha);
+    Color colHover  = ColorAlpha(PS_GREY,     alpha);
     Color colValue  = ColorAlpha(PS_BLUE,     alpha);
     Color colDotOn  = ColorAlpha(PS_BLACK,    alpha);
     Color colDotOff = ColorAlpha(PS_DARKGREY, alpha);
