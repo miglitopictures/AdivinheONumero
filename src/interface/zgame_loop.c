@@ -3,7 +3,6 @@
 // ___globals_________________________________________________________________________________________
 
 int activeMarkIndex = -1;
-int inputClearing = 0;
 
 Sound sfxChangeMark, sfxSelectSynth, sfxWin, sfxLose;
 

@@ -86,7 +86,7 @@ void updateCircleMarks(Session *game) {
         spawnActiveMark(game->guessCount, point);
     }
     // From first digit typed
-    if (activeMarkIndex < 0 && !inputClearing && input.count > 0) {
+    if (activeMarkIndex < 0 && !input.isClearing && input.count > 0) {
         int point = atoi(input.text);
         spawnActiveMark(game->guessCount, point);
     }
@@ -158,10 +158,11 @@ void drawCircleMarks(Session *game) {
 
 // ___arrow______________________________________________________________________________________________
 
-
 void drawArrow(FeedbackArrow arrow, int length, int weight){
+
     float headOffsetX = arrow.dir ? length/2 : -length/2; // troca a posicao no eixo x dependendo da direcao
     float headAngleOffset = arrow.dir ? 0 : 180; // troca a direcao 
+
     // Ponta da seta, retangulo base para a ">" ponta
     Rectangle arrowHeadRect = {arrow.pos.x + headOffsetX, arrow.pos.y, weight, length / 2};
     

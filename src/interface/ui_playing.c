@@ -8,21 +8,16 @@ FeedbackArrow arrow;
 // ___state playing______________________________________________________________________________________
 
 void updatePlaying(Session *game){
-
     float dt = GetFrameTime(); 
-
     State prevState = game->state; 
 
     atualizarTempoRealScore(game, dt);
     ProcessarGameover(game);
 
-    if (prevState == STATE_PLAYING && game->state == STATE_GAMEOVER) {
-        PlaySound(sfxLose);
-    }
+    if (prevState == STATE_PLAYING && game->state == STATE_GAMEOVER) PlaySound(sfxLose);
 
     updateCircleMarks(game); 
 
-    // update debug mode
     if (IsKeyPressed(KEY_D)) debugMode *= -1;
 
     // Confirmar tentativa
@@ -32,8 +27,9 @@ void updatePlaying(Session *game){
         clearAnimNumberInput(&input);
         activeMarkIndex = -1;
         arrow.pos.y = ALTURA / 2 + 50;
-        PlaySound(sfxSelectSynth);
 
+        // sfx
+        PlaySound(sfxSelectSynth);
         // play end sounds based on resulting state
         SetSoundVolume(sfxWin, 0.6f);
         SetSoundVolume(sfxLose, 0.6f);
@@ -57,14 +53,12 @@ void updatePlaying(Session *game){
 }
 
 void drawPlaying(Session *game){
+
     drawScoreBar(game->score, startingScore, PS_BLUE);
     drawRuler(basicRuler, PS_WHITE, PS_BLACK);
-
     drawCircleMarks(game);   
-
-    drawAnimatedNumberInput(input, LARGURA / 2, ALTURA / 2, 200, 10, PS_RED, font);
-
-    if (arrow.shoudDraw) { drawArrow(arrow, 200, 20); }
+    drawAnimatedNumberInput(input, (Vector2){ LARGURA / 2, ALTURA / 2}, PS_RED);
+    if (arrow.shoudDraw) drawArrow(arrow, 200, 20);
 
     // DEBUG DRAW // aperte "D" para ativar e desativar o desenho de debug.
     if (debugMode == 1){

@@ -12,6 +12,7 @@ void numberInputAdd(DigitInput *input, char key){
     input->count++;
 }
 
+
 void handleKeysNumberInput(DigitInput *input, int maxSize){
     int key = GetCharPressed();
     while (key > 0) {
@@ -43,34 +44,32 @@ void updateNumberInput(DigitInput *input, int maxSize){
         }
     }
 
-    if (input->count == 0) inputClearing = false;  // ← done clearing
+    if (input->count == 0) input->isClearing = 0;  // ← done clearing
 
 }
 
-// limpa o number input com animação
 void clearAnimNumberInput(DigitInput *input){
-    for (int i = 0; i < input->count; i++){
-        input->targetY[i] = -30;
-    }
-    inputClearing = 1;
+    input->isClearing = 1; // ← clearing started
+    for (int i = 0; i < input->count; i++) { input->targetY[i] = -30; }
 }
 
-// limpa o number input instantaneamente
 void clearInstantNumberInput(DigitInput *input){
-    inputClearing = 0; 
 
     for (int i = 0; i < input->count; i++) {
-
         input->count--;
         if (input->count < 0) input->count = 0;
         input->text[i] = '\0';
-
     }
+
+    input->isClearing  = 0; // ← done clearing, intant
 }
 
 
-void drawAnimatedNumberInput(DigitInput input, int posX, int posY, int fontSize, int spacing, Color color, Font font){
-    if (input.count <= 0) return; // Nao precisa desenhar nada
+void drawAnimatedNumberInput(DigitInput input, Vector2 pos, Color color){
+    if (input.count <= 0) return;
+
+    int fontSize = 200;
+    int spacing = 10;
 
     Vector2 totalSize = MeasureTextEx(font, input.text, fontSize, spacing);
 
@@ -80,8 +79,8 @@ void drawAnimatedNumberInput(DigitInput input, int posX, int posY, int fontSize,
         char buf[2] = { input.text[i], '\0' };
 
         DrawTextEx(font, buf,
-                 (Vector2){(posX - totalSize.x / 2.0f) + currentAdvance,
-                 posY + input.currentY[i] - totalSize.y / 2.0f},
+                 (Vector2){(pos.x - totalSize.x / 2.0f) + currentAdvance,
+                 pos.y + input.currentY[i] - totalSize.y / 2.0f},
                  fontSize, 0,  color);
                  
         Vector2 charSize = MeasureTextEx(font, buf, fontSize, 0);

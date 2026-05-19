@@ -46,42 +46,28 @@ struct DadosPartida {
     int target;
 };
 
+// ---     logic.c     --- //
 void IniciarJogo(Session *game);
 void ProcessarTentativa(Session *game, int guess);
 void ProcessarGameover(Session *game);
 
-void resetarRandomSeed(); // usado no inicio de main
-
+// ---     score.c     --- //
 void ProcessarTemperatura(Session *game);
-//=======================================================================================================================================================================
-// Para atualizar o score em relação ao tempo
-// Será chamada em todos os frames do jogo
-
 void atualizarTempoRealScore(Session *game, double dt);
-//========================================================================================================================================================================
-// Para atualizar o score em relação ao palpite
 int calcularPalpiteScore(Session *game);
 
-void atualizarHighscore(Session *game);
-
-int checarHighscore(Session *game);
-
-// Salvar estado final da partida   Lucas e rodrigo????
+// ---   gamedata.c   --- //
 void salvarFinalDePartida(Session *game);
-
-// Buscar curiosidade a partir do valor acertado
-char* buscarCuriosidade(int target);
-
+// highscores
+void atualizarHighscore(Session *game);
+int checarHighscore(Session *game);
+// curosidades
 char* buscarCuriosidadeArquivo(int target);
-
-// mantém compatibilidade com o que já existia, mas adiciona busca real
 void configurarCuriosidade(Session *game);
 
-// Gerar numero aleatorio RNG
-void resetarRandomSeed(); // gerando novo seed para randomizacao do numero
-
-int numeroAleatorio(int min, int max);
-
+// ---      rng.c     --- //
+void resetarRandomSeed();
+int numeroAleatorio(int min, int max); 
 
 
 #endif
