@@ -22,7 +22,7 @@ void updatePlaying(Session *game){
 
     // Confirmar tentativa
     if (activeMarkIndex >= 0 && (IsKeyPressed(KEY_ENTER) || IsMouseButtonReleased(MOUSE_LEFT_BUTTON))) {
-        lockActiveCircleMark();
+        lockActiveCircleMark(game->currentPlayer);
         processarTentativa(game, atoi(input.text));
         clearAnimNumberInput(&input);
         activeMarkIndex = -1;
@@ -62,6 +62,7 @@ void drawPlaying(Session *game){
 
     // DEBUG DRAW // aperte "D" para ativar e desativar o desenho de debug.
     if (debugMode == 1){
+        DrawText(TextFormat("splayer = %d", game->currentPlayer), 20, ALTURA-260, DEBUGFONT, PS_DEBUG); 
         DrawText(TextFormat("shoulddrawArrow = %d", arrow.shoudDraw), 20, ALTURA-240, DEBUGFONT, PS_DEBUG); 
         DrawText(TextFormat("dificulty = %d", game->difficulty), 20, ALTURA-220, DEBUGFONT, PS_DEBUG); 
         DrawText(TextFormat("mode = %d", game->mode), 20, ALTURA-200, DEBUGFONT, PS_DEBUG); 

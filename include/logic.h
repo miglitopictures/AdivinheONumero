@@ -18,8 +18,9 @@ typedef enum {
 
 // Modo de jogo selecionado.
 typedef enum {
-    MODO_NORMAL,    // Modo normal: partida tradicional de adivinhação simples com escolha de dificuldade.
-    MODO_ARCADE     // Modo arcade: infinito por rodadas acumulativas com bônus de tempo/acerto.
+    MODO_NORMAL,     // Modo normal: partida tradicional de adivinhação simples com escolha de dificuldade.
+    MODO_ARCADE,     // Modo arcade: infinito por rodadas acumulativas com bônus de tempo/acerto.
+    MODO_COOP        // Modo coop: alterna jogadores, nao tem mais score/tempo. Melhor de 3. Revanche.
 } Mode;
 
 // Nível de dificuldade (aplicado principalmente ao MODO_NORMAL).
@@ -44,6 +45,11 @@ typedef enum {
     HOT             // Palpite muito próximo do alvo.
 } Temperature;
 
+typedef enum {
+    PLAYER_1 = 1,
+    PLAYER_2 = -1
+} Player;
+
 //__STRUCTS___
 
 // Estrutura principal (Session *game) que armazena todo o estado e progresso da sessão atual do jogo.
@@ -52,6 +58,7 @@ typedef struct {
     Mode mode;                        // Modo de jogo ativo (Normal ou Arcade).
     Difficulty difficulty;            // Dificuldade selecionada para a sessão.
     NumericalSystem numericalSystem;  // Sistema numérico ativo.
+    Player currentPlayer;
 
     int round;                        // Contador de rodadas (relevante para o MODO_ARCADE).    
     int roundBonus;                   // Pontuação extra concedida ao avançar de rodada.

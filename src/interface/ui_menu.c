@@ -9,7 +9,7 @@ Button btnPlayAgain; // END MENU
 OptionPicker modePicker, difficultyPicker;
 Button btnStart;
 
-enum MenuState menuState = MAIN;
+enum MenuState menuState = LOGO;
 
 // ___button______________________________________________________________________________________________
 
@@ -123,6 +123,11 @@ void drawPicker(OptionPicker *picker, int posX, int posY) {
     }
 }
 
+void drawLogoScreen(int x, int y){
+    int width = MeasureText("Pablo Software", 50);
+    DrawText("Pablo Software", x-width/2, y, 50, WHITE);
+}
+
 void initMenu(Session *game){
     // Main Menu
     btnPlay = (Button){{LARGURA/2 - 150 - 75, ALTURA/2, 140, 40}, "JOGAR", BT_IDLE};
@@ -160,6 +165,7 @@ void updateMenu(Session *game){
     switch (menuState)
     {
     case LOGO:
+        if (GetKeyPressed() != 0 || IsMouseButtonPressed(0)) menuState = MAIN;
         break;
     case MAIN:
         updateButton(&btnStats, mousePosition);
@@ -193,6 +199,8 @@ void drawMenu(Session *game){
     switch (menuState)
     {
     case LOGO:
+        ClearBackground(PS_BLACK);
+        drawLogoScreen(LARGURA / 2, ALTURA / 2);
         break;
     case MAIN:
         drawButton(&btnPlay);
