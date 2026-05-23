@@ -8,6 +8,8 @@ void iniciarJogo(Session *game) {
     game->target = numeroAleatorio(0, game->max);
 	game->state = STATE_MENU;
 
+    game->currentPlayer = PLAYER_1;
+
     game->round = 0;
     game->totalGuesses = 0;
 
@@ -35,6 +37,26 @@ void processarGameover(Session *game){
     }
 }
 
+void processarAcerto(Session *game){
+    switch (game->mode)
+    {
+    case MODO_ARCADE:
+        avancarRodadaArcade(game);
+        break;
+    case MODO_NORMAL:
+        printf("Acertou");
+        configurarCuriosidade(game); // <-- adicionei aqui pra atualizar a curiosidade no momento do acerto
+        salvarFinalDePartida(game);
+        atualizarHighscore(game); 
+        game->state = STATE_WIN;
+        break;
+    case MODO_COOP:
+        game->currentPlayer *= -1; // troca player
+    default:
+        break;
+    }
+}
+
 
 void processarTentativa(Session *game, int palpite) {
 	if (game->state != STATE_PLAYING) return;
@@ -50,19 +72,9 @@ void processarTentativa(Session *game, int palpite) {
 	
 	processarGameover(game);
 	
-	// Verificar condições de vitória ou dicas
-	
+	if (game->mode == MODO_COOP) game->currentPlayer *= -1; // troca player
+
     if (palpite == game->target) { // acertou?
-        if (game->mode == MODO_ARCADE){
-            avancarRodadaArcade(game);
-        } else{
-            printf("Acertou");
-            configurarCuriosidade(game); // <-- adicionei aqui pra atualizar a curiosidade no momento do acerto
-            salvarFinalDePartida(game);
-            atualizarHighscore(game); 
-            
-            game->state = STATE_WIN;
-        }
+        processarAcerto(game);
     }
 }
-

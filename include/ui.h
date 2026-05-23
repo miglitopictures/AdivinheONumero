@@ -78,6 +78,7 @@ typedef struct{
 // Marcador circular posicionado no Ruler.
 typedef struct{
     enum CircleMarkState state; // Estado atual da marca.
+    Player owner;
     float currentX;             // Posição X atual (animada por flerp).
     float targetX;              // Posição X alvo (definida por input ou mouse).
     float y;                    // Posição Y da marca (calculada a partir do Ruler).
@@ -115,7 +116,7 @@ extern FeedbackArrow arrow;
 
 // menu
 extern enum MenuState menuState;
-extern Button btnPlay, btnExit, btnStats;
+extern Button btnSingleplayer, btnMultiplayer, btnExit, btnStats;
 
 extern OptionPicker modePicker, difficultyPicker;
 extern Button btnStart;
@@ -151,7 +152,7 @@ float getXFromRulerPoint(Ruler ruler, int point);                               
 int getRulerPointFromX(Ruler ruler, float x);                                        // Retorna o ponto no Ruler referente a posição (float x) especificada.
 void spawnActiveMark(int index, int rulerPoint);                                     // Spawna uma nova CircleMark ativa no ponto especificado do Ruler.
 void updateCircleMarks(Session *game);                                               // Atualiza todas as CircleMarks, incluindo drag do mouse e input de teclado.
-void lockActiveCircleMark(void);                                                     // Trava a CircleMark ativa na posição final e muda seu estado para CM_LOCKED.
+void lockActiveCircleMark(Player owner);                                                     // Trava a CircleMark ativa na posição final e muda seu estado para CM_LOCKED.
 void drawCircleMarks(Session *game);                                                 // Desenha todas as CircleMarks travadas e a ativa, se existir.
 // barra de score
 void drawScoreBar(int currentScore, int max, Color bodyColor);                       // Desenha a barra de score a partir do score atual usando o fmap().
