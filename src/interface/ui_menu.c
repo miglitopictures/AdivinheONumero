@@ -2,7 +2,7 @@
 
 // ___state menu__________________________________________________________________________________________
 
-Button btnPlay, btnExit, btnStats; // MAIN MENU
+Button btnSingleplayer, btnMultiplayer, btnExit, btnStats; // MAIN MENU
 
 Button btnPlayAgain; // END MENU
 
@@ -130,7 +130,8 @@ void drawLogoScreen(int x, int y){
 
 void initMenu(Session *game){
     // Main Menu
-    btnPlay = (Button){{LARGURA/2 - 150 - 75, ALTURA/2, 140, 40}, "JOGAR", BT_IDLE};
+    btnSingleplayer = (Button){{LARGURA/2 - 245, ALTURA/2-27, 160, 40}, "SINGLEPLAYER", BT_IDLE};
+    btnMultiplayer = (Button){{LARGURA/2 - 245, ALTURA/2+27, 160, 40}, "MULTIPLAYER", BT_IDLE};
     btnStats = (Button){{LARGURA/2 - 75, ALTURA/2, 140, 40}, "ANALISAR", BT_IDLE};
     btnExit = (Button){{LARGURA/2 + 150 - 75, ALTURA/2, 140, 40}, "SAIR", BT_IDLE};
 
@@ -154,8 +155,6 @@ difficultyPicker = (OptionPicker){
 };
 
     btnStart = (Button){{LARGURA/2 - 75, ALTURA/2 + 60, 150, 40}, "COMEÇAR", BT_IDLE};
-
-
     btnPlayAgain = (Button){{LARGURA/2 - 100, ALTURA - 160, 200, 44}, "PLAY AGAIN", BT_IDLE}; // ENDMENU
 
 }
@@ -169,7 +168,11 @@ void updateMenu(Session *game){
         break;
     case MAIN:
         updateButton(&btnStats, mousePosition);
-        if (updateButton(&btnPlay, mousePosition)) menuState = MODES;
+        if (updateButton(&btnSingleplayer, mousePosition)) menuState = MODES;
+        if (updateButton(&btnMultiplayer, mousePosition)) {
+            game->state = STATE_PLAYING;
+            game->mode = MODO_COOP;
+        }
         if (updateButton(&btnExit, mousePosition)) game->state = STATE_EXIT;
         break;
     case MODES:
@@ -203,7 +206,8 @@ void drawMenu(Session *game){
         drawLogoScreen(LARGURA / 2, ALTURA / 2);
         break;
     case MAIN:
-        drawButton(&btnPlay);
+        drawButton(&btnSingleplayer);
+        drawButton(&btnMultiplayer);
         drawButton(&btnStats);
         drawButton(&btnExit);
         break;
