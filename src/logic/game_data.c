@@ -5,7 +5,7 @@
 
 void atualizarHighscore(Session *game) {
 
-    struct DadosPartida lista[MAX_HIGHSCORES + 1];
+    struct DadosHighscore lista[MAX_HIGHSCORES + 1];
     int totalEntradas = 0;
     FILE *highscoreFile = fopen("./data/highscores.txt", "r");
 
@@ -43,7 +43,7 @@ void atualizarHighscore(Session *game) {
 
             if (lista[j].score < lista[j + 1].score) {
 
-                struct DadosPartida temp = lista[j];
+                struct DadosHighscore temp = lista[j];
 
                 lista[j] = lista[j + 1];
                 lista[j + 1] = temp;
@@ -82,7 +82,7 @@ void atualizarHighscore(Session *game) {
 
 int checarHighscore(Session *game) {
 
-    struct DadosPartida lista[MAX_HIGHSCORES];
+    struct DadosHighscore lista[MAX_HIGHSCORES];
     int totalEntradas = 0;
     FILE *highscoreFile = fopen("./data/highscores.txt", "r");
 
@@ -148,6 +148,69 @@ void salvarFinalDePartida(Session *game){
     fclose(partidasFile);
 }
 
+
+Stats coletarEstatisticas(const char *path) {
+    
+
+    Stats stats = {0};
+    DadosPartida atual = {0};
+
+    FILE *f = fopen(path, "r");
+
+    if (!f) {
+        stats.error = 1;
+        return stats;
+    }
+
+    int count = 0; int guessAccumulator = 0;
+
+    int matched = 0;
+    while (matched != EOF) {
+
+        int modeBuff;
+        char timestampBuff[20];
+
+        // campos fixos
+        matched = fscanf(f, "%d;%d;%d;%19[^;];%d;%d;",
+            &modeBuff,
+            &atual.dificuldade,
+            &atual.score,
+            timestampBuff,
+            &atual.target,
+            &atual.numTentativas);
+
+        if (matched != 6) break; // algo deu errado ou final do arquivo
+
+        // captura o historico da patida
+        for (int i = 0; i < atual.numTentativas ; i++) {
+            fscanf(f, "%d%*c", &atual.historico[i]);
+        }
+
+        if (count == 0) {
+            stats.melhor = atual;
+            stats.pior = atual;
+        } else {
+            if ((atual.score == stats.melhor.score && atual.numTentativas < stats.melhor.numTentativas ) || (atual.score > stats.melhor.score)){
+                stats.melhor = atual;
+            }
+
+            if ((atual.score == stats.pior.score && atual.numTentativas > stats.pior.numTentativas ) || (atual.score < stats.pior.score)){
+                stats.pior = atual;
+            }
+        }
+
+        count++;
+        guessAccumulator += atual.numTentativas;
+
+    }
+
+    fclose(f);
+
+    stats.media = (float) guessAccumulator / (float) count;
+    stats.numPartidas = count;
+    return stats;
+}
+
 char* buscarCuriosidade(int target){
     static char resultado[256];
 
@@ -187,3 +250,4 @@ void configurarCuriosidade(Session *game){
     char* curiosidade = buscarCuriosidade(game->target);
     strcpy(game->trivia, curiosidade);
 }
+

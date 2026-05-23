@@ -70,7 +70,7 @@ typedef struct {
     int guess;                        // Valor numérico do palpite atual.
 
     int guessCount;                   // Contador de tentativas feitas na rodada atual.
-    int guessHistory[10];             // Histórico com os últimos palpites realizados na rodada.
+    int guessHistory[16];             // Histórico com os últimos palpites realizados na rodada.
     
     char player[32];                  // Nome ou iniciais do jogador (ex: "AAA").
     Temperature temperature;          // Temperatura atual do parlpite atual.
@@ -81,11 +81,34 @@ typedef struct {
 } Session;
 
 // Estrutura de espelhamento para leitura e escrita de recordes no arquivo de highscores.
-struct DadosPartida {
+struct DadosHighscore {
     char nome[50];                    // Nome do jogador associado ao recorde.
     int score;                        // Pontuação final obtida na partida.
     int target;                       // O número secreto que foi adivinhado naquela partida.
 };
+
+// Estrutura de espelhamento para leitura de partidas no arquivo de partidas.
+typedef struct{
+    // Mode modo;
+    int dificuldade;
+    int target;                       // O número secreto que foi adivinhado naquela partida.
+    int numTentativas;                // Numero total de tentativas na rodada.
+    int historico[16];                // Histórico com os palpites realizados na partida.
+    int score;                        // Pontuação final obtida na partida.
+} DadosPartida;
+
+
+// Estrutura que agrega estatísticas calculadas a partir do histórico de partidas.
+typedef struct {
+    float media;                      // Média de tentativas por partida.
+    float desvio;                     // Desvio padrão do número de tentativas entre partidas.
+    DadosPartida pior;                // Partida com pior desempenho (mais tentativas; empate desfeito pelo menor score).
+    DadosPartida melhor;              // Partida com melhor desempenho (menos tentativas; empate desfeito pelo maior score).
+    int numPartidas;                  // Total de partidas lidas e computadas.
+    int error;                        // Código de erro: 0 = ok, 1 = falha ao abrir o arquivo.
+} Stats;
+
+
 
 //__funções________________________________________________________________________________________________________________________
 
@@ -104,9 +127,12 @@ void salvarFinalDePartida(Session *game);                 // Grava os dados deta
 // highscores
 void atualizarHighscore(Session *game);                   // Insere a pontuação atual no arquivo "highscores.txt", ordenando o ranking dos maiores para os menores.
 int checarHighscore(Session *game);                       // Avalia se o score atual da sessão é alto o suficiente para entrar no top de recordes.
+// estatisticas
+Stats coletarEstatisticas(const char *path);              // Le o arquivo de partidas e retorna as estatisticas relevantes em uma struct Stats.
 // curosidades
-char* buscarCuriosidade(int target);               // Retorna a curiosidade atrelada ao target. Procura e lê no arquivo "curiosidades.txt".
+char* buscarCuriosidade(int target);                      // Retorna a curiosidade atrelada ao target. Procura e lê no arquivo "curiosidades.txt".
 void configurarCuriosidade(Session *game);                // Atualiza o buffer `game->trivia` buscando o texto correspondente ao número secreto atual.
+
 
 // ---      rng.c     --- //
 void resetarRandomSeed();                                 // Alimenta o seed (semente) do gerador com o tempo atual do sistema (srand) para garantir aleatoriedade.
