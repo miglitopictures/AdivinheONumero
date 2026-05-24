@@ -3,7 +3,7 @@
 // ___state menu__________________________________________________________________________________________
 
 Button btnSingleplayer, btnMultiplayer, btnExit, btnStats; // MAIN MENU
-
+Button btnBack;
 Button btnPlayAgain; // END MENU
 
 OptionPicker modePicker, difficultyPicker;
@@ -135,6 +135,8 @@ void initMenu(Session *game){
     btnStats = (Button){{LARGURA/2 - 75, ALTURA/2, 140, 40}, "ANALISAR", BT_IDLE};
     btnExit = (Button){{LARGURA/2 + 150 - 75, ALTURA/2, 140, 40}, "SAIR", BT_IDLE};
 
+    btnBack = (Button){{LARGURA - 200 , ALTURA - 60, 140, 40}, "VOLTAR", BT_IDLE};
+
     modePicker = (OptionPicker){
     "MODO",
     {
@@ -159,8 +161,10 @@ difficultyPicker = (OptionPicker){
 
 }
 
+Stats estatisticas;
 void updateMenu(Session *game){
     Vector2 mousePosition = GetMousePosition();
+    
     switch (menuState)
     {
     case LOGO:
@@ -173,6 +177,10 @@ void updateMenu(Session *game){
             game->state = STATE_PLAYING;
             game->mode = MODO_COOP;
         }
+        if (updateButton(&btnStats, mousePosition)) {
+            estatisticas = coletarEstatisticas("./data/partidas.txt");
+            menuState = STATS;
+        }
         if (updateButton(&btnExit, mousePosition)) game->state = STATE_EXIT;
         break;
     case MODES:
@@ -181,6 +189,9 @@ void updateMenu(Session *game){
         difficultyPicker.isActive = (modePicker.options[modePicker.current].value == MODO_NORMAL);
 
         updatePicker(&difficultyPicker, mousePosition, LARGURA/2 + 20, ALTURA/2);
+
+        if (updateButton(&btnBack, mousePosition)) menuState = MAIN;
+
         // apply selection on start
         if (updateButton(&btnStart, mousePosition)) {
             game->mode       = modePicker.options[modePicker.current].value;
@@ -192,6 +203,7 @@ void updateMenu(Session *game){
         }
         break;
     case STATS:
+        if (updateButton(&btnBack, mousePosition)) menuState = MAIN;
         break;
     default:
         break;
@@ -213,10 +225,19 @@ void drawMenu(Session *game){
         break;
     case MODES:
         drawButton(&btnStart);
+        drawButton(&btnBack);
         drawPicker(&modePicker,       LARGURA/2 - 220, ALTURA/2);
         drawPicker(&difficultyPicker, LARGURA/2 + 20,  ALTURA/2);
         break;
     case STATS:
+        drawButton(&btnBack);
+        DrawRectangle(80,80, LARGURA-160,ALTURA-160, PS_WHITE);
+        DrawText("Stats", 100,100,30,PS_BLUE);
+        DrawText(TextFormat("Número de partidas: %d", estatisticas.numPartidas), 100,130,30,PS_BLACK);
+        DrawText(TextFormat("Média (palpites/partida): %.2f", estatisticas.media), 100,160,30,PS_BLACK);
+        DrawText(TextFormat("Desvio padrão: %.2f", estatisticas.desvio), 100,190,30,PS_BLACK);
+        DrawText(TextFormat("Melhor partida | Score: %d | Palpites: %d", estatisticas.melhor.score, estatisticas.melhor.numTentativas), 100,220,30,PS_GREEN);
+        DrawText(TextFormat("Pior partida | Score: %d | Palpites: %d", estatisticas.pior.score, estatisticas.pior.numTentativas), 100,250,30,PS_RED);
         break;
     default:
         break;
