@@ -118,6 +118,8 @@ extern FeedbackArrow arrow;
 extern enum MenuState menuState;
 extern Button btnSingleplayer, btnMultiplayer, btnExit, btnStats;
 
+extern Button btnBack;
+
 extern OptionPicker modePicker, difficultyPicker;
 extern Button btnStart;
 
