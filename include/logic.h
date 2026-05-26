@@ -101,7 +101,7 @@ typedef struct{
 // Estrutura que agrega estatísticas calculadas a partir do histórico de partidas.
 typedef struct {
     float media;                      // Média de tentativas por partida.
-    float desvio;                     // Desvio padrão do número de tentativas entre partidas.
+    double desvio;                     // Desvio padrão do número de tentativas entre partidas.
     DadosPartida pior;                // Partida com pior desempenho (mais tentativas; empate desfeito pelo menor score).
     DadosPartida melhor;              // Partida com melhor desempenho (menos tentativas; empate desfeito pelo maior score).
     int numPartidas;                  // Total de partidas lidas e computadas.
@@ -137,5 +137,8 @@ void configurarCuriosidade(Session *game);                // Atualiza o buffer `
 // ---      rng.c     --- //
 void resetarRandomSeed();                                 // Alimenta o seed (semente) do gerador com o tempo atual do sistema (srand) para garantir aleatoriedade.
 int numeroAleatorio(int min, int max);                    // Retorna um valor inteiro pseudo-aleatório distribuído uniformemente dentro do intervalo [min, max].
+
+int somaMedRec(int tentativas[], int total);
+int somaDesvRec(int tentativas[], int total, float media);
 
 #endif
