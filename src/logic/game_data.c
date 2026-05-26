@@ -2,6 +2,7 @@
 #include <time.h>
 #include <stdio.h>
 #include <logic.h>
+#include <math.h>
 
 void atualizarHighscore(Session *game) {
 
@@ -162,7 +163,9 @@ Stats coletarEstatisticas(const char *path) {
         return stats;
     }
 
-    int count = 0; int guessAccumulator = 0;
+    int count = 0, guessAccumulator = 0;
+
+    int tentativas[20];
 
     int matched = 0;
     while (matched != EOF) {
@@ -199,6 +202,7 @@ Stats coletarEstatisticas(const char *path) {
             }
         }
 
+        tentativas[count] = atual.numTentativas;
         count++;
         guessAccumulator += atual.numTentativas;
 
@@ -206,7 +210,16 @@ Stats coletarEstatisticas(const char *path) {
 
     fclose(f);
 
-    stats.media = (float) guessAccumulator / (float) count;
+    int totalTentativas = somaMedRec(tentativas, count);
+    stats.media = totalTentativas / (float) count;
+    double somaDesv = somaDesvRec(tentativas, count, stats.media);
+    printf("%f\n", somaDesv);
+    double desvioPadrao = sqrt(somaDesv / count);
+    printf("%f\n", desvioPadrao);
+
+    stats.desvio = desvioPadrao;
+
+    // stats.media = (float) guessAccumulator / (float) count;
     stats.numPartidas = count;
     return stats;
 }
