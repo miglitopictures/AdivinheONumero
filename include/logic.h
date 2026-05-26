@@ -139,6 +139,6 @@ void resetarRandomSeed();                                 // Alimenta o seed (se
 int numeroAleatorio(int min, int max);                    // Retorna um valor inteiro pseudo-aleatório distribuído uniformemente dentro do intervalo [min, max].
 
 int somaMedRec(int tentativas[], int total);
-int somaDesvRec(int tentativas[], int total, float media);
+double somaDesvRec(int tentativas[], int total, float media);
 
 #endif
