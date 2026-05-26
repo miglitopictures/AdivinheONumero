@@ -163,7 +163,7 @@ Stats coletarEstatisticas(const char *path) {
         return stats;
     }
 
-    int count = 0, guessAccumulator = 0;
+    int count = 0;
 
     int tentativas[20];
 
@@ -204,7 +204,6 @@ Stats coletarEstatisticas(const char *path) {
 
         tentativas[count] = atual.numTentativas;
         count++;
-        guessAccumulator += atual.numTentativas;
 
     }
 

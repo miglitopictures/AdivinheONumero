@@ -238,7 +238,7 @@ void drawMenu(Session *game){
         DrawText("Stats", 220,220,30,PS_BLUE);
         DrawText(TextFormat("Número de partidas: %d", estatisticas.numPartidas), 220,250,30,PS_BLACK);
         DrawText(TextFormat("Média (palpites/partida): %.2f", estatisticas.media), 220,280,30,PS_BLACK);
-        DrawText(TextFormat("Desvio padrão: %.2f", estatisticas.desvio), 220,310,30,PS_BLACK);
+        DrawText(TextFormat("Desvio padrão: %.4f", estatisticas.desvio), 220,310,30,PS_BLACK);
         DrawText(TextFormat("Melhor partida | Score: %d | Palpites: %d", estatisticas.melhor.score, estatisticas.melhor.numTentativas), 220,340,30,PS_GREEN);
         DrawText(TextFormat("Pior partida | Score: %d | Palpites: %d", estatisticas.pior.score, estatisticas.pior.numTentativas), 220,370,30,PS_RED);
         break;
