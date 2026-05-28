@@ -1,5 +1,4 @@
 #include <ui.h>
-#include <stdio.h>
 
 // ___globals_________________________________________________________________________________________
 
@@ -90,7 +89,7 @@ void draw(Session *game){
 
 void startRaylibMode(Session *game){
 
-    printf("\n\nPS  -  status make dir: %d\n\n", MakeDirectory("./data/highscores"));
+    MakeDirectory("./data/highscores");
 
     init(game);
 
