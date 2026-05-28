@@ -89,6 +89,8 @@ void draw(Session *game){
 
 void startRaylibMode(Session *game){
 
+    MakeDirectory("./data/highscores");
+
     init(game);
 
     while (!WindowShouldClose() && (game->state != STATE_EXIT)) {

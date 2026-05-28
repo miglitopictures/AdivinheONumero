@@ -4,10 +4,10 @@
 #include <stdlib.h>
 
 
-// ___score bar____________________________________________________________________________________________
+// ___top bar____________________________________________________________________________________________
 
-void drawScoreBar(int currentScore, int max, Color bodyColor){
-    int scorebarWidth = imap(currentScore, 0, max, 0 , LARGURA);
+void drawTopBar(int value, int max, Color bodyColor){
+    int scorebarWidth = imap(value, 0, max, 0 , LARGURA);
     DrawRectangle(0,0,scorebarWidth, 15, PS_BLUE);
 }
 
@@ -91,7 +91,7 @@ void updateCircleMarks(Session *game) {
         spawnActiveMark(game->guessCount, point);
     }
 
-    // --- Drive active marker ---
+    // Marcador ativo
     if (activeMarkIndex >= 0) {
         CircleMark *m = &circlemarks[activeMarkIndex];
         int prevPoint = getRulerPointFromX(basicRuler, m->currentX);

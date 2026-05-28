@@ -54,7 +54,7 @@ void updatePlaying(Session *game){
 
 void drawPlaying(Session *game){
 
-    drawScoreBar(game->score, startingScore, PS_BLUE);
+    drawTopBar(game->score, startingScore, PS_BLUE);
     drawRuler(basicRuler, PS_WHITE, PS_BLACK);
     drawCircleMarks(game);   
     drawAnimatedNumberInput(input, (Vector2){ LARGURA / 2, ALTURA / 2}, PS_RED);

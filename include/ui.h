@@ -157,7 +157,7 @@ void updateCircleMarks(Session *game);                                          
 void lockActiveCircleMark(Player owner);                                                     // Trava a CircleMark ativa na posição final e muda seu estado para CM_LOCKED.
 void drawCircleMarks(Session *game);                                                 // Desenha todas as CircleMarks travadas e a ativa, se existir.
 // barra de score
-void drawScoreBar(int currentScore, int max, Color bodyColor);                       // Desenha a barra de score a partir do score atual usando o fmap().
+void drawTopBar(int value, int max, Color bodyColor);                       // Desenha a barra de score a partir do score atual usando o fmap().
 // FeedbackArrow
 void drawArrow(FeedbackArrow arrow, int length, int weight);                         // Desenha o FeedbackArrow com a largura e grossura indicada.
 

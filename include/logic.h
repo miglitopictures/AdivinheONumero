@@ -87,6 +87,14 @@ struct DadosHighscore {
     int target;                       // O número secreto que foi adivinhado naquela partida.
 };
 
+// Estrutura que agrega a lista de highscores para determinada dificuldade e modo de jogo.
+typedef struct ListaHighscores {
+    int count;                        // Quantitdade de highscores na lista.
+    Mode modo;                        // Modo de jogo. (talvez inutil)
+    Difficulty dificuldade;           // Dificuldade. (talvez inutil)
+    struct DadosHighscore lista[10];  // Lista de highscores.
+} ListaHighscores;
+
 // Estrutura de espelhamento para leitura de partidas no arquivo de partidas.
 typedef struct{
     // Mode modo;
@@ -127,6 +135,7 @@ void salvarFinalDePartida(Session *game);                 // Grava os dados deta
 // highscores
 void atualizarHighscore(Session *game);                   // Insere a pontuação atual no arquivo "highscores.txt", ordenando o ranking dos maiores para os menores.
 int checarHighscore(Session *game);                       // Avalia se o score atual da sessão é alto o suficiente para entrar no top de recordes.
+ListaHighscores coletarHighscores(Session *game);         // Retorna a lista dos highscores correta para o modo de jogo e dificuldades selecionadas.
 // estatisticas
 Stats coletarEstatisticas(const char *path);              // Le o arquivo de partidas e retorna as estatisticas relevantes em uma struct Stats.
 // curosidades
