@@ -4,6 +4,7 @@
 #include <logic.h>
 #include <math.h>
 
+// Coloca no *buffer a string para o caminho do arquivo de highscores correto a partir do modo de jogo e dificuldade selecionada.
 void montarCaminhoHighscore(char *buffer, size_t size, Session *game) {
     const char *modo;
     const char *dificuldade;
@@ -147,7 +148,7 @@ int checarHighscore(Session *game) {
 }
 
 
-// Retora a lista dos highscores correta para o modo de jogo e dificuldades selecionadas.
+
 ListaHighscores coletarHighscores(Session *game){
 
     ListaHighscores highscores = {0};
