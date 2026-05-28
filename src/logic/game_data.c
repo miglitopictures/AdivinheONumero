@@ -165,7 +165,7 @@ Stats coletarEstatisticas(const char *path) {
 
     int count = 0;
 
-    int tentativas[20];
+    int tentativas[256];
 
     int matched = 0;
     while (matched != EOF) {
