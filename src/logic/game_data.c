@@ -4,11 +4,30 @@
 #include <logic.h>
 #include <math.h>
 
+void montarCaminhoHighscore(char *buffer, size_t size, Session *game) {
+    const char *modo;
+    const char *dificuldade;
+
+    if (game->mode == MODO_NORMAL)       modo = "normal";
+    else if (game->mode == MODO_ARCADE)  modo = "arcade";
+    else                                 modo = "coop";
+
+    if (game->difficulty == EASY)        dificuldade = "easy";
+    else if (game->difficulty == MEDIUM) dificuldade = "medium";
+    else                                 dificuldade = "hard";
+
+    snprintf(buffer, size, "./data/highscores/%s_%s.txt", modo, dificuldade);
+}
+
+// precisa atualizar em lugares diferentes (data/highscores/easy.txt, data/highscores/medium.txt, data/highscores/hard.txt, ) dependendo do modo de jogo e dificuldade selecionadas;
 void atualizarHighscore(Session *game) {
+
+    char path[128];
+    montarCaminhoHighscore(path, sizeof(path), game);
 
     struct DadosHighscore lista[MAX_HIGHSCORES + 1];
     int totalEntradas = 0;
-    FILE *highscoreFile = fopen("./data/highscores.txt", "r");
+    FILE *highscoreFile = fopen(path, "r");
 
     if (highscoreFile != NULL) {
 
@@ -52,7 +71,7 @@ void atualizarHighscore(Session *game) {
         }
     }
 
-    FILE *arquivo = fopen("./data/highscores.txt", "w");
+    FILE *arquivo = fopen(path, "w");
 
     if (arquivo == NULL) {
 
@@ -81,11 +100,16 @@ void atualizarHighscore(Session *game) {
     fclose(arquivo);
 }
 
+
+// precisa checar em lugares diferentes (data/highscores/easy.txt, data/highscores/medium.txt, data/highscores/hard.txt, ) dependendo do modo de jogo e dificuldade selecionadas;
 int checarHighscore(Session *game) {
+
+    char path[128];
+    montarCaminhoHighscore(path, sizeof(path), game);
 
     struct DadosHighscore lista[MAX_HIGHSCORES];
     int totalEntradas = 0;
-    FILE *highscoreFile = fopen("./data/highscores.txt", "r");
+    FILE *highscoreFile = fopen(path, "r");
 
     if (highscoreFile != NULL) {
 
@@ -124,10 +148,13 @@ int checarHighscore(Session *game) {
     return 0;
 }
 
-ListaHighscores coletarHighscores(){
-    ListaHighscores lista;
+// precisa atualizar em lugares diferentes (data/highscores/easy.txt, data/highscores/medium.txt, data/highscores/hard.txt, ) dependendo do modo de jogo e dificuldade selecionadas;
+ListaHighscores coletarHighscores(Session *game){
+    char path[128];
+    montarCaminhoHighscore(path, sizeof(path), game);
+    ListaHighscores lista = {0};
 
-    // Le a lista de highsores correta a partir do modo de jogo e dificuldade selecionados.
+    // Le a lista de highscores correta a partir do modo de jogo e dificuldade selecionados.
 
     return lista;
 }
@@ -192,7 +219,6 @@ Stats coletarEstatisticas(const char *path) {
 
         if (matched != 6) break; // algo deu errado ou final do arquivo
 
-        // captura o historico da patida
         for (int i = 0; i < atual.numTentativas ; i++) {
             fscanf(f, "%d%*c", &atual.historico[i]);
         }
@@ -219,14 +245,11 @@ Stats coletarEstatisticas(const char *path) {
 
     int totalTentativas = somaMedRec(tentativas, count);
     stats.media = totalTentativas / (float) count;
+    
     double somaDesv = somaDesvRec(tentativas, count, stats.media);
-    printf("%f\n", somaDesv);
     double desvioPadrao = sqrt(somaDesv / count);
-    printf("%f\n", desvioPadrao);
 
     stats.desvio = desvioPadrao;
-
-    // stats.media = (float) guessAccumulator / (float) count;
     stats.numPartidas = count;
     return stats;
 }
@@ -270,4 +293,3 @@ void configurarCuriosidade(Session *game){
     char* curiosidade = buscarCuriosidade(game->target);
     strcpy(game->trivia, curiosidade);
 }
-
