@@ -19,7 +19,6 @@ void montarCaminhoHighscore(char *buffer, size_t size, Session *game) {
     snprintf(buffer, size, "./data/highscores/%s_%s.txt", modo, dificuldade);
 }
 
-// precisa atualizar em lugares diferentes (data/highscores/easy.txt, data/highscores/medium.txt, data/highscores/hard.txt, ) dependendo do modo de jogo e dificuldade selecionadas;
 void atualizarHighscore(Session *game) {
 
     char path[128];
@@ -101,7 +100,6 @@ void atualizarHighscore(Session *game) {
 }
 
 
-// precisa checar em lugares diferentes (data/highscores/easy.txt, data/highscores/medium.txt, data/highscores/hard.txt, ) dependendo do modo de jogo e dificuldade selecionadas;
 int checarHighscore(Session *game) {
 
     char path[128];
@@ -148,15 +146,36 @@ int checarHighscore(Session *game) {
     return 0;
 }
 
-// precisa atualizar em lugares diferentes (data/highscores/easy.txt, data/highscores/medium.txt, data/highscores/hard.txt, ) dependendo do modo de jogo e dificuldade selecionadas;
+
+// Retora a lista dos highscores correta para o modo de jogo e dificuldades selecionadas.
 ListaHighscores coletarHighscores(Session *game){
+
+    ListaHighscores highscores = {0};
+    highscores.modo = game->mode;
+    highscores.dificuldade = game->difficulty;
+
     char path[128];
     montarCaminhoHighscore(path, sizeof(path), game);
-    ListaHighscores lista = {0};
 
-    // Le a lista de highscores correta a partir do modo de jogo e dificuldade selecionados.
+    FILE *arquivoHighscores = fopen(path, "r");
 
-    return lista;
+    if (arquivoHighscores != NULL){
+
+        while (
+            highscores.count < MAX_HIGHSCORES &&
+            fscanf(arquivoHighscores,
+                      "%49s %d %d",
+                      highscores.lista[highscores.count].nome,
+                      &highscores.lista[highscores.count].score,
+                      &highscores.lista[highscores.count].target) == 3)
+        {
+            highscores.count++;
+        }
+        
+    }
+    
+    fclose(arquivoHighscores);
+    return highscores;
 }
 
 void salvarFinalDePartida(Session *game){
