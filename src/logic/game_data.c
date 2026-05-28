@@ -124,6 +124,14 @@ int checarHighscore(Session *game) {
     return 0;
 }
 
+ListaHighscores coletarHighscores(){
+    ListaHighscores lista;
+
+    // Le a lista de highsores correta a partir do modo de jogo e dificuldade selecionados.
+
+    return lista;
+}
+
 void salvarFinalDePartida(Session *game){
     FILE *partidasFile = fopen("./data/partidas.txt", "a");
     if (partidasFile == NULL) return;
