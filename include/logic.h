@@ -77,7 +77,7 @@ typedef struct {
 
     char trivia[256];                 // Buffer de caracteres para curiosidade sobre o numero sorteado.
 
-    int score;                        // Pontuação atual do jogador (reduz com o tempo/erros, causa GameOver se chegar a 0).
+    float score;                        // Pontuação atual do jogador (reduz com o tempo/erros, causa GameOver se chegar a 0).
 } Session;
 
 // Estrutura de espelhamento para leitura e escrita de recordes no arquivo de highscores.

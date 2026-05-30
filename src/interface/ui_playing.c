@@ -69,7 +69,7 @@ void drawPlaying(Session *game){
         DrawText(TextFormat("guessCount = %d",game->guessCount), 20, ALTURA-180, DEBUGFONT, PS_DEBUG); 
         DrawText(TextFormat("inputCount = %d",input.count), 20, ALTURA-160, DEBUGFONT, PS_DEBUG); 
         DrawText(TextFormat("Numero randomizado = %d",game->target), 20, ALTURA-140, DEBUGFONT, PS_DEBUG); 
-        DrawText(TextFormat("Pontuação atual = %d",game->score), 20, ALTURA-120, DEBUGFONT, PS_DEBUG); 
+        DrawText(TextFormat("Pontuação atual = %.0f",game->score), 20, ALTURA-120, DEBUGFONT, PS_DEBUG); 
         DrawText(game->trivia, 20, ALTURA-100, DEBUGFONT, PS_DEBUG); 
         if (game->guessCount > 0){
             float currentAdvance = 0.0f;
