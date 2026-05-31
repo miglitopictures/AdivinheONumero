@@ -8,7 +8,7 @@
 
 void drawTopBar(float value, float max, Color bodyColor){
     float scorebarWidth = fmap(value, 0, max, 0 , LARGURA);
-    DrawRectangle(0,0,scorebarWidth, 15, PS_BLUE);
+    DrawRectangle(0,0,scorebarWidth, 15, bodyColor);
 }
 
 // ___ruler_______________________________________________________________________________________________

@@ -1,5 +1,6 @@
 #include <stdlib.h>
 #include <logic.h>
+#include <stdio.h>
 
 void processarTemperatura(Session *game) {
     int distancia = abs(game->guess - game->target);
@@ -13,7 +14,6 @@ void processarTemperatura(Session *game) {
     }
 }
 
-#include <stdio.h>
 
 void atualizarTempoRealScore(Session *game, double dt) { 
  

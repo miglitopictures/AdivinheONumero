@@ -50,7 +50,7 @@ void atualizarHighscore(Session *game) {
     }
 
     // Adiciona a partida atual na lista
-    strcpy(lista[totalEntradas].nome, game->player);
+    strcpy(lista[totalEntradas].nome, game->playerName);
     lista[totalEntradas].score = (int) game->score;
     lista[totalEntradas].target = game->target;
 

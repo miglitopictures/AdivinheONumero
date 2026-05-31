@@ -50,7 +50,14 @@ typedef enum {
     PLAYER_2 = -1
 } Player;
 
+
 //__STRUCTS___
+
+typedef struct {
+    float t;
+    float max;
+} Timer;
+
 
 // Estrutura principal (Session *game) que armazena todo o estado e progresso da sessão atual do jogo.
 typedef struct {
@@ -72,12 +79,13 @@ typedef struct {
     int guessCount;                   // Contador de tentativas feitas na rodada atual.
     int guessHistory[16];             // Histórico com os últimos palpites realizados na rodada.
     
-    char player[32];                  // Nome ou iniciais do jogador (ex: "AAA").
+    char playerName[32];                  // Nome ou iniciais do jogador (ex: "AAA").
     Temperature temperature;          // Temperatura atual do parlpite atual.
 
     char trivia[256];                 // Buffer de caracteres para curiosidade sobre o numero sorteado.
 
     float score;                        // Pontuação atual do jogador (reduz com o tempo/erros, causa GameOver se chegar a 0).
+    Timer timer;                        // usado no modo coop
 } Session;
 
 // Estrutura de espelhamento para leitura e escrita de recordes no arquivo de highscores.
@@ -124,6 +132,8 @@ typedef struct {
 void iniciarJogo(Session *game);                          // Inicializa e redefine as variáveis da struct Session para os valores padrão.
 void processarTentativa(Session *game, int guess);        // Computa um palpite do usuário, avalia proximidade, atualiza histórico, deduz score e checa vitória.
 void processarGameover(Session *game);                    // Verifica se os pontos (score) se esgotaram e altera o estado do jogo para STATE_GAMEOVER.
+
+void atualizarTimer(Session *game, double dt);
 
 // ---     score.c     --- //
 void processarTemperatura(Session *game);                 // Calcula a distância do palpite para o alvo e define o estado como COLD, WARM ou HOT.

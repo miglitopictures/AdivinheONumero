@@ -2,6 +2,19 @@
 #include <stdio.h>
 #include <logic.h>
 
+void changePlayer(Session *game){
+    game->timer.t = game->timer.max;
+    game->currentPlayer *= -1;
+}
+
+void atualizarTimer(Session *game, double dt){
+    if (game->timer.t <= 0.0){
+        changePlayer(game);
+    }
+    game->timer.t -= 1 * dt;
+}
+
+
 void iniciarJogo(Session *game) {
     game->mode = MODO_NORMAL;
     game->max = 100;
@@ -13,10 +26,13 @@ void iniciarJogo(Session *game) {
     game->round = 0;
     game->totalGuesses = 0;
 
-    strcpy(game->player, "AAA");
+    strcpy(game->playerName, "AAA");
     game->guessCount = 0; // contador de tentativas
     game->temperature = COLD;
     game->score = 600;
+
+    game->timer.max = 5;
+    game->timer.t = 5;
 }
 
 void avancarRodadaArcade(Session *game){
@@ -55,7 +71,7 @@ void processarAcerto(Session *game){
         game->state = STATE_WIN;
         break;
     case MODO_COOP:
-        game->currentPlayer *= -1; // troca player
+        //game->currentPlayer *= -1; // troca player
     default:
         break;
     }
@@ -76,7 +92,7 @@ void processarTentativa(Session *game, int palpite) {
 	
 	processarGameover(game);
 	
-	if (game->mode == MODO_COOP) game->currentPlayer *= -1; // troca player
+	if (game->mode == MODO_COOP) changePlayer(game); // troca player
 
     if (palpite == game->target) { // acertou?
         processarAcerto(game);
