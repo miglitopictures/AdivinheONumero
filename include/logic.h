@@ -65,28 +65,30 @@ typedef struct {
     Mode mode;                        // Modo de jogo ativo (Normal ou Arcade).
     Difficulty difficulty;            // Dificuldade selecionada para a sessão.
     NumericalSystem numericalSystem;  // Sistema numérico ativo.
-    Player currentPlayer;
-    int placar[2];
-
+    
     int round;                        // Contador de rodadas (relevante para o MODO_ARCADE).    
     int roundBonus;                   // Pontuação extra concedida ao avançar de rodada.
     int totalGuesses;                 // Acumulador total de palpites enviados durante toda a sessão.
-
+    
     int max;                          // Limite superior do intervalo de sorteio (ex: 100).
     int target;                       // O número secreto gerado pelo RNG que deve ser adivinhado.
-
+    
     int guess;                        // Valor numérico do palpite atual.
-
+    
     int guessCount;                   // Contador de tentativas feitas na rodada atual.
     int guessHistory[16];             // Histórico com os últimos palpites realizados na rodada.
     
-    char playerName[32];                  // Nome ou iniciais do jogador (ex: "AAA").
+    char playerName[32];              // Nome ou iniciais do jogador (ex: "AAA").
     Temperature temperature;          // Temperatura atual do parlpite atual.
-
+    
     char trivia[256];                 // Buffer de caracteres para curiosidade sobre o numero sorteado.
+    
+    float score;                      // Pontuação atual do jogador (reduz com o tempo/erros, causa GameOver se chegar a 0).
+    
+    Player currentPlayer;             // MULTIPLAYER: jogador atual.
+    int placar[2];                    // MULTIPLAYER: placar.
+    Timer timer;                      // MULTIPLAYER: temporizador para a jogada.
 
-    float score;                        // Pontuação atual do jogador (reduz com o tempo/erros, causa GameOver se chegar a 0).
-    Timer timer;                        // usado no modo coop
 } Session;
 
 // Estrutura de espelhamento para leitura e escrita de recordes no arquivo de highscores.
