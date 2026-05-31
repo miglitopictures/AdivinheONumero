@@ -58,7 +58,7 @@ void updatePlaying(Session *game){
 void drawPlaying(Session *game){
 
     if (game->mode == MODO_COOP){
-        drawTopBar(game->timer.t, game->timer.max, game->currentPlayer == 1 ? PS_BLUE : PS_RED);
+        drawTopBar(game->timer.t, game->timer.max, game->currentPlayer == 0 ? PS_BLUE : PS_RED);
     } else {
         drawTopBar(game->score, startingScore, PS_BLUE);
     }
@@ -71,6 +71,9 @@ void drawPlaying(Session *game){
 
     // DEBUG DRAW // aperte "D" para ativar e desativar o desenho de debug.
     if (debugMode == 1){
+
+        DrawText(TextFormat("%d x %d", game->placar[0], game->placar[1]), 20, ALTURA-280, DEBUGFONT, PS_DEBUG); 
+        
         DrawText(TextFormat("player = %d", game->currentPlayer), 20, ALTURA-260, DEBUGFONT, PS_DEBUG); 
         DrawText(TextFormat("shoulddrawArrow = %d", arrow.shoudDraw), 20, ALTURA-240, DEBUGFONT, PS_DEBUG); 
         DrawText(TextFormat("dificulty = %d", game->difficulty), 20, ALTURA-220, DEBUGFONT, PS_DEBUG); 

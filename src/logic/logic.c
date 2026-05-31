@@ -4,7 +4,7 @@
 
 void changePlayer(Session *game){
     game->timer.t = game->timer.max;
-    game->currentPlayer *= -1;
+    game->currentPlayer = (game->currentPlayer + 1) % 2;
 }
 
 void atualizarTimer(Session *game, double dt){
@@ -21,18 +21,20 @@ void iniciarJogo(Session *game) {
     game->target = numeroAleatorio(0, game->max);
 	game->state = STATE_MENU;
 
-    game->currentPlayer = PLAYER_1;
-
+    
     game->round = 0;
     game->totalGuesses = 0;
-
+    
     strcpy(game->playerName, "AAA");
     game->guessCount = 0; // contador de tentativas
     game->temperature = COLD;
     game->score = 600;
-
+    
+    game->currentPlayer = PLAYER_1;
     game->timer.max = 5;
     game->timer.t = 5;
+    game->placar[PLAYER_1] = 0;
+    game->placar[PLAYER_2] = 0;
 }
 
 void avancarRodadaArcade(Session *game){
@@ -71,6 +73,8 @@ void processarAcerto(Session *game){
         game->state = STATE_WIN;
         break;
     case MODO_COOP:
+        game->placar[game->currentPlayer]++; // atualizar o placar
+        game->target = numeroAleatorio(0, game->max);
         //game->currentPlayer *= -1; // troca player
     default:
         break;
@@ -92,9 +96,10 @@ void processarTentativa(Session *game, int palpite) {
 	
 	processarGameover(game);
 	
-	if (game->mode == MODO_COOP) changePlayer(game); // troca player
-
+    
     if (palpite == game->target) { // acertou?
         processarAcerto(game);
     }
+    
+    if (game->mode == MODO_COOP) changePlayer(game); // troca player
 }

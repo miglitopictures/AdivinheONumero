@@ -46,8 +46,8 @@ typedef enum {
 } Temperature;
 
 typedef enum {
-    PLAYER_1 = 1,
-    PLAYER_2 = -1
+    PLAYER_1,
+    PLAYER_2
 } Player;
 
 
@@ -66,6 +66,7 @@ typedef struct {
     Difficulty difficulty;            // Dificuldade selecionada para a sessão.
     NumericalSystem numericalSystem;  // Sistema numérico ativo.
     Player currentPlayer;
+    int placar[2];
 
     int round;                        // Contador de rodadas (relevante para o MODO_ARCADE).    
     int roundBonus;                   // Pontuação extra concedida ao avançar de rodada.
