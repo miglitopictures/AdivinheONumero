@@ -2,14 +2,14 @@
 #include <stdio.h>
 #include <logic.h>
 
-void changePlayer(Session *game){
+void mudarPlayer(Session *game){
     game->timer.t = game->timer.max;
     game->currentPlayer = (game->currentPlayer + 1) % 2;
 }
 
 void atualizarTimer(Session *game, double dt){
     if (game->timer.t <= 0.0){
-        changePlayer(game);
+        mudarPlayer(game);
     }
     game->timer.t -= 1 * dt;
 }
@@ -29,7 +29,9 @@ void iniciarJogo(Session *game) {
     game->guessCount = 0; // contador de tentativas
     game->temperature = COLD;
     game->score = 600;
+    game->isHighscore = 0;
     
+    // modo multiplayer setup
     game->currentPlayer = PLAYER_1;
     game->timer.max = 5;
     game->timer.t = 5;
@@ -67,6 +69,7 @@ void processarAcerto(Session *game){
         configurarCuriosidade(game); // <-- adicionei aqui pra atualizar a curiosidade no momento do acerto
         salvarFinalDePartida(game);
         if (checarHighscore(game)) {
+            game->isHighscore = 1;
             atualizarHighscore(game);
             printf("\n\nhighscore!\n\n");
         } 
@@ -81,7 +84,7 @@ void processarAcerto(Session *game){
                game->state = STATE_WIN; 
             }
         }
-        
+
         game->target = numeroAleatorio(0, game->max);
         //game->currentPlayer *= -1; // troca player
     default:
@@ -109,5 +112,5 @@ void processarTentativa(Session *game, int palpite) {
         processarAcerto(game);
     }
     
-    if (game->mode == MODO_COOP) changePlayer(game); // troca player
+    if (game->mode == MODO_COOP) mudarPlayer(game); // troca player
 }

@@ -54,8 +54,8 @@ typedef enum {
 //__STRUCTS___
 
 typedef struct {
-    float t;
-    float max;
+    float t;                          // Tempo atual em segundos do temporizador.
+    float max;                        // Tempo em segundos maximo do temporizador.
 } Timer;
 
 
@@ -64,7 +64,7 @@ typedef struct {
     State state;                      // Estado atual do ciclo de vida do jogo.
     Mode mode;                        // Modo de jogo ativo (Normal ou Arcade).
     Difficulty difficulty;            // Dificuldade selecionada para a sessão.
-    NumericalSystem numericalSystem;  // Sistema numérico ativo.
+    //NumericalSystem numericalSystem;  // Sistema numérico ativo.
     
     int round;                        // Contador de rodadas (relevante para o MODO_ARCADE).    
     int roundBonus;                   // Pontuação extra concedida ao avançar de rodada.
@@ -73,6 +73,8 @@ typedef struct {
     int max;                          // Limite superior do intervalo de sorteio (ex: 100).
     int target;                       // O número secreto gerado pelo RNG que deve ser adivinhado.
     
+    int isHighscore;
+
     int guess;                        // Valor numérico do palpite atual.
     
     int guessCount;                   // Contador de tentativas feitas na rodada atual.

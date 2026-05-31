@@ -14,7 +14,8 @@ enum MenuState {
     LOGO,       // Tela de logo/splash inicial.
     MAIN,       // Menu principal com opções de jogar, analisar e sair.
     MODES,      // Tela de seleção de modo e dificuldade.
-    STATS       // Tela de estatísticas e histórico de partidas.
+    STATS,       // Tela de estatísticas e histórico de partidas.
+    RANKING
 };
 
 // Estado visual de um Button.
@@ -116,7 +117,7 @@ extern FeedbackArrow arrow;
 
 // menu
 extern enum MenuState menuState;
-extern Button btnSingleplayer, btnMultiplayer, btnExit, btnStats;
+extern Button btnSingleplayer, btnMultiplayer, btnExit, btnStats, btnRanking;
 
 extern Button btnBack;
 

@@ -2,7 +2,7 @@
 
 // ___state menu__________________________________________________________________________________________
 
-Button btnSingleplayer, btnMultiplayer, btnExit, btnStats; // MAIN MENU
+Button btnSingleplayer, btnMultiplayer, btnExit, btnStats, btnRanking; // MAIN MENU
 Button btnBack; // USED IN MODES & STATS
 Button btnPlayAgain; // END MENU
 
@@ -135,7 +135,8 @@ void initMenu(Session *game){
     // Main Menu
     btnSingleplayer = (Button){{LARGURA/2 - 245, ALTURA/2-27, 160, 40}, "SINGLEPLAYER", BT_IDLE};
     btnMultiplayer = (Button){{LARGURA/2 - 245, ALTURA/2+27, 160, 40}, "MULTIPLAYER", BT_IDLE};
-    btnStats = (Button){{LARGURA/2 - 75, ALTURA/2, 140, 40}, "ANALISAR", BT_IDLE};
+    btnStats = (Button){{LARGURA/2 - 75, ALTURA/2-27, 140, 40}, "ANALISAR", BT_IDLE};
+    btnRanking = (Button){{LARGURA/2 - 75, ALTURA/2+27, 140, 40}, "RANKING", BT_IDLE};
     btnExit = (Button){{LARGURA/2 + 150 - 75, ALTURA/2, 140, 40}, "SAIR", BT_IDLE};
 
     btnBack = (Button){{40 , ALTURA - 80, 140, 40}, "VOLTAR", BT_IDLE};
@@ -183,6 +184,9 @@ void updateMenu(Session *game){
             estatisticas = coletarEstatisticas("./data/partidas.txt");
             menuState = STATS;
         }
+        if (updateButton(&btnRanking, mousePosition)) {
+            menuState = RANKING;
+        }
         if (updateButton(&btnExit, mousePosition)) game->state = STATE_EXIT;
         break;
     case MODES:
@@ -204,6 +208,9 @@ void updateMenu(Session *game){
         
         }
         break;
+    case RANKING:
+        if (updateButton(&btnBack, mousePosition)) menuState = MAIN;
+        break;
     case STATS:
         if (updateButton(&btnBack, mousePosition)) menuState = MAIN;
         break;
@@ -223,6 +230,7 @@ void drawMenu(Session *game){
         drawButton(&btnSingleplayer);
         drawButton(&btnMultiplayer);
         drawButton(&btnStats);
+        drawButton(&btnRanking);
         drawButton(&btnExit);
         break;
     case MODES:
@@ -241,6 +249,10 @@ void drawMenu(Session *game){
         DrawText(TextFormat("Desvio padrão: %.4f", estatisticas.desvio), 220,310,30,PS_BLACK);
         DrawText(TextFormat("Melhor partida | Score: %d | Palpites: %d", estatisticas.melhor.score, estatisticas.melhor.numTentativas), 220,340,30,PS_GREEN);
         DrawText(TextFormat("Pior partida | Score: %d | Palpites: %d", estatisticas.pior.score, estatisticas.pior.numTentativas), 220,370,30,PS_RED);
+        break;
+    case RANKING:
+        drawButton(&btnBack);
+        DrawText("Ranking", 220,340,30,PS_GREEN);
         break;
     default:
         break;
