@@ -51,9 +51,10 @@ void atualizarHighscore(Session *game) {
 
     // Adiciona a partida atual na lista
     strcpy(lista[totalEntradas].nome, game->player);
-    lista[totalEntradas].score = game->score;
+    lista[totalEntradas].score = (int) game->score;
     lista[totalEntradas].target = game->target;
 
+    printf("\n%d score!\n\n", (int) game->score);
     totalEntradas++;
 
     // Ordena os scores do maior para o menor

@@ -41,13 +41,17 @@ void processarAcerto(Session *game){
     switch (game->mode)
     {
     case MODO_ARCADE:
+        printf("%d\n", game->target);
         avancarRodadaArcade(game);
         break;
     case MODO_NORMAL:
         printf("Acertou");
         configurarCuriosidade(game); // <-- adicionei aqui pra atualizar a curiosidade no momento do acerto
         salvarFinalDePartida(game);
-        atualizarHighscore(game); 
+        if (checarHighscore(game)) {
+            atualizarHighscore(game);
+            printf("\n\nhighscore!\n\n");
+        } 
         game->state = STATE_WIN;
         break;
     case MODO_COOP:

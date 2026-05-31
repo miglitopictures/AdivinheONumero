@@ -106,7 +106,7 @@ extern Color PS_BLACK, PS_DARKGREY, PS_GREY, PS_WHITE, PS_BLUE, PS_RED, PS_GREEN
 // tipografia do jogo
 extern Font font;
 
-extern int startingScore; // usado com drawScorebar()
+extern float startingScore; // usado com drawScorebar()
 
 extern Ruler basicRuler;
 extern CircleMark circlemarks[100];
@@ -157,7 +157,7 @@ void updateCircleMarks(Session *game);                                          
 void lockActiveCircleMark(Player owner);                                                     // Trava a CircleMark ativa na posição final e muda seu estado para CM_LOCKED.
 void drawCircleMarks(Session *game);                                                 // Desenha todas as CircleMarks travadas e a ativa, se existir.
 // barra de score
-void drawTopBar(int value, int max, Color bodyColor);                       // Desenha a barra de score a partir do score atual usando o fmap().
+void drawTopBar(float value, float max, Color bodyColor);                       // Desenha a barra de score a partir do score atual usando o fmap().
 // FeedbackArrow
 void drawArrow(FeedbackArrow arrow, int length, int weight);                         // Desenha o FeedbackArrow com a largura e grossura indicada.
 
