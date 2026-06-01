@@ -131,13 +131,20 @@ void drawLogoScreen(int x, int y){
     DrawText("Pablo Software", x-width/2, y, 50, WHITE);
 }
 
+void drawTitle(char *text){
+    int size = 150;
+    int width = MeasureText(text, size);
+    // DrawTextEx(font, text, (Vector2) {LARGURA / 2 - 100 , ALTURA / 2}, 150, 0, PS_BLUE);
+    DrawText(text, LARGURA / 2 - width/2 , ALTURA / 2-75, size, PS_BLUE);
+}
+
 void initMenu(Session *game){
     // Main Menu
-    btnSingleplayer = (Button){{LARGURA/2 - 245, ALTURA/2-27, 160, 40}, "SINGLEPLAYER", BT_IDLE};
-    btnMultiplayer = (Button){{LARGURA/2 - 245, ALTURA/2+27, 160, 40}, "MULTIPLAYER", BT_IDLE};
-    btnStats = (Button){{LARGURA/2 - 75, ALTURA/2-27, 140, 40}, "ANALISAR", BT_IDLE};
-    btnRanking = (Button){{LARGURA/2 - 75, ALTURA/2+27, 140, 40}, "RANKING", BT_IDLE};
-    btnExit = (Button){{LARGURA/2 + 150 - 75, ALTURA/2, 140, 40}, "SAIR", BT_IDLE};
+    btnSingleplayer = (Button){{LARGURA/2 - 245, ALTURA/2-27+200, 160, 40}, "SINGLEPLAYER", BT_IDLE};
+    btnMultiplayer = (Button){{LARGURA/2 - 245, ALTURA/2+27+200, 160, 40}, "MULTIPLAYER", BT_IDLE};
+    btnStats = (Button){{LARGURA/2 - 75, ALTURA/2-27+200, 140, 40}, "ANALISAR", BT_IDLE};
+    btnRanking = (Button){{LARGURA/2 - 75, ALTURA/2+27+200, 140, 40}, "RANKING", BT_IDLE};
+    btnExit = (Button){{LARGURA/2 + 150 - 75, ALTURA/2+200, 140, 40}, "SAIR", BT_IDLE};
 
     btnBack = (Button){{40 , ALTURA - 80, 140, 40}, "VOLTAR", BT_IDLE};
 
@@ -227,6 +234,7 @@ void drawMenu(Session *game){
         drawLogoScreen(LARGURA / 2, ALTURA / 2);
         break;
     case MAIN:
+        drawTitle("DECIMAIS");
         drawButton(&btnSingleplayer);
         drawButton(&btnMultiplayer);
         drawButton(&btnStats);
