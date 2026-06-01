@@ -94,6 +94,15 @@ typedef struct{
     Vector2 target;             // Posição alvo da seta.
 } FeedbackArrow;
 
+typedef struct {
+    int isActive;
+    int maxInput;
+    int lettercount;
+    int framecounter;
+    char text[32];
+    Rectangle textBox;
+} TextInput;
+
 //__globals variales_______________________________________________________________________________________________________________
 
 // sounds
@@ -125,6 +134,8 @@ extern OptionPicker modePicker, difficultyPicker;
 extern Button btnStart;
 
 extern Button btnPlayAgain; 
+
+extern TextInput playerNameInput;
 
 //__funções________________________________________________________________________________________________________________________
 
@@ -180,6 +191,9 @@ void updatePlaying(Session *game);                                              
 void drawPlaying(Session *game);                                                     // Desenha a tela de jogo: régua, marcadores, input animado, seta e debug.
 
 //___ui_end.c____
+// STATE_HIGHSCORE
+void updateHighscoreScreen(Session *game);                                                       // Atualiza a tela de vitória. Reinicia o jogo se R ou btnPlayAgain for acionado.
+void drawHighscoreScreen(Session *game);     
 // STATE_WIN
 void updateWin(Session *game);                                                       // Atualiza a tela de vitória. Reinicia o jogo se R ou btnPlayAgain for acionado.
 void drawWin(Session *game);                                                         // Desenha a tela de vitória com o número acertado, trivia e estatísticas da partida.

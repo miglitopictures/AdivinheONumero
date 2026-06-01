@@ -1,5 +1,81 @@
 #include <ui.h>
 
+TextInput playerNameInput;
+
+
+// ___state highscore screen___________________________________________________________________________________________
+
+// literalmente peguei a logica desse exemplo do raylib
+// https://www.raylib.com/examples/text/loader.html?name=text_input_box
+void updateHighscoreScreen(Session *game){
+    // Update
+    //----------------------------------------------------------------------------------
+    if (CheckCollisionPointRec(GetMousePosition(), playerNameInput.textBox)) playerNameInput.isActive = true;
+    else playerNameInput.isActive = false;
+
+    if (playerNameInput.isActive)
+    {
+        // Set the window's cursor to the I-Beam
+        SetMouseCursor(MOUSE_CURSOR_IBEAM);
+
+        // Get char pressed (unicode character) on the queue
+        int key = GetCharPressed();
+
+        // Check if more characters have been pressed on the same frame
+        while (key > 0)
+        {
+            // NOTE: Only allow keys in range [32..125]
+            if ((key >= 32) && (key <= 125) && (playerNameInput.lettercount < playerNameInput.maxInput))
+            {
+                playerNameInput.text[playerNameInput.lettercount] = (char)key;
+                playerNameInput.text[playerNameInput.lettercount + 1] = '\0'; // Add null terminator at the end of the string
+                playerNameInput.lettercount++;
+            }
+
+            key = GetCharPressed();  // Check next character in the queue
+        }
+
+        if (IsKeyPressed(KEY_BACKSPACE))
+        {
+            playerNameInput.lettercount--;
+            if (playerNameInput.lettercount < 0) playerNameInput.lettercount = 0;
+            playerNameInput.text[playerNameInput.lettercount] = '\0';
+        }
+
+
+        if (IsKeyPressed(KEY_ENTER))
+        {
+            atualizarNomePlayer(game, playerNameInput.text);
+            atualizarHighscore(game);
+            game->state = STATE_WIN;
+        }
+    }
+    else SetMouseCursor(MOUSE_CURSOR_DEFAULT);
+
+    if (playerNameInput.isActive) playerNameInput.framecounter++;
+}
+
+void drawHighscoreScreen(Session *game){
+            DrawText("PLACE MOUSE OVER INPUT BOX!", 240, 140, 20, GRAY);
+
+            DrawRectangleRec(playerNameInput.textBox, LIGHTGRAY);
+            if (playerNameInput.isActive) DrawRectangleLines((int)playerNameInput.textBox.x, (int)playerNameInput.textBox.y, (int)playerNameInput.textBox.width, (int)playerNameInput.textBox.height, RED);
+            else DrawRectangleLines((int)playerNameInput.textBox.x, (int)playerNameInput.textBox.y, (int)playerNameInput.textBox.width, (int)playerNameInput.textBox.height, DARKGRAY);
+
+            DrawText(playerNameInput.text, (int)playerNameInput.textBox.x + 5, (int)playerNameInput.textBox.y + 8, 40, MAROON);
+
+            DrawText(TextFormat("INPUT CHARS: %i/%i", playerNameInput.lettercount, playerNameInput.maxInput), 315, 250, 20, DARKGRAY);
+
+            if (playerNameInput.isActive)
+            {
+                if (playerNameInput.lettercount < playerNameInput.maxInput)
+                {
+                    // Draw blinking underscore char
+                    if (((playerNameInput.framecounter/20)%2) == 0) DrawText("_", (int)playerNameInput.textBox.x + 8 + MeasureText(playerNameInput.text, 40), (int)playerNameInput.textBox.y + 12, 40, MAROON);
+                }
+                else DrawText("Press BACKSPACE to delete chars...", 230, 300, 20, GRAY);
+            }
+}
 
 // ___state win___________________________________________________________________________________________
 

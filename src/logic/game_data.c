@@ -5,16 +5,16 @@
 #include <math.h>
 
 // Coloca no *buffer a string para o caminho do arquivo de highscores correto a partir do modo de jogo e dificuldade selecionada.
-void montarCaminhoHighscore(char *buffer, size_t size, Session *game) {
+void montarCaminhoHighscore(char *buffer, size_t size, Mode mode, Difficulty diff) {
     const char *modo;
     const char *dificuldade;
 
-    if (game->mode == MODO_NORMAL)       modo = "normal";
-    else if (game->mode == MODO_ARCADE)  modo = "arcade";
+    if (mode == MODO_NORMAL)       modo = "normal";
+    else if (mode == MODO_ARCADE)  modo = "arcade";
     else                                 modo = "coop";
 
-    if (game->difficulty == EASY)        dificuldade = "easy";
-    else if (game->difficulty == MEDIUM) dificuldade = "medium";
+    if (diff == EASY)        dificuldade = "easy";
+    else if (diff == MEDIUM) dificuldade = "medium";
     else                                 dificuldade = "hard";
 
     snprintf(buffer, size, "./data/highscores/%s_%s.txt", modo, dificuldade);
@@ -23,7 +23,7 @@ void montarCaminhoHighscore(char *buffer, size_t size, Session *game) {
 void atualizarHighscore(Session *game) {
 
     char path[128];
-    montarCaminhoHighscore(path, sizeof(path), game);
+    montarCaminhoHighscore(path, sizeof(path), game->mode, game->difficulty);
 
     struct DadosHighscore lista[MAX_HIGHSCORES + 1];
     int totalEntradas = 0;
@@ -105,7 +105,7 @@ void atualizarHighscore(Session *game) {
 int checarHighscore(Session *game) {
 
     char path[128];
-    montarCaminhoHighscore(path, sizeof(path), game);
+    montarCaminhoHighscore(path, sizeof(path), game->mode, game->difficulty);
 
     struct DadosHighscore lista[MAX_HIGHSCORES];
     int totalEntradas = 0;
@@ -150,14 +150,14 @@ int checarHighscore(Session *game) {
 
 
 
-ListaHighscores coletarHighscores(Session *game){
+ListaHighscores coletarHighscores(Mode mode, Difficulty diff){
 
     ListaHighscores highscores = {0};
-    highscores.modo = game->mode;
-    highscores.dificuldade = game->difficulty;
+    highscores.modo = mode;
+    highscores.dificuldade = diff;
 
     char path[128];
-    montarCaminhoHighscore(path, sizeof(path), game);
+    montarCaminhoHighscore(path, sizeof(path), mode, diff);
 
     FILE *arquivoHighscores = fopen(path, "r");
 
@@ -203,6 +203,10 @@ void salvarFinalDePartida(Session *game){
     fprintf(partidasFile, ";\n");
 
     fclose(partidasFile);
+}
+
+void atualizarNomePlayer(Session *game, char *nome){
+    strcpy(game->playerName, nome);
 }
 
 

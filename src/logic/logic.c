@@ -70,10 +70,12 @@ void processarAcerto(Session *game){
         salvarFinalDePartida(game);
         if (checarHighscore(game)) {
             game->isHighscore = 1;
-            atualizarHighscore(game);
             printf("\n\nhighscore!\n\n");
-        } 
-        game->state = STATE_WIN;
+            game->state = STATE_HIGHSCORE;
+        } else {
+
+            game->state = STATE_WIN;
+        }
         break;
     case MODO_COOP:
         game->placar[game->currentPlayer]++; // atualizar o placar
