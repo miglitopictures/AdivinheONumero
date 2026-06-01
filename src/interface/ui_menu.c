@@ -6,7 +6,7 @@ Button btnSingleplayer, btnMultiplayer, btnExit, btnStats, btnRanking; // MAIN M
 Button btnBack; // USED IN MODES & STATS
 Button btnPlayAgain; // END MENU
 
-OptionPicker modePicker, difficultyPicker;
+OptionPicker modePicker, difficultyPicker, rankingPicker;
 Button btnStart;
 
 enum MenuState menuState = LOGO;
@@ -155,24 +155,34 @@ void initMenu(Session *game){
         {"ARCADE", MODO_ARCADE}
     },
     2, 0, 0, 0, 1  // count, current, hoverLeft, hoverRight, isActive
-};
+    };
 
-difficultyPicker = (OptionPicker){
-    "DIFICULDADE",
-    {
-        {"FACIL",   EASY},
-        {"MEDIO",   MEDIUM},
-        {"DIFICIL", HARD}
-    },
-    3, 0, 0, 0, 1  // count, current, hoverLeft, hoverRight, isActive
-};
+    difficultyPicker = (OptionPicker){
+        "DIFICULDADE",
+        {
+            {"FACIL",   EASY},
+            {"MEDIO",   MEDIUM},
+            {"DIFICIL", HARD}
+        },
+        3, 0, 0, 0, 1  // count, current, hoverLeft, hoverRight, isActive
+    };
+
+    rankingPicker = (OptionPicker){
+        "RANKING",
+        {
+            {"FACIL",   EASY},
+            {"MEDIO",   MEDIUM},
+            {"DIFICIL", HARD}
+        },
+        3, 0, 0, 0, 1  // count, current, hoverLeft, hoverRight, isActive
+    };
 
     btnStart = (Button){{LARGURA/2 - 75, ALTURA/2 + 60, 150, 40}, "COMEÇAR", BT_IDLE};
     btnPlayAgain = (Button){{LARGURA/2 - 100, ALTURA - 160, 200, 44}, "PLAY AGAIN", BT_IDLE}; // ENDMENU
 
 }
 
-ListaHighscores highscores;
+ListaHighscores highscores[3];
 
 void updateMenu(Session *game){
     Vector2 mousePosition = GetMousePosition();
@@ -194,7 +204,9 @@ void updateMenu(Session *game){
             menuState = STATS;
         }
         if (updateButton(&btnRanking, mousePosition)) {
-            highscores = coletarHighscores(MODO_NORMAL, HARD);
+            highscores[0] = coletarHighscores(MODO_NORMAL, EASY);
+            highscores[1] = coletarHighscores(MODO_NORMAL, MEDIUM);
+            highscores[2] = coletarHighscores(MODO_NORMAL, HARD);
             menuState = RANKING;
         }
         if (updateButton(&btnExit, mousePosition)) game->state = STATE_EXIT;
@@ -219,6 +231,7 @@ void updateMenu(Session *game){
         }
         break;
     case RANKING:
+        updatePicker(&rankingPicker, mousePosition, LARGURA/2-100, 200);
         if (updateButton(&btnBack, mousePosition)) menuState = MAIN;
         break;
     case STATS:
@@ -263,12 +276,14 @@ void drawMenu(Session *game){
         break;
     case RANKING:
         drawButton(&btnBack);
-        DrawText("Ranking", 220,340,30,PS_GREEN);
+        
+        drawPicker(&rankingPicker, LARGURA/2-100, 200);
 
-        for (int i = 0; i < highscores.count; i++)
+        for (int i = 0; i < highscores[rankingPicker.current].count; i++)
         {
-            DrawText(highscores.lista[i].nome, 100, 100 + i*30, 20, PS_BLACK);
-            DrawText(TextFormat("%d", highscores.lista[i].score) , 400, 100 + i*30, 20, PS_BLACK);
+            int height = 300 + i*30;
+            DrawText(highscores[rankingPicker.current].lista[i].nome, LARGURA/2-100, height, 20, PS_BLACK);
+            DrawText(TextFormat("%d", highscores[rankingPicker.current].lista[i].score) , LARGURA/2+100, height, 20, PS_BLACK);
         }
         
         break;

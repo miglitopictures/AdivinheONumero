@@ -7,7 +7,7 @@ int activeMarkIndex = -1;
 Sound sfxChangeMark, sfxSelectSynth, sfxWin, sfxLose;
 
 // debug info toggler
-int debugMode = 1;
+int debugMode =  0;
 
 // janela aplicacao
 int LARGURA = 1280;
@@ -71,7 +71,7 @@ void update(Session *game){
 
 void draw(Session *game){
     BeginDrawing();
-        DrawFPS(20,20);
+        if (debugMode == 1) DrawFPS(20,20);
         ClearBackground(PS_GREY);
 
         switch (game->state) {
