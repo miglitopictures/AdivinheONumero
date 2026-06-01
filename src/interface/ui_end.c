@@ -42,7 +42,7 @@ void drawWin(Session *game) {
 
     const char *scoreLabel = "SCORE";
     DrawTextEx(font, scoreLabel, (Vector2){statsX, statsY}, 24, 1, PS_DARKGREY);
-    const char *scoreVal = TextFormat("%d", game->score);
+    const char *scoreVal = TextFormat("%d", (int) game->score);
     Vector2 scoreValSize = MeasureTextEx(font, scoreVal, 24, 1);
     DrawTextEx(font, scoreVal, (Vector2){statsValX - scoreValSize.x, statsY}, 24, 1, PS_BLACK);
 
@@ -110,14 +110,14 @@ void drawGameover(Session *game) {
 
         const char *scoreLabel = "SCORE";
         DrawTextEx(font, scoreLabel, (Vector2){statsX, statsY + statsStep*2}, 24, 1, PS_DARKGREY);
-        const char *scoreVal = TextFormat("%d", game->score);
+        const char *scoreVal = TextFormat("%d", (int) game->score);
         Vector2 scoreValSize = MeasureTextEx(font, scoreVal, 24, 1);
         DrawTextEx(font, scoreVal, (Vector2){statsValX - scoreValSize.x, statsY + statsStep*2}, 24, 1, PS_BLUE);
 
     } else {
         const char *scoreLabel = "SCORE";
         DrawTextEx(font, scoreLabel, (Vector2){statsX, statsY}, 24, 1, PS_DARKGREY);
-        const char *scoreVal = TextFormat("%d", game->score);
+        const char *scoreVal = TextFormat("%d", (int) game->score);
         Vector2 scoreValSize = MeasureTextEx(font, scoreVal, 24, 1);
         DrawTextEx(font, scoreVal, (Vector2){statsValX - scoreValSize.x, statsY}, 24, 1, PS_BLUE);
 

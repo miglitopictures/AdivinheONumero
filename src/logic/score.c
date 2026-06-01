@@ -1,5 +1,6 @@
 #include <stdlib.h>
 #include <logic.h>
+#include <stdio.h>
 
 void processarTemperatura(Session *game) {
     int distancia = abs(game->guess - game->target);
@@ -13,6 +14,7 @@ void processarTemperatura(Session *game) {
     }
 }
 
+
 void atualizarTempoRealScore(Session *game, double dt) { 
  
     if (game == NULL || game->state != STATE_PLAYING) { 
@@ -23,13 +25,13 @@ void atualizarTempoRealScore(Session *game, double dt) {
 
     switch (game->difficulty){
     case EASY:
-        pontosPorSegundo = 2;
+        pontosPorSegundo = 30; // 20 segundos
         break;
     case MEDIUM:
-        pontosPorSegundo = 10;
+        pontosPorSegundo = 60; // 10 segundos
         break;
     case HARD:
-        pontosPorSegundo = 30;
+        pontosPorSegundo = 100; // +-6.5 segundos
         break;   
     }
 

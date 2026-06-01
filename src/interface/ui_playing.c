@@ -11,7 +11,11 @@ void updatePlaying(Session *game){
     float dt = GetFrameTime(); 
     State prevState = game->state; 
 
-    atualizarTempoRealScore(game, dt);
+    atualizarTempoRealScore(game, dt);\
+
+    if (game->mode == MODO_COOP){
+        atualizarTimer(game, dt);
+    }
     processarGameover(game);
 
     if (prevState == STATE_PLAYING && game->state == STATE_GAMEOVER) PlaySound(sfxLose);
@@ -46,7 +50,6 @@ void updatePlaying(Session *game){
     } else {
         arrow.shoudDraw = 0;
     }
-
     arrow.dir = game->guess < game->target ? 1 : 0;
 
     updateNumberInput(&input, 3);
@@ -54,7 +57,13 @@ void updatePlaying(Session *game){
 
 void drawPlaying(Session *game){
 
-    drawTopBar(game->score, startingScore, PS_BLUE);
+    if (game->mode == MODO_COOP){
+        drawTopBar(game->timer.t, game->timer.max, game->currentPlayer == 0 ? PS_BLUE : PS_RED);
+    } else {
+        drawTopBar(game->score, startingScore, PS_BLUE);
+    }
+    
+    
     drawRuler(basicRuler, PS_WHITE, PS_BLACK);
     drawCircleMarks(game);   
     drawAnimatedNumberInput(input, (Vector2){ LARGURA / 2, ALTURA / 2}, PS_RED);
@@ -62,14 +71,17 @@ void drawPlaying(Session *game){
 
     // DEBUG DRAW // aperte "D" para ativar e desativar o desenho de debug.
     if (debugMode == 1){
-        DrawText(TextFormat("splayer = %d", game->currentPlayer), 20, ALTURA-260, DEBUGFONT, PS_DEBUG); 
+
+        DrawText(TextFormat("%d x %d", game->placar[0], game->placar[1]), 20, ALTURA-280, DEBUGFONT, PS_DEBUG); 
+        
+        DrawText(TextFormat("player = %d", game->currentPlayer), 20, ALTURA-260, DEBUGFONT, PS_DEBUG); 
         DrawText(TextFormat("shoulddrawArrow = %d", arrow.shoudDraw), 20, ALTURA-240, DEBUGFONT, PS_DEBUG); 
         DrawText(TextFormat("dificulty = %d", game->difficulty), 20, ALTURA-220, DEBUGFONT, PS_DEBUG); 
         DrawText(TextFormat("mode = %d", game->mode), 20, ALTURA-200, DEBUGFONT, PS_DEBUG); 
         DrawText(TextFormat("guessCount = %d",game->guessCount), 20, ALTURA-180, DEBUGFONT, PS_DEBUG); 
         DrawText(TextFormat("inputCount = %d",input.count), 20, ALTURA-160, DEBUGFONT, PS_DEBUG); 
         DrawText(TextFormat("Numero randomizado = %d",game->target), 20, ALTURA-140, DEBUGFONT, PS_DEBUG); 
-        DrawText(TextFormat("Pontuação atual = %d",game->score), 20, ALTURA-120, DEBUGFONT, PS_DEBUG); 
+        DrawText(TextFormat("Pontuação atual = %.0f",game->score), 20, ALTURA-120, DEBUGFONT, PS_DEBUG); 
         DrawText(game->trivia, 20, ALTURA-100, DEBUGFONT, PS_DEBUG); 
         if (game->guessCount > 0){
             float currentAdvance = 0.0f;

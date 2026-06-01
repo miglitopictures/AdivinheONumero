@@ -14,7 +14,8 @@ enum MenuState {
     LOGO,       // Tela de logo/splash inicial.
     MAIN,       // Menu principal com opções de jogar, analisar e sair.
     MODES,      // Tela de seleção de modo e dificuldade.
-    STATS       // Tela de estatísticas e histórico de partidas.
+    STATS,       // Tela de estatísticas e histórico de partidas.
+    RANKING
 };
 
 // Estado visual de um Button.
@@ -106,7 +107,7 @@ extern Color PS_BLACK, PS_DARKGREY, PS_GREY, PS_WHITE, PS_BLUE, PS_RED, PS_GREEN
 // tipografia do jogo
 extern Font font;
 
-extern int startingScore; // usado com drawScorebar()
+extern float startingScore; // usado com drawScorebar()
 
 extern Ruler basicRuler;
 extern CircleMark circlemarks[100];
@@ -116,7 +117,7 @@ extern FeedbackArrow arrow;
 
 // menu
 extern enum MenuState menuState;
-extern Button btnSingleplayer, btnMultiplayer, btnExit, btnStats;
+extern Button btnSingleplayer, btnMultiplayer, btnExit, btnStats, btnRanking;
 
 extern Button btnBack;
 
@@ -157,7 +158,7 @@ void updateCircleMarks(Session *game);                                          
 void lockActiveCircleMark(Player owner);                                                     // Trava a CircleMark ativa na posição final e muda seu estado para CM_LOCKED.
 void drawCircleMarks(Session *game);                                                 // Desenha todas as CircleMarks travadas e a ativa, se existir.
 // barra de score
-void drawTopBar(int value, int max, Color bodyColor);                       // Desenha a barra de score a partir do score atual usando o fmap().
+void drawTopBar(float value, float max, Color bodyColor);                       // Desenha a barra de score a partir do score atual usando o fmap().
 // FeedbackArrow
 void drawArrow(FeedbackArrow arrow, int length, int weight);                         // Desenha o FeedbackArrow com a largura e grossura indicada.
 

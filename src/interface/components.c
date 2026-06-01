@@ -6,9 +6,9 @@
 
 // ___top bar____________________________________________________________________________________________
 
-void drawTopBar(int value, int max, Color bodyColor){
-    int scorebarWidth = imap(value, 0, max, 0 , LARGURA);
-    DrawRectangle(0,0,scorebarWidth, 15, PS_BLUE);
+void drawTopBar(float value, float max, Color bodyColor){
+    float scorebarWidth = fmap(value, 0, max, 0 , LARGURA);
+    DrawRectangle(0,0,scorebarWidth, 15, bodyColor);
 }
 
 // ___ruler_______________________________________________________________________________________________
@@ -143,17 +143,17 @@ void drawCircleMarks(Session *game) {
     // Draw all locked (confirmed) markers
     for (int i = 0; i < game->guessCount; i++) {
         CircleMark m = circlemarks[i];
-        DrawCircleV((Vector2){m.currentX, m.y}, m.raio, m.owner == 1 ? PS_BLUE : PS_RED);
+        DrawCircleV((Vector2){m.currentX, m.y}, m.raio, m.owner == 0 ? PS_BLUE : PS_RED);
     }
 
     // Draw active marker only if one exists
     if (activeMarkIndex >= 0) {
         CircleMark m = circlemarks[activeMarkIndex];
         float lineBottom = m.y + basicRuler.rect.height * 0.46f + m.raio;
-        DrawCircleV((Vector2){m.currentX, m.y}, m.raio, game->currentPlayer == 1 ? PS_BLUE : PS_RED);
+        DrawCircleV((Vector2){m.currentX, m.y}, m.raio, game->currentPlayer == 0 ? PS_BLUE : PS_RED);
         DrawLineEx((Vector2){m.currentX, m.y},
                    (Vector2){m.currentX, lineBottom},
-                   2.0f, game->currentPlayer == 1 ? PS_BLUE : PS_RED);
+                   2.0f, game->currentPlayer == 0 ? PS_BLUE : PS_RED);
     }
 }
 

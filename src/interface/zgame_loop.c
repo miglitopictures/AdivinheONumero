@@ -23,7 +23,7 @@ Color PS_RED = {218, 55, 55, 255};
 Color PS_GREEN = {28, 121, 0, 255};
 Color PS_DEBUG = PURPLE;
 
-int startingScore;
+float startingScore;
 
 Font font;
 

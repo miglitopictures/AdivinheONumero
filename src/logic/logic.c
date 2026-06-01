@@ -2,21 +2,41 @@
 #include <stdio.h>
 #include <logic.h>
 
+void mudarPlayer(Session *game){
+    game->timer.t = game->timer.max;
+    game->currentPlayer = (game->currentPlayer + 1) % 2;
+}
+
+void atualizarTimer(Session *game, double dt){
+    if (game->timer.t <= 0.0){
+        mudarPlayer(game);
+    }
+    game->timer.t -= 1 * dt;
+}
+
+
 void iniciarJogo(Session *game) {
     game->mode = MODO_NORMAL;
     game->max = 100;
     game->target = numeroAleatorio(0, game->max);
 	game->state = STATE_MENU;
 
-    game->currentPlayer = PLAYER_1;
-
+    
     game->round = 0;
     game->totalGuesses = 0;
-
-    strcpy(game->player, "AAA");
+    
+    strcpy(game->playerName, "AAA");
     game->guessCount = 0; // contador de tentativas
     game->temperature = COLD;
     game->score = 600;
+    game->isHighscore = 0;
+    
+    // modo multiplayer setup
+    game->currentPlayer = PLAYER_1;
+    game->timer.max = 5;
+    game->timer.t = 5;
+    game->placar[PLAYER_1] = 0;
+    game->placar[PLAYER_2] = 0;
 }
 
 void avancarRodadaArcade(Session *game){
@@ -41,17 +61,32 @@ void processarAcerto(Session *game){
     switch (game->mode)
     {
     case MODO_ARCADE:
+        printf("%d\n", game->target);
         avancarRodadaArcade(game);
         break;
     case MODO_NORMAL:
         printf("Acertou");
         configurarCuriosidade(game); // <-- adicionei aqui pra atualizar a curiosidade no momento do acerto
         salvarFinalDePartida(game);
-        atualizarHighscore(game); 
+        if (checarHighscore(game)) {
+            game->isHighscore = 1;
+            atualizarHighscore(game);
+            printf("\n\nhighscore!\n\n");
+        } 
         game->state = STATE_WIN;
         break;
     case MODO_COOP:
-        game->currentPlayer *= -1; // troca player
+        game->placar[game->currentPlayer]++; // atualizar o placar
+        
+        // melhor de tres
+        for (int i = 0; i < 2; i++){
+            if (game->placar[i] >= 2){ 
+               game->state = STATE_WIN; 
+            }
+        }
+
+        game->target = numeroAleatorio(0, game->max);
+        //game->currentPlayer *= -1; // troca player
     default:
         break;
     }
@@ -72,9 +107,10 @@ void processarTentativa(Session *game, int palpite) {
 	
 	processarGameover(game);
 	
-	if (game->mode == MODO_COOP) game->currentPlayer *= -1; // troca player
-
+    
     if (palpite == game->target) { // acertou?
         processarAcerto(game);
     }
+    
+    if (game->mode == MODO_COOP) mudarPlayer(game); // troca player
 }

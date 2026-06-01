@@ -1,4 +1,4 @@
-# Pablo Software's Numbers
+# Pablo Software's Decimais
 
 Um jogo casual de adivinhar números (de 0 a 100) desenvolvido em C, o primeiro da Pablo Software.
 
