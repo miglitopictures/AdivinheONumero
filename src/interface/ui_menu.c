@@ -172,6 +172,8 @@ difficultyPicker = (OptionPicker){
 
 }
 
+ListaHighscores highscores;
+
 void updateMenu(Session *game){
     Vector2 mousePosition = GetMousePosition();
     
@@ -192,6 +194,7 @@ void updateMenu(Session *game){
             menuState = STATS;
         }
         if (updateButton(&btnRanking, mousePosition)) {
+            highscores = coletarHighscores(MODO_NORMAL, HARD);
             menuState = RANKING;
         }
         if (updateButton(&btnExit, mousePosition)) game->state = STATE_EXIT;
@@ -261,6 +264,13 @@ void drawMenu(Session *game){
     case RANKING:
         drawButton(&btnBack);
         DrawText("Ranking", 220,340,30,PS_GREEN);
+
+        for (int i = 0; i < highscores.count; i++)
+        {
+            DrawText(highscores.lista[i].nome, 100, 100 + i*30, 20, PS_BLACK);
+            DrawText(TextFormat("%d", highscores.lista[i].score) , 400, 100 + i*30, 20, PS_BLACK);
+        }
+        
         break;
     default:
         break;
