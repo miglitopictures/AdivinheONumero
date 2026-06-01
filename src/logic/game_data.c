@@ -205,6 +205,10 @@ void salvarFinalDePartida(Session *game){
     fclose(partidasFile);
 }
 
+void atualizarNomePlayer(Session *game, char *nome){
+    strcpy(game->playerName, nome);
+}
+
 
 Stats coletarEstatisticas(const char *path) {
     

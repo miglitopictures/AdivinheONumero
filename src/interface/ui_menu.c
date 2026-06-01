@@ -180,6 +180,13 @@ void initMenu(Session *game){
     btnStart = (Button){{LARGURA/2 - 75, ALTURA/2 + 60, 150, 40}, "COMEÇAR", BT_IDLE};
     btnPlayAgain = (Button){{LARGURA/2 - 100, ALTURA - 160, 200, 44}, "PLAY AGAIN", BT_IDLE}; // ENDMENU
 
+
+    playerNameInput.framecounter = 0;
+    playerNameInput.isActive = 0;
+    playerNameInput.lettercount = 0;
+    playerNameInput.maxInput = 3;
+    playerNameInput.text[playerNameInput.maxInput+1]= '\0';
+    playerNameInput.textBox = (Rectangle) { LARGURA/2.0f - 100, 180, 225, 50 };
 }
 
 ListaHighscores highscores[3];

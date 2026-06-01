@@ -13,7 +13,8 @@ typedef enum {
     STATE_PLAYING,  // Rodada em execução ativa pelo jogador.
     STATE_GAMEOVER, // Fim de jogo por esgotamento de score/pontos.
     STATE_WIN,      // Vitória na rodada (jogador acertou o número secreto).
-    STATE_EXIT      // Sinalização para encerrar o loop e fechar a janela do jogo.
+    STATE_EXIT,     // Sinalização para encerrar o loop e fechar a janela do jogo.
+    STATE_HIGHSCORE // Tela para inputar seu nome, caso alcance um highscore
 } State;
 
 // Modo de jogo selecionado.
@@ -157,6 +158,7 @@ Stats coletarEstatisticas(const char *path);              // Le o arquivo de par
 char* buscarCuriosidade(int target);                      // Retorna a curiosidade atrelada ao target. Procura e lê no arquivo "curiosidades.txt".
 void configurarCuriosidade(Session *game);                // Atualiza o buffer `game->trivia` buscando o texto correspondente ao número secreto atual.
 
+void atualizarNomePlayer(Session *game, char *nome);
 
 // ---      rng.c     --- //
 void resetarRandomSeed();                                 // Alimenta o seed (semente) do gerador com o tempo atual do sistema (srand) para garantir aleatoriedade.
