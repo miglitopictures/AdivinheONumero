@@ -5,6 +5,8 @@ TextInput playerNameInput;
 
 // ___state highscore screen___________________________________________________________________________________________
 
+// literalmente peguei a logica desse exemplo do raylib
+// https://www.raylib.com/examples/text/loader.html?name=text_input_box
 void updateHighscoreScreen(Session *game){
     // Update
     //----------------------------------------------------------------------------------
