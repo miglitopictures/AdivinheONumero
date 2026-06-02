@@ -56,7 +56,7 @@ void updateHighscoreScreen(Session *game){
 }
 
 void drawHighscoreScreen(Session *game){
-            DrawText("PLACE MOUSE OVER INPUT BOX!", 240, 140, 20, GRAY);
+            DrawText("HIGHSCORE! DIGITE SEU NOME:", 300, 140, 20, GRAY);
 
             DrawRectangleRec(playerNameInput.textBox, LIGHTGRAY);
             if (playerNameInput.isActive) DrawRectangleLines((int)playerNameInput.textBox.x, (int)playerNameInput.textBox.y, (int)playerNameInput.textBox.width, (int)playerNameInput.textBox.height, RED);
