@@ -7,7 +7,7 @@ int activeMarkIndex = -1;
 Sound sfxChangeMark, sfxSelectSynth, sfxWin, sfxLose;
 
 // debug info toggler
-int debugMode =  1;
+int debugMode =  0;
 
 // janela aplicacao
 int LARGURA = 1280;
@@ -66,7 +66,7 @@ void update(Session *game){
         case STATE_HIGHSCORE:      updateHighscoreScreen(game);  break;
         case STATE_WIN:            updateWin(game);              break;
         case STATE_GAMEOVER:       updateGameover(game);         break;
-        case STATE_HIT:
+        case STATE_HIT:            drawHit(game);                break;
         case STATE_EXIT:                                         break;
     }
 }
@@ -82,7 +82,7 @@ void draw(Session *game){
             case STATE_HIGHSCORE:   drawHighscoreScreen(game);  break;
             case STATE_WIN:         drawWin(game);              break;
             case STATE_GAMEOVER:    drawGameover(game);         break;
-            case STATE_HIT:
+            case STATE_HIT:         drawHit(game);              break;
             default: break;
         }
 

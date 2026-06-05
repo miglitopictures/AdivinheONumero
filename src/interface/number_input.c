@@ -87,3 +87,23 @@ void drawAnimatedNumberInput(DigitInput input, Vector2 pos, Color color){
         currentAdvance += charSize.x + spacing;
     }
 }
+
+
+void drawHitState(Session *game, Vector2 pos, Color color) {
+    if (input.count <= 0) return;
+
+    int fontSize = 200;
+    int spacing = 10;
+
+    Vector2 totalSize = MeasureTextEx(font, "ACERTOU!", fontSize, spacing);
+
+    float currentAdvance = 0.0f;
+
+    DrawTextEx(font, "ACERTOU!",
+                (Vector2){(pos.x - totalSize.x / 2.0f) + currentAdvance,
+                pos.y - totalSize.y / 2.0f},
+                fontSize, 0,  color);
+                
+    Vector2 charSize = MeasureTextEx(font, "ACERTOU!", fontSize, 0);
+    currentAdvance += charSize.x + spacing;
+}

@@ -203,4 +203,7 @@ void drawGameover(Session *game);                                               
 
 void drawCoopPlacar(Session *game);
 
+void drawHitState(Session *game, Vector2 pos, Color color);
+void drawHit(Session *game);
+
 #endif
