@@ -16,7 +16,7 @@ void updatePlaying(Session *game){
     if (game->mode == MODO_COOP){
         atualizarTimer(game, dt);
     }
-    processarGameover(game);
+    processarGameover(game);  // PROCESSAR GAMEOVER AQUI
 
     if (prevState == STATE_PLAYING && game->state == STATE_GAMEOVER) PlaySound(sfxLose);
 

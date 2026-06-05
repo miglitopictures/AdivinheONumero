@@ -4,6 +4,7 @@
 
 void mudarPlayer(Session *game){
     game->timer.t = game->timer.max;
+    game->score = 600;
     game->currentPlayer = (game->currentPlayer + 1) % 2;
 }
 
