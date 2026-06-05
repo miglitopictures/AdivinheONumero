@@ -103,6 +103,11 @@ typedef struct {
     Rectangle textBox;
 } TextInput;
 
+typedef struct {
+    int player_1;
+    int player_2;
+} CoopPlacar;
+
 //__globals variales_______________________________________________________________________________________________________________
 
 // sounds
@@ -136,6 +141,8 @@ extern Button btnStart;
 extern Button btnPlayAgain; 
 
 extern TextInput playerNameInput;
+
+extern CoopPlacar coopPlacar;
 
 //__funções________________________________________________________________________________________________________________________
 
@@ -200,5 +207,7 @@ void drawWin(Session *game);                                                    
 // STATE_GAMEOVER
 void updateGameover(Session *game);                                                  // Atualiza a tela de derrota. Reinicia o jogo se R ou btnPlayAgain for acionado.
 void drawGameover(Session *game);                                                    // Desenha a tela de derrota.
+
+void drawCoopPlacar(Session *game);
 
 #endif

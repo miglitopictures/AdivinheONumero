@@ -66,6 +66,7 @@ void update(Session *game){
         case STATE_HIGHSCORE:      updateHighscoreScreen(game);  break;
         case STATE_WIN:            updateWin(game);              break;
         case STATE_GAMEOVER:       updateGameover(game);         break;
+        case STATE_HIT:
         case STATE_EXIT:                                         break;
     }
 }
@@ -81,6 +82,7 @@ void draw(Session *game){
             case STATE_HIGHSCORE:   drawHighscoreScreen(game);  break;
             case STATE_WIN:         drawWin(game);              break;
             case STATE_GAMEOVER:    drawGameover(game);         break;
+            case STATE_HIT:
             default: break;
         }
 

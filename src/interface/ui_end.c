@@ -96,37 +96,46 @@ void updateWin(Session *game) {
 }
 
 void drawWin(Session *game) {
-    // trivia at the top area
-    Vector2 triviaSize = MeasureTextEx(font, game->trivia, 20, 1);
-    DrawTextEx(font, game->trivia,
-        (Vector2){LARGURA/2 - triviaSize.x/2, ALTURA/2 - 220},
-        20, 1, PS_BLACK);
 
-    // big target number as hero
-    const char *targetStr = TextFormat("%d", game->target);
-    Vector2 targetSize = MeasureTextEx(font, targetStr, 200, 1);
-    DrawTextEx(font, targetStr,
-        (Vector2){LARGURA/2 - targetSize.x/2, ALTURA/2 - 160},
-        200, 1, PS_GREEN);
+    if (game-> mode == MODO_COOP) {
+        drawCoopPlacar(game);
+        Vector2 targetSize = MeasureTextEx(font, "VENCEU ! !", 100, 1);
+        game-> currentPlayer ? DrawTextEx(font, "VENCEU ! !", (Vector2){LARGURA/2 - targetSize.x/2, ALTURA/2 - 160}, 100, 1, PS_RED) :
+            DrawTextEx(font, "VENCEU ! !", (Vector2){LARGURA/2 - targetSize.x/2, ALTURA/2 - 160}, 100, 1, PS_BLUE);
 
-    // stats below, two columns: label left, value right
-    int statsX     = LARGURA/2 - 160;
-    int statsValX  = LARGURA/2 + 160;
-    int statsY     = ALTURA/2 + 80;
-    int statsStep  = 40;
+    } else {
 
+        // trivia at the top area
+        Vector2 triviaSize = MeasureTextEx(font, game->trivia, 20, 1);
+        DrawTextEx(font, game->trivia,
+            (Vector2){LARGURA/2 - triviaSize.x/2, ALTURA/2 - 220},
+            20, 1, PS_BLACK);
 
-    const char *scoreLabel = "SCORE";
-    DrawTextEx(font, scoreLabel, (Vector2){statsX, statsY}, 24, 1, PS_DARKGREY);
-    const char *scoreVal = TextFormat("%d", (int) game->score);
-    Vector2 scoreValSize = MeasureTextEx(font, scoreVal, 24, 1);
-    DrawTextEx(font, scoreVal, (Vector2){statsValX - scoreValSize.x, statsY}, 24, 1, PS_BLACK);
+        // big target number as hero
+        const char *targetStr = TextFormat("%d", game->target);
+        Vector2 targetSize = MeasureTextEx(font, targetStr, 200, 1);
+        DrawTextEx(font, targetStr,
+            (Vector2){LARGURA/2 - targetSize.x/2, ALTURA/2 - 160},
+            200, 1, PS_GREEN);
 
-    const char *guessLabel = "TENTATIVAS";
-    DrawTextEx(font, guessLabel, (Vector2){statsX, statsY + statsStep}, 24, 1, PS_DARKGREY);
-    const char *guessVal = TextFormat("%d", game->guessCount);
-    Vector2 guessValSize = MeasureTextEx(font, guessVal, 24, 1);
-    DrawTextEx(font, guessVal, (Vector2){statsValX - guessValSize.x, statsY + statsStep}, 24, 1, PS_BLACK);
+        // stats below, two columns: label left, value right
+        int statsX     = LARGURA/2 - 160;
+        int statsValX  = LARGURA/2 + 160;
+        int statsY     = ALTURA/2 + 80;
+        int statsStep  = 40;
+
+        const char *scoreLabel = "SCORE";
+        DrawTextEx(font, scoreLabel, (Vector2){statsX, statsY}, 24, 1, PS_DARKGREY);
+        const char *scoreVal = TextFormat("%d", (int) game->score);
+        Vector2 scoreValSize = MeasureTextEx(font, scoreVal, 24, 1);
+        DrawTextEx(font, scoreVal, (Vector2){statsValX - scoreValSize.x, statsY}, 24, 1, PS_BLACK);
+
+        const char *guessLabel = "TENTATIVAS";
+        DrawTextEx(font, guessLabel, (Vector2){statsX, statsY + statsStep}, 24, 1, PS_DARKGREY);
+        const char *guessVal = TextFormat("%d", game->guessCount);
+        Vector2 guessValSize = MeasureTextEx(font, guessVal, 24, 1);
+        DrawTextEx(font, guessVal, (Vector2){statsValX - guessValSize.x, statsY + statsStep}, 24, 1, PS_BLACK);
+    }
 
     // button
     drawButton(&btnPlayAgain);

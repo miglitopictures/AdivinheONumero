@@ -59,6 +59,7 @@ void drawPlaying(Session *game){
 
     if (game->mode == MODO_COOP){
         drawTopBar(game->timer.t, game->timer.max, game->currentPlayer == 0 ? PS_BLUE : PS_RED);
+        drawCoopPlacar(game);
     } else {
         drawTopBar(game->score, startingScore, PS_BLUE);
     }

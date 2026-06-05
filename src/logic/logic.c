@@ -115,5 +115,12 @@ void processarTentativa(Session *game, int palpite) {
         processarAcerto(game);
     }
     
-    if (game->mode == MODO_COOP) mudarPlayer(game); // troca player
+    if (game->mode == MODO_COOP) {
+        if (game-> state != STATE_WIN){
+            mudarPlayer(game);
+        }
+        // else {
+        //     game->placar[game->currentPlayer]++; // atualizar o placar
+        // }
+    } // troca player
 }

@@ -177,5 +177,40 @@ void drawArrow(FeedbackArrow arrow, int length, int weight){
     DrawRectanglePro(arrowHeadRect,
                         (Vector2){weight / 2, weight / 2},
                         45+90 + headAngleOffset, PS_BLUE);
+}
 
+//__multiplayer score placar_________________________________________________________________________________
+
+void drawCoopPlacar(Session *game) {
+    if (game-> state != STATE_WIN) {
+        game-> currentPlayer ? DrawText("Player 2", LARGURA/2 - 35, 70, 20, PS_RED) : DrawText("Player 1", LARGURA/2 -35, 70, 20, PS_BLUE);
+    } else {
+        Vector2 targetSize1 = MeasureTextEx(font, "Player 1", 100, 1);
+        Vector2 targetSize2 = MeasureTextEx(font, "Player 2", 100, 1);
+        game-> currentPlayer ? DrawTextEx(font, "Player 2", (Vector2){LARGURA/2 - targetSize2.x/2, 70}, 100, 1, PS_RED) :
+            DrawTextEx(font, "Player 1", (Vector2){LARGURA/2 - targetSize1.x/2, 70}, 100, 1, PS_BLUE);
+    }
+    if (game-> placar[0] > 0) {
+        DrawCircleV((Vector2) {30, 70}, 10, PS_BLUE); // primeiro placar  player 1
+        if (game -> placar[0] > 1) {
+            DrawCircleV((Vector2) {70, 70}, 10, PS_BLUE); // segundo placar player 1
+        } else {
+            DrawCircleLinesV((Vector2) {70, 70}, 10, PS_BLUE); // segundo placar player 1
+        }
+    } else {
+        DrawCircleLinesV((Vector2) {30, 70}, 10, PS_BLUE); // primeiro placar  player 1
+        DrawCircleLinesV((Vector2) {70, 70}, 10, PS_BLUE); // segundo placar player 1
+    }
+    if (game-> placar[1] > 0) {
+        DrawCircleV((Vector2) {LARGURA - 70, 70}, 10, PS_RED); // primeiro placar player 2
+        if (game -> placar[1] > 1) {
+            DrawCircleV((Vector2) {LARGURA - 30, 70}, 10, PS_RED); // segundo placar player 2 
+        } else {
+            DrawCircleLinesV((Vector2) {LARGURA - 30, 70}, 10, PS_RED); // segundo placar player 2 
+        }
+    } else {
+        DrawCircleLinesV((Vector2) {LARGURA - 70, 70}, 10, PS_RED); // primeiro placar player 
+        DrawCircleLinesV((Vector2) {LARGURA - 30, 70}, 10, PS_RED); // segundo placar player 2          
+    }
+    
 }
