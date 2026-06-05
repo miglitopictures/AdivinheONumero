@@ -119,8 +119,5 @@ void processarTentativa(Session *game, int palpite) {
         if (game-> state != STATE_WIN){
             mudarPlayer(game);
         }
-        // else {
-        //     game->placar[game->currentPlayer]++; // atualizar o placar
-        // }
     } // troca player
 }

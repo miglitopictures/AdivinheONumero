@@ -103,11 +103,6 @@ typedef struct {
     Rectangle textBox;
 } TextInput;
 
-typedef struct {
-    int player_1;
-    int player_2;
-} CoopPlacar;
-
 //__globals variales_______________________________________________________________________________________________________________
 
 // sounds
@@ -141,8 +136,6 @@ extern Button btnStart;
 extern Button btnPlayAgain; 
 
 extern TextInput playerNameInput;
-
-extern CoopPlacar coopPlacar;
 
 //__funções________________________________________________________________________________________________________________________
 
