@@ -23,6 +23,8 @@ Color PS_RED = {218, 55, 55, 255};
 Color PS_GREEN = {28, 121, 0, 255};
 Color PS_DEBUG = PURPLE;
 
+Music music;
+
 float startingScore;
 
 Font font;
@@ -48,6 +50,18 @@ void init(Session *game){
     InitWindow(LARGURA, ALTURA, "Pablo Software's Numbers");
     InitAudioDevice();
 
+
+    // Musiquinha
+    music = LoadMusicStream("assets/music/bossa.mp3");
+
+    PlayMusicStream(music);
+
+    float pan = 0.0f;               // Default audio pan center [-1.0f..1.0f]
+    SetMusicPan(music, pan);
+
+    float volume = 0.6f;            // Default audio volume [0.0f..1.0f]
+    SetMusicVolume(music, volume);
+
     // Load sound files
     sfxChangeMark = LoadSound("assets/sfx/changeMarkPoint_Beep.wav");
     sfxSelectSynth = LoadSound("assets/sfx/select_synth.wav");
@@ -60,6 +74,7 @@ void init(Session *game){
 }
 
 void update(Session *game){
+    UpdateMusicStream(music);
     switch (game->state) {
         case STATE_MENU:           updateMenu(game);             break;
         case STATE_PLAYING:        updatePlaying(game);          break;
