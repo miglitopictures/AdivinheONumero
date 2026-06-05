@@ -4,6 +4,7 @@
 
 void mudarPlayer(Session *game){
     game->timer.t = game->timer.max;
+    game->score = 600;
     game->currentPlayer = (game->currentPlayer + 1) % 2;
 }
 
@@ -114,5 +115,9 @@ void processarTentativa(Session *game, int palpite) {
         processarAcerto(game);
     }
     
-    if (game->mode == MODO_COOP) mudarPlayer(game); // troca player
+    if (game->mode == MODO_COOP) {
+        if (game-> state != STATE_WIN){
+            mudarPlayer(game);
+        }
+    } // troca player
 }

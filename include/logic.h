@@ -14,7 +14,8 @@ typedef enum {
     STATE_GAMEOVER, // Fim de jogo por esgotamento de score/pontos.
     STATE_WIN,      // Vitória na rodada (jogador acertou o número secreto).
     STATE_EXIT,     // Sinalização para encerrar o loop e fechar a janela do jogo.
-    STATE_HIGHSCORE // Tela para inputar seu nome, caso alcance um highscore
+    STATE_HIGHSCORE, // Tela para inputar seu nome, caso alcance um highscore
+    STATE_HIT
 } State;
 
 // Modo de jogo selecionado.

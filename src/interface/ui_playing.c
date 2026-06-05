@@ -16,7 +16,7 @@ void updatePlaying(Session *game){
     if (game->mode == MODO_COOP){
         atualizarTimer(game, dt);
     }
-    processarGameover(game);
+    processarGameover(game);  // PROCESSAR GAMEOVER AQUI
 
     if (prevState == STATE_PLAYING && game->state == STATE_GAMEOVER) PlaySound(sfxLose);
 
@@ -59,6 +59,7 @@ void drawPlaying(Session *game){
 
     if (game->mode == MODO_COOP){
         drawTopBar(game->timer.t, game->timer.max, game->currentPlayer == 0 ? PS_BLUE : PS_RED);
+        drawCoopPlacar(game);
     } else {
         drawTopBar(game->score, startingScore, PS_BLUE);
     }

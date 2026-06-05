@@ -201,4 +201,6 @@ void drawWin(Session *game);                                                    
 void updateGameover(Session *game);                                                  // Atualiza a tela de derrota. Reinicia o jogo se R ou btnPlayAgain for acionado.
 void drawGameover(Session *game);                                                    // Desenha a tela de derrota.
 
+void drawCoopPlacar(Session *game);
+
 #endif
