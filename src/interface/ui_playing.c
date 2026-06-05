@@ -37,7 +37,7 @@ void updatePlaying(Session *game){
         // play end sounds based on resulting state
         SetSoundVolume(sfxWin, 0.6f);
         SetSoundVolume(sfxLose, 0.6f);
-        if (game->state == STATE_WIN)      PlaySound(sfxWin);
+        if (game->target == game->guess)      PlaySound(sfxWin);
         if (game->state == STATE_GAMEOVER) PlaySound(sfxLose);
     }
 

@@ -257,7 +257,7 @@ void drawMenu(Session *game){
         drawLogoScreen(LARGURA / 2, ALTURA / 2);
         break;
     case MAIN:
-        drawTitle("DECIMAIS");
+        drawTitle("NUMERAL");
         drawButton(&btnSingleplayer);
         drawButton(&btnMultiplayer);
         drawButton(&btnStats);

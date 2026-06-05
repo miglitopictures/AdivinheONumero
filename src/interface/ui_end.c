@@ -91,7 +91,7 @@ void updateWin(Session *game) {
             circlemarks[i].state    = CM_FREE;
         }
         activeMarkIndex = -1;
-        menuState = MODES;
+        menuState = MAIN;
     }
 }
 

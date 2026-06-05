@@ -1,5 +1,8 @@
 # Histórias de Usuário
 
+## Backlog do Projeto ([Trello](https://trello.com/b/R0YXpUzE/organizacao-projeto-2))
+![Board Trello Projeto 2](./assets/github/BOARD-TRELLO_PROJETO-2.png)
+
 ### **UH0: Pontuação Dinâmica**
 ![High](https://img.shields.io/badge/Prioridade-Alta-red)
 
