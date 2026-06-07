@@ -52,7 +52,7 @@ O objetivo é adivinhar o número secreto antes que seu score chegue a zero.
 |------|-----------|
 | **Normal** | Partida única com escolha de dificuldade (Fácil, Médio, Difícil). Tente bater seu recorde. |
 | **Arcade** | Rodadas infinitas e acumulativas. Cada acerto avança para uma nova rodada com bônus de score. Acerte o máximo de numeros antes que teu tempo acabe. |
-| **Coop** | Dois jogadores se alternam na mesma tela. Melhor de 3 rodadas. Sem score — vence quem acertar mais. |
+| **Multiplayer** | Dois jogadores se alternam na mesma tela. Melhor de 3 rodadas. Sem score — vence quem acertar mais. |
  
 ---
 
