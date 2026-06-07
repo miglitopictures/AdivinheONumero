@@ -84,7 +84,7 @@ Na camada de lógica, a maioria das funções manipula via ponteiros a estrutura
 
 Primeiro, clone este repositório para sua máquina:
 ```bash
-git clone https://github.com/miglitopictures/AdivinheONumero
+git clone https://github.com/miglitopictures/Numeral
 ```
 
 Agora, identifique seu sistema operacional e siga as instruções abaixo para compilar o código.

@@ -7,7 +7,7 @@ Este guia servirá para orientar o fluxo de trabalho e garantir que todos esteja
 
 Primeiro, clone este repositório para sua máquina:
 ```bash
-git clone https://github.com/miglitopictures/AdivinheONumero
+git clone https://github.com/miglitopictures/Numeral
 ```
 
 ### Gerenciamento de Branches
