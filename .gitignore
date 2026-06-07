@@ -3,7 +3,3 @@
 # Game binary
 game.exe
 game
-
-# User data/highscores
-data/highscores
-data/partidas.txt
