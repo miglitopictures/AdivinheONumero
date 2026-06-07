@@ -36,6 +36,27 @@ Após o desenvolvimento do jogo, desenvolvemos um [relatório](docs/HEURUSTICAS.
 
 ---
 
+## Como Jogar
+ 
+O objetivo é adivinhar o número secreto antes que seu score chegue a zero.
+ 
+**Dando um palpite:** clique em qualquer ponto da linha numérica, ou use o teclado para digitar um valor e pressione `Enter` para confirmar. Cada palpite fica marcado permanentemente na régua.
+ 
+**Feedback:** após cada tentativa, uma seta indica se o número secreto está à esquerda ou à direita do seu palpite.
+ 
+**Score:** o score drena continuamente com o tempo e cai mais a cada palpite errado. O jogo acaba se ele chegar a zero antes de você acertar. Acerte rápido e com poucas tentativas para pontuar mais.
+ 
+**Modos de jogo:**
+ 
+| Modo | Descrição |
+|------|-----------|
+| **Normal** | Partida única com escolha de dificuldade (Fácil, Médio, Difícil). Tente bater seu recorde. |
+| **Arcade** | Rodadas infinitas e acumulativas. Cada acerto avança para uma nova rodada com bônus de score. Acerte o máximo de numeros antes que teu tempo acabe. |
+| **Coop** | Dois jogadores se alternam na mesma tela. Melhor de 3 rodadas. Sem score — vence quem acertar mais. |
+ 
+---
+
+
 ## Arquitetura
 Para que o desenvolvimento do projeto podesse fluir com mais facilidade, utilizamos uma arquitetura em trës camadas (Interface, Lógica, Dados) e nos dividimos como equipe a partir delas. A ideia é que, idealmente, as camas sejam independentes e conversem apenas por funções preestabelecidas.
 
