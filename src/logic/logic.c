@@ -2,12 +2,19 @@
 #include <stdio.h>
 #include <logic.h>
 
+void setTimer(Timer *timer, float duration){
+    timer->max = duration;
+    timer->t = duration;
+}
+
 void resetTimer(Timer *timer){
     timer->t = timer->max;
 }
 
 int atualizarTimer(Timer *timer, double dt){
-    if (timer->t <= 0.0) return 1;
+    if (timer->t <= 0.0) {
+        return 1;
+    };
     timer->t -= dt;
     return 0;
 }
@@ -42,8 +49,7 @@ void iniciarJogo(Session *game) {
     
     // modo multiplayer setup
     game->currentPlayer = PLAYER_1;
-    game->timer.max = 5;
-    game->timer.t = 5;
+    setTimer(&game->timer, 5);
     game->placar[PLAYER_1] = 0;
     game->placar[PLAYER_2] = 0;
 }
