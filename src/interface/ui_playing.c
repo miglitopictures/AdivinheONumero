@@ -1,9 +1,9 @@
 #include <stdlib.h>
 #include <ui.h>
-#include <unistd.h>
+// #include <unistd.h>
 
 Ruler basicRuler;
-CircleMark circlemarks[100];
+CircleMark circlemarks[128];
 FeedbackArrow arrow;
 
 // ___state playing______________________________________________________________________________________

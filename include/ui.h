@@ -119,7 +119,7 @@ extern Font font;
 extern float startingScore; // usado com drawScorebar()
 
 extern Ruler basicRuler;
-extern CircleMark circlemarks[100];
+extern CircleMark circlemarks[128];
 extern int activeMarkIndex;
 extern DigitInput input;
 extern FeedbackArrow arrow;

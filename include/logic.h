@@ -80,7 +80,7 @@ typedef struct {
     int guess;                        // Valor numérico do palpite atual.
     
     int guessCount;                   // Contador de tentativas feitas na rodada atual.
-    int guessHistory[16];             // Histórico com os últimos palpites realizados na rodada.
+    int guessHistory[128];             // Histórico com os últimos palpites realizados na rodada.
     
     char playerName[32];              // Nome ou iniciais do jogador (ex: "AAA").
     Temperature temperature;          // Temperatura atual do parlpite atual.
