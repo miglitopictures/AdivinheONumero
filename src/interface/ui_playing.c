@@ -1,5 +1,6 @@
 #include <stdlib.h>
 #include <ui.h>
+#include <unistd.h>
 
 Ruler basicRuler;
 CircleMark circlemarks[100];
@@ -22,7 +23,7 @@ void updatePlaying(Session *game){
 
     updateCircleMarks(game); 
 
-    if (IsKeyPressed(KEY_D)) debugMode *= -1;
+    if (IsKeyPressed(KEY_D)) debugMode = (debugMode + 1) % 2;
 
     // Confirmar tentativa
     if (activeMarkIndex >= 0 && (IsKeyPressed(KEY_ENTER) || IsMouseButtonReleased(MOUSE_LEFT_BUTTON))) {
@@ -55,6 +56,14 @@ void updatePlaying(Session *game){
     updateNumberInput(&input, 3);
 }
 
+void drawHit(Session *game){
+    drawHitState(game, (Vector2){ LARGURA / 2, ALTURA / 2}, PS_BLUE);
+    DrawText(TextFormat("%d", game->state), 20, ALTURA-300, DEBUGFONT, PS_DEBUG);
+    // if(game-> state == STATE_HIT){
+    //     game->state = STATE_PLAYING;
+    // }
+}
+
 void drawPlaying(Session *game){
 
     if (game->mode == MODO_COOP){
@@ -68,11 +77,13 @@ void drawPlaying(Session *game){
     drawRuler(basicRuler, PS_WHITE, PS_BLACK);
     drawCircleMarks(game);   
     drawAnimatedNumberInput(input, (Vector2){ LARGURA / 2, ALTURA / 2}, PS_RED);
+
     if (arrow.shoudDraw) drawArrow(arrow, 200, 20);
 
     // DEBUG DRAW // aperte "D" para ativar e desativar o desenho de debug.
     if (debugMode == 1){
 
+        DrawText(TextFormat("%d", game->state), 20, ALTURA-300, DEBUGFONT, PS_DEBUG);
         DrawText(TextFormat("%d x %d", game->placar[0], game->placar[1]), 20, ALTURA-280, DEBUGFONT, PS_DEBUG); 
         
         DrawText(TextFormat("player = %d", game->currentPlayer), 20, ALTURA-260, DEBUGFONT, PS_DEBUG); 

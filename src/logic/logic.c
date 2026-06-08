@@ -94,14 +94,13 @@ void processarAcerto(Session *game){
         break;
     case MODO_COOP:
         game->placar[game->currentPlayer]++; // atualizar o placar
-        
+        // game-> state = STATE_HIT;
         // melhor de tres
         for (int i = 0; i < 2; i++){
             if (game->placar[i] >= 2){ 
                game->state = STATE_WIN; 
             }
         }
-
         game->target = numeroAleatorio(0, game->max);
         //game->currentPlayer *= -1; // troca player
     default:
