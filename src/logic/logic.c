@@ -2,19 +2,27 @@
 #include <stdio.h>
 #include <logic.h>
 
+void resetTimer(Timer *timer){
+    timer->t = timer->max;
+}
+
+int atualizarTimer(Timer *timer, double dt){
+    if (timer->t <= 0.0) return 1;
+    timer->t -= dt;
+    return 0;
+}
+
 void mudarPlayer(Session *game){
-    game->timer.t = game->timer.max;
+    resetTimer(&game->timer); 
     game->score = 600;
     game->currentPlayer = (game->currentPlayer + 1) % 2;
 }
 
-void atualizarTimer(Session *game, double dt){
-    if (game->timer.t <= 0.0){
+void atualizarTimerMultiplayer(Session *game, double dt){
+    if (atualizarTimer(&game->timer, dt) != 0){
         mudarPlayer(game);
     }
-    game->timer.t -= 1 * dt;
 }
-
 
 void iniciarJogo(Session *game) {
     game->mode = MODO_NORMAL;

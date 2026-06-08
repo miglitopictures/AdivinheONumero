@@ -140,7 +140,7 @@ void iniciarJogo(Session *game);                          // Inicializa e redefi
 void processarTentativa(Session *game, int guess);        // Computa um palpite do usuário, avalia proximidade, atualiza histórico, deduz score e checa vitória.
 void processarGameover(Session *game);                    // Verifica se os pontos (score) se esgotaram e altera o estado do jogo para STATE_GAMEOVER.
 
-void atualizarTimer(Session *game, double dt);
+void atualizarTimerMultiplayer(Session *game, double dt);
 
 // ---     score.c     --- //
 void processarTemperatura(Session *game);                 // Calcula a distância do palpite para o alvo e define o estado como COLD, WARM ou HOT.

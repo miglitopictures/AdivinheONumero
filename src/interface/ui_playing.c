@@ -14,7 +14,7 @@ void updatePlaying(Session *game){
     atualizarTempoRealScore(game, dt);\
 
     if (game->mode == MODO_COOP){
-        atualizarTimer(game, dt);
+        atualizarTimerMultiplayer(game, dt);
     }
     processarGameover(game);  // PROCESSAR GAMEOVER AQUI
 
