@@ -137,6 +137,10 @@ extern Button btnPlayAgain;
 
 extern TextInput playerNameInput;
 
+
+
+extern float scaleHitText;
+
 //__funções________________________________________________________________________________________________________________________
 
 //__zgame_loop.c____
@@ -203,7 +207,7 @@ void drawGameover(Session *game);                                               
 
 void drawCoopPlacar(Session *game);
 
-void drawHitState(Session *game, Vector2 pos, Color color);
+void updateHit(Session *game);
 void drawHit(Session *game);
 
 #endif

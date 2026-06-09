@@ -1,10 +1,13 @@
 #include <stdlib.h>
 #include <ui.h>
+#include <stdio.h>
 // #include <unistd.h>
 
 Ruler basicRuler;
 CircleMark circlemarks[128];
 FeedbackArrow arrow;
+
+float scaleHitText;
 
 // ___state playing______________________________________________________________________________________
 
@@ -56,18 +59,14 @@ void updatePlaying(Session *game){
     updateNumberInput(&input, 3);
 }
 
-void drawHit(Session *game){
-    drawHitState(game, (Vector2){ LARGURA / 2, ALTURA / 2}, PS_BLUE);
-    DrawText(TextFormat("%d", game->state), 20, ALTURA-300, DEBUGFONT, PS_DEBUG);
-    // if(game-> state == STATE_HIT){
-    //     game->state = STATE_PLAYING;
-    // }
-}
+
+
+
 
 void drawPlaying(Session *game){
 
     if (game->mode == MODO_COOP){
-        drawTopBar(game->timer.t, game->timer.max, game->currentPlayer == 0 ? PS_BLUE : PS_RED);
+        drawTopBar(game->multiplayerTimer.t, game->multiplayerTimer.max, game->currentPlayer == 0 ? PS_BLUE : PS_RED);
         drawCoopPlacar(game);
     } else {
         drawTopBar(game->score, startingScore, PS_BLUE);
@@ -104,4 +103,43 @@ void drawPlaying(Session *game){
             }
         }
     }
+}
+
+// ---------- STATE HIT ------------------------------------
+
+void updateHit(Session *game){
+    double dt = GetFrameTime();
+    if (game->animTimer.t == game->animTimer.max){
+        clearInstantNumberInput(&input);
+        scaleHitText = 100;
+    }
+    if (atualizarTimer(&game->animTimer, dt) != 0){
+        game->state = STATE_PLAYING;
+        resetTimer(&game->animTimer);
+    };
+
+    scaleHitText = flerp(scaleHitText, 200, 0.1);
+}
+
+
+void drawHit(Session *game){
+    drawPlaying(game);
+    if (input.count <= 0) return;
+
+    int spacing = 10;
+    Vector2 pos = { LARGURA / 2, ALTURA / 2};
+    
+    Color color = game->currentPlayer == 0 ? PS_RED : PS_BLUE ;
+
+    Vector2 totalSize = MeasureTextEx(font, "ACERTOU!", scaleHitText, spacing);
+
+    DrawTextEx(font, "ACERTOU!",
+                (Vector2){(pos.x - totalSize.x / 2.0f),
+                pos.y - totalSize.y / 2.0f},
+                scaleHitText, spacing,  color);
+
+    //DrawText(TextFormat("%d", game->state), 20, ALTURA-300, DEBUGFONT, PS_DEBUG);
+    // if(game-> state == STATE_HIT){
+    //     game->state = STATE_PLAYING;
+    // }
 }

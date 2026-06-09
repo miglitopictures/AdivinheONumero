@@ -77,11 +77,11 @@ void update(Session *game){
     UpdateMusicStream(music);
     switch (game->state) {
         case STATE_MENU:           updateMenu(game);             break;
+        case STATE_HIT:            updateHit(game);              break;
         case STATE_PLAYING:        updatePlaying(game);          break;
         case STATE_HIGHSCORE:      updateHighscoreScreen(game);  break;
         case STATE_WIN:            updateWin(game);              break;
         case STATE_GAMEOVER:       updateGameover(game);         break;
-        case STATE_HIT:            drawHit(game);                break;
         case STATE_EXIT:                                         break;
     }
 }
@@ -93,11 +93,11 @@ void draw(Session *game){
 
         switch (game->state) {
             case STATE_MENU:        drawMenu(game);             break;
+            case STATE_HIT:         drawHit(game);              break;
             case STATE_PLAYING:     drawPlaying(game);          break;
             case STATE_HIGHSCORE:   drawHighscoreScreen(game);  break;
             case STATE_WIN:         drawWin(game);              break;
             case STATE_GAMEOVER:    drawGameover(game);         break;
-            case STATE_HIT:         drawHit(game);              break;
             default: break;
         }
 

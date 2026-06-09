@@ -91,7 +91,8 @@ typedef struct {
     
     Player currentPlayer;             // MULTIPLAYER: jogador atual.
     int placar[2];                    // MULTIPLAYER: placar.
-    Timer timer;                      // MULTIPLAYER: temporizador para a jogada.
+    Timer multiplayerTimer;                      // MULTIPLAYER: temporizador para a jogada.
+    Timer animTimer;
 
 } Session;
 
@@ -140,6 +141,9 @@ void iniciarJogo(Session *game);                          // Inicializa e redefi
 void processarTentativa(Session *game, int guess);        // Computa um palpite do usuário, avalia proximidade, atualiza histórico, deduz score e checa vitória.
 void processarGameover(Session *game);                    // Verifica se os pontos (score) se esgotaram e altera o estado do jogo para STATE_GAMEOVER.
 
+void setTimer(Timer *multiplayerTimer, float duration);
+void resetTimer(Timer *multiplayerTimer);
+int atualizarTimer(Timer *multiplayerTimer, double dt);
 void atualizarTimerMultiplayer(Session *game, double dt);
 
 // ---     score.c     --- //

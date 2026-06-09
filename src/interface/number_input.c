@@ -1,4 +1,5 @@
 #include <ui.h>
+#include <stdio.h>
 
 DigitInput input = {0};
 
@@ -54,12 +55,24 @@ void clearAnimNumberInput(DigitInput *input){
 }
 
 void clearInstantNumberInput(DigitInput *input){
-
     for (int i = 0; i < input->count; i++) {
         input->count--;
         if (input->count < 0) input->count = 0;
         input->text[i] = '\0';
     }
+    // input->count = 0;
+    input->isClearing  = 0; // ← done clearing, intant
+}
+
+void clearInstantNumberInputNova(DigitInput *input){
+
+    printf("count: %d | input: %s\n\n", input->count, input->text);
+
+    while(input->count != 0){
+        input->text[input->count - 1] = '\0';
+        input->count--;
+    }
+    // input->count = 0;
 
     input->isClearing  = 0; // ← done clearing, intant
 }
@@ -89,21 +102,3 @@ void drawAnimatedNumberInput(DigitInput input, Vector2 pos, Color color){
 }
 
 
-void drawHitState(Session *game, Vector2 pos, Color color) {
-    if (input.count <= 0) return;
-
-    int fontSize = 200;
-    int spacing = 10;
-
-    Vector2 totalSize = MeasureTextEx(font, "ACERTOU!", fontSize, spacing);
-
-    float currentAdvance = 0.0f;
-
-    DrawTextEx(font, "ACERTOU!",
-                (Vector2){(pos.x - totalSize.x / 2.0f) + currentAdvance,
-                pos.y - totalSize.y / 2.0f},
-                fontSize, 0,  color);
-                
-    Vector2 charSize = MeasureTextEx(font, "ACERTOU!", fontSize, 0);
-    currentAdvance += charSize.x + spacing;
-}
