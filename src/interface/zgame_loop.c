@@ -54,7 +54,7 @@ void init(Session *game){
     // Musiquinha
     music = LoadMusicStream("assets/music/bossa.mp3");
 
-    //PlayMusicStream(music);
+    PlayMusicStream(music);
 
     float pan = 0.0f;               // Default audio pan center [-1.0f..1.0f]
     SetMusicPan(music, pan);

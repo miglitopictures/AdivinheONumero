@@ -139,6 +139,8 @@ void drawTitle(char *text){
 }
 
 void initMenu(Session *game){
+
+    setTimer(&game->animTimer, 2);
     // Main Menu
     btnSingleplayer = (Button){{LARGURA/2 - 245, ALTURA/2-27+200, 160, 40}, "SINGLEPLAYER", BT_IDLE};
     btnMultiplayer = (Button){{LARGURA/2 - 245, ALTURA/2+27+200, 160, 40}, "MULTIPLAYER", BT_IDLE};
@@ -197,7 +199,12 @@ void updateMenu(Session *game){
     switch (menuState)
     {
     case LOGO:
-        if (GetKeyPressed() != 0 || IsMouseButtonPressed(0)) menuState = MAIN;
+        if (GetKeyPressed() != 0 ||
+            IsMouseButtonPressed(0) ||
+            atualizarTimer(&game->animTimer, GetFrameTime()) != 0) {
+                menuState = MAIN;
+                resetTimer(&game->animTimer);
+            };
         break;
     case MAIN:
         updateButton(&btnStats, mousePosition);
