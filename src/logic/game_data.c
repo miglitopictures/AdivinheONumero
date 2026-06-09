@@ -3,6 +3,7 @@
 #include <stdio.h>
 #include <logic.h>
 #include <math.h>
+#include <stdlib.h>
 
 // Coloca no *buffer a string para o caminho do arquivo de highscores correto a partir do modo de jogo e dificuldade selecionada.
 void montarCaminhoHighscore(char *buffer, size_t size, Mode mode, Difficulty diff) {
@@ -289,6 +290,9 @@ char* buscarCuriosidade(int target){
         return resultado;
     }
 
+    char curiosidades[10][256];
+    int quantidade = 0;
+
     char linha[512];
 
     while (fgets(linha, sizeof(linha), file)) {
@@ -298,19 +302,36 @@ char* buscarCuriosidade(int target){
         char texto[300];
         int exibida;
 
-        sscanf(linha, "%d|%[^|]|%[^|]|%d", &num, tema, texto, &exibida);
+        sscanf(
+            linha,
+            "%d|%[^|]|%[^|]|%d",
+            &num,
+            tema,
+            texto,
+            &exibida
+        );
 
         if (num == target) {
-            fclose(file);
 
-            strcpy(resultado, texto);
-            return resultado;
+            strcpy(curiosidades[quantidade], texto);
+            quantidade++;
+
+            if (quantidade >= 10)
+                break;
         }
     }
 
     fclose(file);
 
-    strcpy(resultado, "Nenhuma curiosidade encontrada.");
+    if (quantidade == 0) {
+        strcpy(resultado, "Nenhuma curiosidade encontrada.");
+        return resultado;
+    }
+
+    int indice = rand() % quantidade;
+
+    strcpy(resultado, curiosidades[indice]);
+
     return resultado;
 }
 

@@ -1,100 +1,398 @@
-1|historia|O número 1 simboliza unidade e é usado como início em quase todas as contagens do mundo|0
-2|historia|O número 2 representa dualidade: dia e noite, bem e mal|0
-3|historia|Muitas histórias clássicas usam o número 3, como três desejos ou três desafios|0
-4|historia|Em alguns países asiáticos, o número 4 é evitado por soar como a palavra "morte"|0
-5|historia|A estrela de cinco pontas é um símbolo antigo usado em diversas culturas|0
-6|historia|O número 6 aparece em jogos de dados tradicionais até hoje|0
-7|historia|O número 7 é considerado mágico em várias culturas ao redor do mundo|0
-8|historia|Na China, o número 8 é associado à prosperidade e riqueza|0
-9|historia|O número 9 simboliza completude em várias tradições|0
-10|historia|Top 10 é uma das formas mais populares de ranking no mundo|0
-11|historia|11:11 é visto por muitos como um momento especial para fazer um pedido|0
-12|historia|O número 12 aparece em várias tradições, como os meses do ano|0
-13|historia|Muitos prédios pulam o 13º andar por superstição|0
-14|historia|O número 14 está ligado ao Valentine’s Day em fevereiro|0
-15|historia|Quinze anos é idade de festa marcante em várias culturas|0
-16|historia|16 anos é idade de liberdade em muitos países|0
-17|historia|Na Itália, o número 17 é considerado azar|0
-18|historia|18 anos marca a entrada na vida adulta em muitos lugares|0
-19|historia|19 anos costuma marcar transição entre juventude e vida adulta|0
-20|historia|O número 20 representa uma dezena dupla, usado em sistemas antigos|0
-21|historia|21 anos é idade legal para beber em alguns países|0
-22|historia|22 é visto como número mestre em numerologia|0
-23|historia|O número 23 aparece em várias teorias misteriosas e curiosas|0
-24|historia|24 horas formam um ciclo completo do dia|0
-25|historia|25 anos é conhecido como bodas de prata|0
-26|historia|O número 26 é o total de letras do alfabeto inglês|0
-27|historia|27 anos é famoso pelo "Clube dos 27" na música|0
-28|historia|28 dias tem fevereiro em anos comuns|0
-29|historia|29 de fevereiro só existe em anos bissextos|0
-30|historia|30 anos é visto como início da vida adulta consolidada|0
-31|historia|31 é o máximo de dias em um mês|0
-32|historia|32 dentes compõem uma dentição adulta completa|0
-33|historia|33 anos é associado à idade de figuras históricas importantes|0
-34|historia|34 aparece em rankings e listas populares|0
-35|historia|35 anos é considerado auge de muitas carreiras|0
-36|historia|36 aparece em jogos e dados combinatórios|0
-37|historia|37 aparece frequentemente em curiosidades da cultura pop|0
-38|historia|38 pode representar quase 40, uma marca simbólica|0
-39|historia|39 é muitas vezes associado a quase chegar nos 40|0
-40|historia|40 aparece em histórias como período de transformação|0
-41|historia|41 aparece em várias estatísticas curiosas|0
-42|filmes|42 é a resposta para a vida no Guia do Mochileiro das Galáxias|0
-43|historia|43 aparece em várias listas curiosas ao redor do mundo|0
-44|historia|44 é considerado número de equilíbrio em algumas crenças|0
-45|historia|45 rotações por minuto eram padrão em discos antigos|0
-46|historia|46 cromossomos formam o DNA humano|0
-47|historia|47 aparece em várias referências culturais e misteriosas|0
-48|historia|48 é usado em contagem de horas em dois dias|0
-49|historia|49 aparece em tradições espirituais como ciclos|0
-50|historia|50 marca metade de um século|0
-51|filmes|Área 51 é famosa por teorias sobre alienígenas|0
-52|historia|52 semanas formam um ano|0
-53|historia|53 aparece em jogos de cartas (com coringa)|0
-54|historia|54 pode aparecer em combinações de jogos|0
-55|historia|55 representa equilíbrio em algumas culturas|0
-56|historia|56 aparece em contagens simbólicas|0
-57|historia|57 é conhecido por um famoso molho de ketchup|0
-58|historia|58 aparece em listas curiosas diversas|0
-59|historia|59 minutos quase completam uma hora|0
-60|historia|60 segundos formam um minuto|0
-61|historia|61 aparece em registros históricos curiosos|0
-62|historia|62 pode representar fases da vida|0
-63|historia|63 aparece em ciclos culturais|0
-64|historia|64 casas formam um tabuleiro de xadrez|0
-65|historia|65 anos é idade de aposentadoria em vários países|0
-66|historia|66 aparece em símbolos culturais populares|0
-67|historia|67 é associado a eventos históricos específicos|0
-68|historia|68 pode representar quase 70 anos|0
-69|historia|69 aparece como símbolo em várias culturas|0
-70|historia|70 anos representam uma longa trajetória de vida|0
-71|historia|71 aparece em registros históricos|0
-72|historia|72 aparece em diversas tradições antigas|0
-73|historia|73 aparece em séries e cultura pop|0
-74|historia|74 representa estabilidade em alguns contextos|0
-75|historia|75 anos é chamado de jubileu de diamante|0
-76|historia|76 aparece em datas históricas importantes|0
-77|historia|77 é considerado um número especial em crenças|0
-78|historia|78 rotações por minuto eram usadas em discos antigos|0
-79|historia|79 aparece em estatísticas curiosas|0
-80|historia|80 anos representam uma vida longa|0
-81|historia|81 aparece em jogos e padrões culturais|0
-82|historia|82 pode representar longevidade|0
-83|historia|83 aparece em listas históricas|0
-84|historia|84 aparece em combinações culturais|0
-85|historia|85 representa experiência acumulada|0
-86|historia|86 aparece em códigos culturais|0
-87|historia|87 aparece em registros curiosos|0
-88|historia|88 é símbolo de sorte em culturas asiáticas|0
-89|historia|89 aparece em referências culturais|0
-90|historia|90 representa quase um século|0
-91|historia|91 aparece em eventos históricos|0
-92|historia|92 aparece em registros diversos|0
-93|historia|93 aparece em estatísticas culturais|0
-94|historia|94 aparece em dados históricos|0
-95|historia|95 representa quase um século|0
-96|historia|96 aparece em padrões culturais|0
-97|historia|97 aparece em referências curiosas|0
-98|historia|98 aparece em registros históricos|0
-99|historia|99 representa quase 100|0
-100|historia|100 representa um século completo|0
+1|futebol|O Sport Club do Recife foi o 1º clube do Nordeste a conquistar o Campeonato Brasileiro da Série A na era moderna (no polêmico ano de 1987).|0
+1|pernambuco|O Palácio do Campo das Princesas, sede do governo em Recife, foi o 1º palácio governamental do Brasil a ter seus jardins inteiramente projetados pelo icônico paisagista Roberto Burle Marx.|0
+1|geral|A Groenlândia é oficialmente a 1ª maior ilha do mundo que não é considerada um continente isolado (título que pertence à Austrália).|0
+
+2|futebol|O futebol nacional possui apenas 2 clubes que conseguiram vencer o Mundial de Clubes da FIFA mais de uma vez desde o ano 2000: o Corinthians (2000 e 2012) e o São Paulo (2005).|0
+2|pernambuco|O paradisíaco arquipélago de Fernando de Noronha abriga apenas 2 praias que já alcançaram o topo do ranking de "melhores do mundo" no TripAdvisor: a Baía do Sancho e a Baía dos Porcos.|0
+2|geral|O oxigênio molecular que você está respirando agora para se manter vivo é composto pela união química de exatamente 2 átomos de oxigênio (O2).|0
+
+3|futebol|O São Paulo FC orgulha-se de ser o único clube do país a conquistar o Campeonato Brasileiro por 3 vezes consecutivas na era dos pontos corridos (2006, 2007 e 2008).|0
+3|pernambuco|O Galo da Madrugada, maior bloco de Carnaval do planeta, arrasta sua multidão cruzando tradicionalmente 3 bairros históricos do centro do Recife: São José, Santo Antônio e Boa Vista.|0
+3|geral|No planeta inteiro, restam apenas 3 países que ainda não adotaram oficialmente o sistema métrico decimal como padrão de medidas: os Estados Unidos, a Libéria e Mianmar.|0
+
+4|futebol|No ranking histórico das Copas, apenas 4 seleções no mundo inteiro têm o privilégio de ostentar quatro ou mais estrelas no peito: Brasil (5), Alemanha (4), Itália (4) e o Uruguai (que usa 4 estrelas pelas duas Copas e duas Olimpíadas de 24 e 28, reconhecidas pela FIFA).|0
+4|pernambuco|O Recife é conhecido como a "Veneza Brasileira" por causa de sua geografia cortada por rios e pontes, moldada principalmente por 4 grandes bacias hidrográficas.|0
+4|geral|O ano bissexto ocorre rigorosamente a cada 4 anos para corrigir a diferença de horas entre o calendário humano e o tempo real que a Terra leva para dar uma volta ao redor do Sol.|0
+
+5|futebol|A Seleção Brasileira é a única "Pentacampeã" de futebol masculino do planeta, tendo a proeza de conquistar seus 5 títulos mundiais em quatro continentes diferentes.|0
+5|pernambuco|A histórica cidade de Olinda foi a 5ª cidade do mundo (e a primeiríssima da América Latina) a receber o título oficial de Capital Americana da Cultura, no ano de 2006.|0
+5|geral|A ciência moderna já mapeou dezenas de percepções humanas, mas os seres humanos continuam divididos pelos 5 sentidos clássicos descritos originalmente por Aristóteles: visão, audição, paladar, olfato e tato.|0
+
+6|futebol|O Clube Náutico Capibaribe é o único time do estado a ostentar o título de "Hexacampeão", tendo vencido 6 campeonatos pernambucanos seguidos em uma era de ouro entre 1963 e 1968.|0
+6|pernambuco|Embora existam diferentes divisões geopolíticas, o modelo geográfico mais ensinado no Brasil aponta que a Terra possui 6 continentes: América, Europa, África, Ásia, Oceania e Antártica.|0
+6|geral|Não importa se é uma formiga, uma abelha ou um besouro: qualquer inseto no mundo possui exatamente 6 pernas articuladas, sendo essa uma regra biológica da classe Insecta.|0
+
+7|futebol|A camisa 7 do Botafogo é considerada mística no futebol brasileiro, carregando uma mística quase religiosa por ter sido vestida por lendas como Garrincha, Jairzinho e Túlio Maravilha.|0
+7|pernambuco|O hino de Pernambuco exalta o orgulho de um povo cuja história foi marcada pela liderança e participação em 7 grandes revoltas e insurreições armadas contra o poder colonial e imperial.|0
+7|geral|O olho humano só consegue enxergar exatamente 7 cores na dispersão da luz que forma o arco-íris: vermelho, laranja, amarelo, verde, azul, anil e violeta.|0
+
+8|futebol|O Bahia chocou o país em 1988 ao conquistar o Brasileirão utilizando a mística camisa número 8 de Bobô, o maestro daquela equipe que desbancou os gigantes do Sudeste.|0
+8|pernambuco|O gigante Galo da Madrugada começou de forma extremamente humilde em 1978, quando um grupo de apenas 8 amigos mascarados saiu pelas ruas do Recife com um gravador tocando frevo.|0
+8|geral|O nosso Sistema Solar conta oficialmente com 8 planetas desde o ano de 2006, quando a União Astronômica Internacional rebaixou Plutão para a categoria de planeta anão.|0
+
+9|futebol|No futebol nacional, o "camisa 9" mais icônico da era moderna foi Ronaldo Fenômeno, que imortalizou a posição marcando os gols do título mundial do Brasil em 2002.|0
+9|pernambuco|O frevo, ritmo que é patrimônio cultural da humanidade, possui 9 passos básicos coreográficos de onde derivam todas as outras centenas de acrobacias feitas pelos passistas.|0
+9|geral|A biologia humana determina que o tempo médio padrão para uma gestação completa e segura de um bebê no útero materno é de 9 meses.|0
+
+10|futebol|A camisa 10 virou sinônimo de craque no mundo inteiro por causa de Pelé na Copa de 1958; a ironia é que ele recebeu o número 10 de forma totalmente aleatória porque a CBD esqueceu de enviar a numeração oficial para a FIFA.|0
+10|pernambuco|O autêntico bolo de rolo pernambucano é reconhecido pela sua precisão artística: a receita tradicional de elite busca atingir até 10 camadas quase invisíveis de massa fina e goiabada bem enroladas.|0
+10|geral|O sistema numérico que rege a matemática e o comércio do mundo moderno é o sistema decimal (base 10), criado historicamente pelo simples fato de os seres humanos terem 10 dedos nas mãos para contar.|0
+
+11|futebol|É o número clássico que dita as regras do jogo: uma partida oficial de futebol só pode começar se cada equipe tiver exatamente 11 jogadores titulares em campo. Além disso, a camisa 11 foi imortalizada por Romário na histórica conquista do tetracampeonato mundial em 1994.|0
+11|pernambuco|O Santa Cruz Futebol Clube, um dos times mais populares e passionais do estado, nasceu da iniciativa de um grupo de 11 jovens meninos que costumavam jogar bola no pátio da Igreja de Santa Cruz, no Recife, em 1914.|0
+11|geral|A missão espacial Apollo 11, realizada pela NASA em julho de 1969, foi a responsável por levar os primeiros seres humanos para pisar na superfície da Lua.|0
+
+12|futebol|A camisa 12 no futebol do Brasil é quase sagrada: a maioria dos grandes clubes nacionais dedica oficialmente a camisa 12 à sua torcida, considerada o "12º jogador" do time.|0
+12|pernambuco|O Frevo recebeu o maior reconhecimento cultural do planeta no dia 5 do mês 12 de 2012, quando a UNESCO o declarou oficialmente como Patrimônio Cultural Imaterial da Humanidade.|0
+12|geral|Apesar de toda a tecnologia moderna e dos bilhões de pessoas que já viveram no planeta, apenas 12 pessoas em toda a história da humanidade tiveram o privilégio de caminhar na superfície da Lua.|0
+
+13|futebol|O lendário Mário Jorge Lobo Zagallo tinha uma obsessão mística pelo número 13 devido à devoção de sua esposa a Santo Antônio, celebrado em 13 de junho.|0
+13|pernambuco|O Parque Treze de Maio, localizado no centro do Recife, homenageia o dia 13 de maio de 1888, data da assinatura da Lei Áurea.|0
+13|geral|O medo irracional do número 13 é uma fobia real chamada triscaidecafobia, motivo pelo qual muitos prédios não possuem 13º andar.|0
+
+14|futebol|No ano de 2014, o Brasil sediou a Copa do Mundo da FIFA pela segunda vez em sua história, tendo a Arena Pernambuco como uma das sedes oficiais.|0
+14|pernambuco|A Região Metropolitana do Recife é composta legalmente por 14 municípios integrados econômica e culturalmente.|0
+14|geral|O 14-Bis foi o avião construído por Santos-Dumont que realizou um dos voos mais importantes da história da aviação mundial.|0
+
+15|futebol|O interior de São Paulo é famoso por clubes tradicionais como o XV de Piracicaba e o XV de Jaú, que carregam o número 15 no próprio nome.|0
+15|pernambuco|Os tradicionais bonecos gigantes do Carnaval de Olinda pesam, em média, cerca de 15 quilos.|0
+15|geral|A festa de 15 anos é uma das tradições culturais mais marcantes da América Latina, simbolizando a passagem da infância para a juventude.|0
+
+16|futebol|Pelas regras esportivas brasileiras, é aos 16 anos que um atleta pode assinar seu primeiro contrato profissional de futebol.|0
+16|pernambuco|Recife ganhou fama de Veneza Brasileira e possui 16 pontes principais de grande relevância histórica e arquitetônica.|0
+16|geral|No Brasil, aos 16 anos o cidadão pode votar pela primeira vez de forma facultativa.|0
+
+17|pernambuco|No ano de 1817, estourou a histórica Revolução Pernambucana, que transformou Pernambuco em uma república independente por 75 dias.|0
+17|futebol|Foi com apenas 17 anos que Pelé se tornou o jogador mais jovem da história a vencer uma Copa do Mundo e marcar em uma final.|0
+17|geral|Na Itália, o número 17 é considerado o verdadeiro número do azar por causa da associação com a palavra latina VIXI.|0
+
+18|futebol|Em 2018, o futebol brasileiro passou por uma revolução tecnológica com a implementação oficial do VAR na Copa do Brasil.|0
+18|pernambuco|O Teatro de Santa Isabel foi inaugurado em 18 de maio de 1850, tornando-se um dos maiores símbolos culturais do Recife.|0
+18|geral|Completar 18 anos marca o início da maioridade civil e penal na maioria dos países modernos, incluindo o Brasil.|0
+
+19|futebol|Em 2019, o Flamengo conquistou a Libertadores e o Campeonato Brasileiro em um intervalo de apenas 24 horas.|0
+19|pernambuco|Alceu Valença nasceu em 19 de julho de 1946, na cidade de São Bento do Una, no Agreste pernambucano.|0
+19|geral|O século 19 foi o período em que a fotografia foi inventada e desenvolvida, transformando a forma como a humanidade registra sua história.|0
+
+20|futebol|A camisa 20 ganhou destaque mundial graças ao atacante Vinicius Jr., que a utilizou em suas primeiras grandes conquistas internacionais.|0
+20|pernambuco|A ilha principal de Fernando de Noronha possui aproximadamente 20 quilômetros quadrados de área.|0
+20|geral|O século 20 testemunhou a invenção do avião, da televisão, dos computadores, a chegada à Lua e a criação da internet.|0
+
+21|futebol|No ano de 2021, o Atlético Mineiro quebrou um dos jejuns mais famosos do futebol nacional ao conquistar o Campeonato Brasileiro da Série A após exatos 50 anos de espera desde sua primeira taça em 1971.|0
+21|pernambuco|O paradisíaco arquipélago de Fernando de Noronha, que pertence ao estado de Pernambuco, é composto na verdade por exatamente 21 ilhas, ilhotas e rochedos, embora apenas a ilha principal seja habitada.|0
+21|geral|A tradicional salva de 21 tiros é a mais alta honraria militar e diplomática do planeta, utilizada para saudar chefes de Estado e celebrar datas nacionais de extrema importância.|0
+
+22|futebol|Na Copa do Mundo de 2022, Neymar igualou Pelé como maior artilheiro da história da Seleção Brasileira masculina segundo os critérios oficiais da FIFA.|0
+22|pernambuco|Em 1922, a histórica travessia aérea do Atlântico Sul realizada por Gago Coutinho e Sacadura Cabral teve paradas estratégicas em Fernando de Noronha e no Recife.|0
+22|geral|Um baralho de Tarô tradicional possui exatamente 22 cartas principais conhecidas como Arcanos Maiores.|0
+
+23|futebol|Foi apenas a partir da Copa do Mundo de 2002 que a FIFA passou a permitir convocações de 23 jogadores por seleção, padrão que se tornou referência mundial.|0
+23|pernambuco|Para fins estatísticos e de planejamento, Pernambuco é subdividido em exatamente 23 microrregiões pelo IBGE.|0
+23|geral|Cada célula humana saudável possui exatamente 23 pares de cromossomos, totalizando 46 cromossomos.|0
+
+24|futebol|O número 24 carregou por décadas um preconceito histórico no futebol brasileiro por sua associação ao Jogo do Bicho, mas hoje é usado em campanhas de inclusão e respeito.|0
+24|pernambuco|O Clube Náutico Capibaribe possui exatamente 24 títulos oficiais do Campeonato Pernambucano.|0
+24|geral|A Terra é dividida teoricamente em 24 fusos horários, correspondentes às 24 horas necessárias para uma rotação completa do planeta.|0
+
+25|futebol|Em 2025, a FIFA realizou a primeira edição do novo Super Mundial de Clubes com 32 equipes, incluindo representantes brasileiros.|0
+25|pernambuco|Pernambuco possui uma bancada de exatamente 25 deputados federais na Câmara dos Deputados.|0
+25|geral|A celebração de 25 anos de casamento é conhecida tradicionalmente como Bodas de Prata.|0
+
+26|futebol|Na Copa do Mundo do Catar, a FIFA ampliou para 26 o número máximo de jogadores convocados por seleção.|0
+26|pernambuco|Em 1926, a Coluna Prestes passou pelo interior pernambucano durante sua longa marcha pelo Brasil.|0
+26|geral|O alfabeto oficial da língua portuguesa possui atualmente 26 letras.|0
+
+27|futebol|Em 1927, o Vasco da Gama inaugurou o Estádio de São Januário, então o maior estádio da América do Sul.|0
+27|pernambuco|O escritor Ariano Suassuna, autor de O Auto da Compadecida e grande defensor da cultura nordestina, nasceu em 1927.|0
+27|geral|Urano possui exatamente 27 luas conhecidas, muitas delas batizadas com nomes de personagens de Shakespeare.|0
+
+28|futebol|Em 1928 ocorreu uma das primeiras transmissões radiofônicas de futebol no Brasil, ajudando a popularizar o esporte nacionalmente.|0
+28|pernambuco|Pernambuco possui 28 Unidades de Conservação Estaduais destinadas à proteção da biodiversidade.|0
+28|geral|Fevereiro é o único mês do calendário que possui normalmente apenas 28 dias.|0
+
+29|futebol|O Santa Cruz Futebol Clube conquistou exatamente 29 títulos do Campeonato Pernambucano ao longo de sua história.|0
+29|pernambuco|No dia 29 de dezembro de 1821 ocorreu a Convenção de Beberibe, movimento decisivo para a expulsão das tropas portuguesas de Pernambuco.|0
+29|geral|Nos anos bissextos, o calendário recebe o dia 29 de fevereiro para compensar diferenças astronômicas.|0
+
+30|futebol|A primeira Copa do Mundo da FIFA foi realizada em 1930 e conquistada pela seleção do Uruguai.|0
+30|pernambuco|O assassinato de João Pessoa, em Recife, tornou-se um dos estopins da Revolução de 1930.|0
+30|geral|Apenas quatro meses do calendário possuem exatamente 30 dias: abril, junho, setembro e novembro.|0
+
+31|futebol|O Esporte Clube Bahia foi fundado em 1º de janeiro de 1931.|0
+31|pernambuco|Em 1631, os holandeses incendiaram Olinda e consolidaram a transferência do centro administrativo para o Recife.|0
+31|geral|O Cristo Redentor, uma das Sete Maravilhas do Mundo Moderno, foi inaugurado oficialmente em 1931.|0
+
+32|futebol|A Copa do Mundo de 2022 foi a última da história disputada com exatamente 32 seleções participantes.|0
+32|pernambuco|O Galo Gigante da Madrugada já atingiu a impressionante marca de 32 metros de altura.|0
+32|geral|Na escala Fahrenheit, a água congela exatamente a 32 graus.|0
+
+33|futebol|Em 1933 foi oficializado o profissionalismo no futebol brasileiro, transformando definitivamente o esporte nacional.|0
+33|pernambuco|Em 1933, Gilberto Freyre publicou Casa-Grande & Senzala, uma das obras mais influentes da história do Brasil.|0
+33|geral|Segundo a tradição cristã, Jesus Cristo foi crucificado aos 33 anos de idade.|0
+
+34|futebol|Na Copa do Mundo de 1934, a Seleção Brasileira foi eliminada logo em sua estreia pela Espanha.|0
+34|pernambuco|Em 1934, a Rádio Club de Pernambuco ampliou seu alcance com um transmissor de alta potência.|0
+34|geral|O código telefônico internacional da Espanha é +34.|0
+
+35|futebol|O Santos conquistou seu primeiro Campeonato Paulista em 1935, iniciando a trajetória que mais tarde seria marcada por Pelé.|0
+35|pernambuco|Em 1935, Recife foi um dos principais palcos da Intentona Comunista.|0
+35|geral|A Constituição brasileira exige idade mínima de 35 anos para candidatura à Presidência da República.|0
+
+36|futebol|Em 1936, o São Paulo Futebol Clube passou por uma reorganização que ajudou a consolidar sua estrutura moderna.|0
+36|pernambuco|Em 1936, o antigo campo de pouso do Recife recebeu importantes operações comerciais da aviação.|0
+36|geral|Uma roleta tradicional possui 36 números coloridos além do zero.|0
+
+37|futebol|A competição de 1937 reconhecida pela CBF tornou o Atlético Mineiro o primeiro campeão brasileiro oficial.|0
+37|pernambuco|Em 1937, Francisco Brennand iniciou a trajetória que resultaria na criação da famosa Oficina Brennand.|0
+37|geral|A temperatura média considerada normal para o corpo humano é de aproximadamente 37 graus Celsius.|0
+
+38|futebol|Desde 2006, o Campeonato Brasileiro possui exatamente 38 rodadas no sistema de pontos corridos com 20 clubes.|0
+38|pernambuco|Em 1938, Lampião foi morto, encerrando um dos capítulos mais famosos da história do cangaço nordestino.|0
+38|geral|A fronteira entre as Coreias acompanha majoritariamente o Paralelo 38 Norte.|0
+
+39|futebol|Em 1939, o Flamengo conquistou o Campeonato Carioca com destaque para Leônidas da Silva, o Diamante Negro.|0
+39|pernambuco|O Parque Dois Irmãos foi inaugurado oficialmente em 1939 e tornou-se um dos mais importantes centros de conservação do Nordeste.|0
+39|geral|O ano de 1939 marcou o início da Segunda Guerra Mundial.|0
+
+40|futebol|No Campeonato Brasileiro, a marca dos 40 pontos é tradicionalmente vista como referência para evitar o rebaixamento.|0
+40|pernambuco|A Academia Pernambucana de Letras possui exatamente 40 cadeiras destinadas aos seus membros imortais.|0
+40|geral|A palavra quarentena deriva do período histórico de 40 dias de isolamento utilizado para conter epidemias.|0
+
+41|futebol|No ano de 1941, o Fluminense conquistou o Campeonato Carioca no histórico "Fla-Flu da Lagoa", com bolas sendo chutadas para dentro da Lagoa Rodrigo de Freitas para segurar o resultado que garantia o título.|0
+41|pernambuco|Em 2019, o Galo da Madrugada completou exatamente 41 anos de desfiles ininterruptos pelas ruas do Recife.|0
+41|geral|O elemento químico de número atômico 41 é o Nióbio (Nb), mineral do qual o Brasil possui mais de 90% das reservas mundiais.|0
+
+42|futebol|Em 1942, o Palestra Itália mudou seu nome para Palmeiras e conquistou o Campeonato Paulista em seu primeiro jogo com a nova identidade.|0
+42|pernambuco|Em 1942, Recife tornou-se sede da 4ª Frota da Marinha dos Estados Unidos durante a Segunda Guerra Mundial.|0
+42|geral|Na obra O Guia do Mochileiro das Galáxias, o número 42 é apresentado como a resposta definitiva para a vida, o universo e tudo mais.|0
+
+43|futebol|Em 1943, o Flamengo conquistou o Campeonato Carioca liderado por Zizinho, durante o primeiro tricampeonato estadual de sua história.|0
+43|pernambuco|Em 1943 nasceu no Recife Reginaldo Rossi, o eterno Rei do Brega.|0
+43|geral|O Licor 43 recebeu esse nome porque sua receita utiliza exatamente 43 ingredientes diferentes.|0
+
+44|futebol|A Copa do Mundo de 1944 não aconteceu devido aos impactos da Segunda Guerra Mundial.|0
+44|pernambuco|Em 1944 nasceu no Recife o percussionista Naná Vasconcelos, vencedor de diversos prêmios internacionais.|0
+44|geral|Barack Obama tornou-se o 44º presidente dos Estados Unidos em 2009.|0
+
+45|futebol|Uma partida oficial de futebol é dividida em dois tempos regulamentares de exatamente 45 minutos cada.|0
+45|pernambuco|Em 1945 iniciou-se a desmobilização das bases militares americanas instaladas no Recife durante a Segunda Guerra Mundial.|0
+45|geral|Em um triângulo retângulo isósceles, os dois ângulos agudos medem exatamente 45 graus.|0
+
+46|futebol|Em 1946, o Fluminense venceu o histórico Supercampeonato Carioca após um quadrangular final entre quatro equipes empatadas.|0
+46|pernambuco|Em 1946 nasceu Alceu Valença, um dos maiores nomes da música pernambucana.|0
+46|geral|O número 46 foi eternizado pelo piloto Valentino Rossi durante sua carreira na MotoGP.|0
+
+47|futebol|Em 1947, o Vasco da Gama conquistou de forma invicta o Campeonato Carioca com o famoso Expresso da Vitória.|0
+47|pernambuco|Em 1947 Pernambuco promulgou uma nova Constituição Estadual após o fim do Estado Novo.|0
+47|geral|O AK-47 foi criado em 1947 e tornou-se uma das armas mais difundidas da história.|0
+
+48|futebol|Em 1948, o Vasco conquistou o Campeonato Sul-Americano de Campeões, reconhecido como precursor da Libertadores.|0
+48|pernambuco|Em 1948 foi inaugurada a Rádio Jornal do Commercio, famosa pelo slogan "Pernambuco falando para o mundo".|0
+48|geral|Chimpanzés e gorilas possuem exatamente 48 cromossomos em suas células.|0
+
+49|futebol|Em 1949, o Brasil conquistou a Copa América marcando impressionantes 46 gols em apenas 8 partidas.|0
+49|pernambuco|A Assembleia Legislativa de Pernambuco é composta por exatamente 49 deputados estaduais.|0
+49|geral|O número 49 é um quadrado perfeito, resultado da multiplicação de 7 por 7.|0
+
+50|futebol|A Copa do Mundo de 1950 teve jogos realizados no Recife, com a Ilha do Retiro servindo como uma das sedes do torneio.|0
+50|pernambuco|Na década de 1950, o Mercado de São José consolidou-se como um dos maiores símbolos culturais e comerciais do Recife.|0
+50|geral|A celebração de 50 anos de casamento é conhecida como Bodas de Ouro.|0
+
+51|futebol|Em 1951, o Palmeiras conquistou a Copa Rio, considerada por muitos o primeiro torneio mundial de clubes.|0
+51|pernambuco|Em 1951, Agamenon Magalhães assumiu o governo de Pernambuco e promoveu importantes reformas administrativas e urbanas.|0
+51|geral|A Área 51 é uma famosa base militar americana cercada por mistérios e teorias da conspiração.|0
+
+52|futebol|Em 1952, o Fluminense conquistou a segunda edição da Copa Rio, torneio internacional de clubes.|0
+52|pernambuco|Em 1952 nasceu em Timbaúba o chargista pernambucano Clériston Ribeiro.|0
+52|geral|Um ano possui exatamente 52 semanas completas, além de um ou dois dias extras.|0
+
+53|futebol|Em 1953, a Loteria Esportiva tornou-se uma febre nacional entre os torcedores brasileiros.|0
+53|pernambuco|Em 1953, o Sport conquistou o Campeonato Pernambucano com destaque para Ademir de Menezes.|0
+53|geral|O código telefônico internacional de Cuba é +53.|0
+
+54|futebol|A Copa do Mundo de 1954 foi a primeira da história a ter transmissões oficiais pela televisão.|0
+54|pernambuco|Em 1954, Oscar Niemeyer projetou o Edifício Califórnia, um marco da arquitetura modernista no Recife.|0
+54|geral|Um baralho completo com curingas possui exatamente 54 cartas.|0
+
+55|futebol|Em 1955, o Santos conquistou o Campeonato Paulista, preparando o caminho para a chegada de Pelé no ano seguinte.|0
+55|pernambuco|Jaboatão dos Guararapes possui cerca de 5,5 quilômetros de praias urbanas integradas à Região Metropolitana do Recife.|0
+55|geral|O código internacional de chamadas telefônicas do Brasil é +55.|0
+
+56|futebol|Em 1956, Pelé estreou profissionalmente pelo Santos Futebol Clube aos 15 anos de idade.|0
+56|pernambuco|Em 1956, Ariano Suassuna escreveu O Auto da Compadecida, uma das obras mais importantes da cultura brasileira.|0
+56|geral|O isótopo mais abundante do ferro possui massa atômica 56.|0
+
+57|futebol|Em 1957, o São Paulo conquistou o Campeonato Paulista em uma campanha marcada pela famosa expressão da "moeda que caiu de pé".|0
+57|pernambuco|Em 1957, o Santa Cruz conquistou o título de Supercampeão Pernambucano após uma emocionante disputa triangular.|0
+57|geral|O número 57 ficou mundialmente famoso pelo slogan "57 Varieties" da marca Heinz.|0
+
+58|futebol|Em 1958, o Brasil conquistou sua primeira Copa do Mundo com Pelé e Garrincha brilhando na Suécia.|0
+58|pernambuco|Em 1958, a UFPE fortaleceu sua pesquisa científica com a criação do Instituto de Antibióticos.|0
+58|geral|Em 1958 foi criada oficialmente a NASA, agência espacial dos Estados Unidos.|0
+
+59|futebol|Em 1959, o Bahia conquistou a primeira Taça Brasil e tornou-se o primeiro campeão nacional do país.|0
+59|pernambuco|Em 1959 foi criado no Recife o Movimento de Cultura Popular, importante iniciativa educacional ligada a Paulo Freire.|0
+59|geral|Em 1959, o Alasca tornou-se oficialmente o 49º estado dos Estados Unidos.|0
+
+60|futebol|Em 1960, o Palmeiras conquistou a Taça Brasil e iniciou uma das fases mais vitoriosas de sua história.|0
+60|pernambuco|A BR-101 começou a ganhar sua estrutura moderna em Pernambuco durante a década de 1960.|0
+60|geral|Uma hora possui 60 minutos, um minuto possui 60 segundos e cada ângulo de um triângulo equilátero mede 60 graus.|0
+
+61|futebol|O ano de 1961 marcou a estreia oficial do Santos de Pelé na Taça Libertadores da América, competição que o clube dominaria nos anos seguintes.|0
+61|pernambuco|Em 1961, o Náutico conquistou o Campeonato Pernambucano e iniciou o caminho para o histórico Hexacampeonato.|0
+61|geral|Em 12 de abril de 1961, Yuri Gagarin tornou-se o primeiro ser humano a viajar pelo espaço.|0
+
+62|futebol|Em 1962, o Brasil conquistou o bicampeonato mundial na Copa do Chile, liderado por Garrincha e Amarildo.|0
+62|pernambuco|Em 1962 foi fundada a TV Jornal do Commercio, pioneira da televisão no Norte e Nordeste.|0
+62|geral|Em 1962 ocorreu a Crise dos Mísseis de Cuba, um dos momentos mais tensos da Guerra Fria.|0
+
+63|futebol|Em 1963, o Santos conquistou o bicampeonato mundial de clubes ao derrotar o Milan da Itália.|0
+63|pernambuco|Em 1963 foi criado o Estatuto do Trabalhador Rural, beneficiando milhares de trabalhadores da zona canavieira pernambucana.|0
+63|geral|Em 1963, Martin Luther King Jr. realizou o histórico discurso "I Have a Dream".|0
+
+64|futebol|Em 1964, o Flamengo aplicou a maior goleada da história do Maracanã ao vencer o São Cristóvão por 12 a 2.|0
+64|pernambuco|Em 1964, o Náutico alcançou as semifinais da Taça Brasil e enfrentou o Santos de Pelé.|0
+64|geral|Em 1964, os Beatles iniciaram a chamada Invasão Britânica nos Estados Unidos.|0
+
+65|futebol|Em 1965 foi inaugurado o Estádio Mineirão, em Belo Horizonte.|0
+65|pernambuco|Em 1965, Luiz Gonzaga consolidava ainda mais a música nordestina em todo o Brasil.|0
+65|geral|Em 1965, Alexei Leonov realizou a primeira caminhada espacial da história.|0
+
+66|futebol|Em 1966, o Cruzeiro conquistou a Taça Brasil ao derrotar o Santos de Pelé.|0
+66|pernambuco|Em 1966, a Rainha Elizabeth II realizou visita oficial ao Recife.|0
+66|geral|A Copa do Mundo de 1966 foi a primeira a possuir um mascote oficial, o leão Willie.|0
+
+67|futebol|Em 1967 foi criado o Torneio Roberto Gomes Pedrosa, reconhecido como Campeonato Brasileiro pela CBF.|0
+67|pernambuco|Em 1967 nasceu Chico Science, criador do movimento Manguebeat.|0
+67|geral|Em 1967 foi realizado o primeiro transplante de coração humano bem-sucedido da história.|0
+
+68|futebol|Em 1968, o Brasil venceu uma seleção formada pelos melhores jogadores do resto do mundo em amistoso comemorativo.|0
+68|pernambuco|Em 1968, o Náutico completou seu histórico Hexacampeonato Pernambucano.|0
+68|geral|O ano de 1968 ficou conhecido mundialmente pelas grandes manifestações estudantis e sociais.|0
+
+69|futebol|Em 1969, Pelé marcou seu milésimo gol no Maracanã diante do Vasco da Gama.|0
+69|pernambuco|Em 1969, Dominguinhos mudou-se para o Rio de Janeiro e iniciou projeção nacional.|0
+69|geral|Em 1969, Neil Armstrong tornou-se o primeiro homem a pisar na Lua.|0
+
+70|futebol|Em 1970, o Brasil conquistou o tricampeonato mundial com uma das maiores seleções da história.|0
+70|pernambuco|Em 1970 começaram os projetos que dariam origem ao Complexo Industrial Portuário de Suape.|0
+70|geral|Em 1970, os Beatles anunciaram oficialmente o fim da banda.|0
+
+71|futebol|Em 1971 foi disputada a primeira edição do Campeonato Brasileiro organizado pela CBD, vencida pelo Atlético Mineiro.|0
+71|pernambuco|Em 1971, Olinda recebeu o título de Monumento Nacional.|0
+71|geral|Em 1971 foi enviado o primeiro e-mail da história por Ray Tomlinson.|0
+
+72|futebol|Em 1972, o Palmeiras conquistou o Campeonato Brasileiro com a lendária Primeira Academia.|0
+72|pernambuco|Em 1972, J. Borges começou a ganhar reconhecimento internacional por suas xilogravuras.|0
+72|geral|Nos Jogos Olímpicos de 1972, Mark Spitz conquistou sete medalhas de ouro.|0
+
+73|futebol|Em 1973, Pelé despediu-se oficialmente da Seleção Brasileira em partida contra uma seleção do Resto do Mundo.|0
+73|pernambuco|Em 1973, Alceu Valença e Geraldo Azevedo lançaram o álbum Quadrafônico.|0
+73|geral|Em 1973 foi realizada a primeira ligação de telefone celular da história.|0
+
+74|futebol|Em 1974, o Vasco da Gama conquistou seu primeiro Campeonato Brasileiro.|0
+74|pernambuco|Em 1974, o Santa Cruz ampliou o Estádio do Arruda, transformando-o em um dos maiores estádios particulares do mundo.|0
+74|geral|A Copa do Mundo de 1974 popularizou o conceito de Futebol Total da seleção holandesa.|0
+
+75|futebol|Em 1975, o Santa Cruz alcançou a melhor campanha de sua história na Série A, terminando em quarto lugar.|0
+75|pernambuco|Em 1975, o Santa Cruz realizou a campanha mais marcante de um clube pernambucano no Brasileirão até então.|0
+75|geral|Em 1975, Bill Gates e Paul Allen fundaram a Microsoft.|0
+
+76|futebol|Em 1976 ocorreu a histórica Invasão Corintiana ao Maracanã.|0
+76|pernambuco|Em 1976, o Alto do Moura consolidou-se como um dos maiores polos de arte figurativa das Américas.|0
+76|geral|Em 1976, Steve Jobs e Steve Wozniak fundaram a Apple Computer.|0
+
+77|futebol|Em 1977, o Corinthians encerrou um jejum de 23 anos sem títulos ao conquistar o Campeonato Paulista.|0
+77|pernambuco|Em 1977, projetos de preservação ajudaram a proteger o patrimônio histórico de Recife e Olinda.|0
+77|geral|Em 1977 foi lançado o primeiro filme da saga Star Wars.|0
+
+78|futebol|Em 1978 surgiu uma nova geração dos Meninos da Vila no Santos Futebol Clube.|0
+78|pernambuco|Em 1978, o Sport conquistou o Campeonato Pernambucano e iniciou um período de fortalecimento esportivo.|0
+78|geral|Em 1978 nasceu Louise Brown, o primeiro bebê concebido por fertilização in vitro.|0
+
+79|futebol|Em 1979, o Internacional conquistou o Campeonato Brasileiro de forma invicta.|0
+79|pernambuco|Em 1979, o Galo da Madrugada começou a ganhar projeção nacional em seus desfiles pelo Recife.|0
+79|geral|Em 1979, a Sony lançou o Walkman, revolucionando a forma de ouvir música.|0
+
+80|futebol|Em 1980, o Flamengo conquistou seu primeiro Campeonato Brasileiro liderado por Zico.|0
+80|pernambuco|Em 1980, o Papa João Paulo II visitou Recife e reuniu multidões na capital pernambucana.|0
+80|geral|O número 180 representa a medida de um ângulo raso, formando uma linha reta perfeita.|0
+
+81|futebol|Em 1981, o Flamengo conquistou a Libertadores e o Mundial de Clubes ao derrotar o Liverpool por 3 a 0 em Tóquio.|0
+81|pernambuco|Em 1981, o Centro Histórico de Olinda foi declarado Patrimônio Cultural da Humanidade pela UNESCO.|0
+81|geral|Em 1981, a NASA lançou o ônibus espacial Columbia, iniciando a era dos ônibus espaciais reutilizáveis.|0
+
+82|futebol|A Seleção Brasileira de 1982 é lembrada como uma das equipes mais talentosas da história, apesar da eliminação para a Itália na Copa do Mundo.|0
+82|pernambuco|Em 1982, o Náutico conquistou o Campeonato Pernambucano em uma final marcante contra o Sport.|0
+82|geral|Em 1982, Sony e Philips apresentaram ao mundo o Compact Disc, o famoso CD.|0
+
+83|futebol|Em 1983, o Grêmio conquistou a Libertadores e o Mundial de Clubes liderado por Renato Gaúcho.|0
+83|pernambuco|Em 1983 foi inaugurado o Shopping Center Recife, um dos maiores centros comerciais do Nordeste.|0
+83|geral|O ano de 1983 é considerado o nascimento oficial da Internet moderna com a adoção do protocolo TCP/IP pela ARPANET.|0
+
+84|futebol|Em 1984, o Fluminense conquistou o Campeonato Brasileiro com a famosa dupla Assis e Washington.|0
+84|pernambuco|Em 1984, Ariano Suassuna foi eleito para a Academia Pernambucana de Letras.|0
+84|geral|Nos Jogos Olímpicos de 1984, Carl Lewis conquistou quatro medalhas de ouro.|0
+
+85|futebol|Em 1985, o Coritiba conquistou o Campeonato Brasileiro em uma das maiores zebras da história do torneio.|0
+85|pernambuco|Em 1985, Pernambuco participou ativamente do processo de redemocratização do Brasil.|0
+85|geral|Em 1985, a Nintendo lançou Super Mario Bros., um dos jogos mais influentes da história.|0
+
+86|futebol|Em 1986, o São Paulo conquistou seu segundo Campeonato Brasileiro após vencer o Guarani nos pênaltis.|0
+86|pernambuco|Em 1986, Luiz Gonzaga e Dominguinhos realizaram apresentações históricas em Pernambuco.|0
+86|geral|A Copa do Mundo de 1986 ficou marcada pelos lendários gols de Diego Maradona contra a Inglaterra.|0
+
+87|futebol|Em 1987, o Sport Club do Recife conquistou o Campeonato Brasileiro, maior título de sua história.|0
+87|geral|Em 1987 foi assinado o Protocolo de Montreal, acordo internacional para proteger a camada de ozônio.|0
+
+88|futebol|Em 1988, o Bahia conquistou seu segundo título do Campeonato Brasileiro.|0
+88|pernambuco|Em 1988 foi promulgada a Constituição Federal conhecida como Constituição Cidadã.|0
+88|geral|Um piano tradicional possui exatamente 88 teclas.|0
+
+89|futebol|Em 1989, o Vasco da Gama conquistou seu segundo Campeonato Brasileiro ao vencer o São Paulo na final.|0
+89|pernambuco|Em 1989, o Náutico conquistou o Campeonato Pernambucano liderado pelo atacante Bizu.|0
+89|geral|Em 9 de novembro de 1989 ocorreu a Queda do Muro de Berlim.|0
+
+90|futebol|Em 1990, o Corinthians conquistou seu primeiro Campeonato Brasileiro liderado pelo meia Neto.|0
+90|pernambuco|Em 1990 surgiram iniciativas que mais tarde contribuiriam para a criação do Porto Digital no Recife.|0
+90|geral|Em 1990, Tim Berners-Lee criou os fundamentos da World Wide Web.|0
+
+91|futebol|Em 1991, o São Paulo conquistou o Campeonato Brasileiro sob o comando de Telê Santana.|0
+91|pernambuco|Em 1991 nasceu a banda Chico Science & Nação Zumbi, marco do movimento Manguebeat.|0
+91|geral|O elemento químico de número atômico 91 é o Protactínio (Pa).|0
+
+92|futebol|Em 1992, o São Paulo conquistou a Libertadores e o Mundial de Clubes ao derrotar o Barcelona.|0
+92|pernambuco|Em 1992, Petrolina consolidou-se como um dos maiores polos de fruticultura irrigada do Brasil.|0
+92|geral|O elemento químico de número atômico 92 é o Urânio (U).|0
+
+93|futebol|Em 1993, o Palmeiras encerrou um jejum de quase 17 anos sem títulos ao vencer o Campeonato Paulista.|0
+93|pernambuco|Em 1993, Alceu Valença lançou o álbum 7 Desejos, que inclui a canção La Belle de Jour.|0
+93|geral|O código telefônico internacional do Afeganistão é +93.|0
+
+94|futebol|Em 1994, o Brasil conquistou o tetracampeonato mundial na Copa dos Estados Unidos.|0
+94|pernambuco|Em 1994, Chico Science & Nação Zumbi lançaram o álbum Da Lama ao Caos.|0
+94|geral|Em 1994, Nelson Mandela tornou-se o primeiro presidente negro da África do Sul.|0
+
+95|futebol|Em 1995, o Botafogo conquistou o Campeonato Brasileiro liderado por Túlio Maravilha.|0
+95|pernambuco|Em 1995, o Santa Cruz conquistou o Campeonato Pernambucano diante do rival Sport.|0
+95|geral|Em 1995, a Microsoft lançou o sistema operacional Windows 95.|0
+
+96|futebol|Em 1996, o Palmeiras realizou uma campanha histórica no Campeonato Paulista marcando 102 gols em 30 jogos.|0
+96|pernambuco|Em 1996, Lenine ampliou sua projeção nacional e internacional na música brasileira.|0
+96|geral|Nos Jogos Olímpicos de 1996, Michael Johnson quebrou recordes mundiais com suas famosas sapatilhas douradas.|0
+
+97|futebol|Em 1997, o Cruzeiro conquistou sua segunda Taça Libertadores da América.|0
+97|pernambuco|Em 1997, Pernambuco perdeu Chico Science, um dos maiores símbolos culturais do estado.|0
+97|geral|Em 1997 foi publicado Harry Potter e a Pedra Filosofal, primeiro livro da série criada por J.K. Rowling.|0
+
+98|futebol|Em 1998, o Vasco da Gama conquistou a Libertadores no ano de seu centenário.|0
+98|pernambuco|Em 1998, o Sport conquistou o tricampeonato pernambucano.|0
+98|geral|Em 1998, Larry Page e Sergey Brin fundaram o Google.|0
+
+99|futebol|Em 1999, o Palmeiras conquistou sua primeira Taça Libertadores da América.|0
+99|pernambuco|Em 1999, Mestre Cunha recebeu o título de Patrimônio Vivo de Pernambuco.|0
+99|geral|O número 99 é o maior número inteiro de dois dígitos no sistema decimal.|0
+
+100|futebol|O número 100 simboliza marcas históricas no futebol, como o centésimo gol de Rogério Ceni e os centenários dos clubes.|0
+100|pernambuco|O número 100 representa a excelência histórica associada aos grandes espetáculos realizados no Teatro de Santa Isabel, um dos símbolos culturais do Recife.|0
+100|geral|O número 100 representa 100% e também o ponto de ebulição da água em graus Celsius ao nível do mar.|0
