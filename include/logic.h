@@ -80,7 +80,7 @@ typedef struct {
     int guess;                        // Valor numérico do palpite atual.
     
     int guessCount;                   // Contador de tentativas feitas na rodada atual.
-    int guessHistory[16];             // Histórico com os últimos palpites realizados na rodada.
+    int guessHistory[128];             // Histórico com os últimos palpites realizados na rodada.
     
     char playerName[32];              // Nome ou iniciais do jogador (ex: "AAA").
     Temperature temperature;          // Temperatura atual do parlpite atual.
@@ -91,7 +91,8 @@ typedef struct {
     
     Player currentPlayer;             // MULTIPLAYER: jogador atual.
     int placar[2];                    // MULTIPLAYER: placar.
-    Timer timer;                      // MULTIPLAYER: temporizador para a jogada.
+    Timer multiplayerTimer;                      // MULTIPLAYER: temporizador para a jogada.
+    Timer animTimer;
 
 } Session;
 
@@ -140,7 +141,10 @@ void iniciarJogo(Session *game);                          // Inicializa e redefi
 void processarTentativa(Session *game, int guess);        // Computa um palpite do usuário, avalia proximidade, atualiza histórico, deduz score e checa vitória.
 void processarGameover(Session *game);                    // Verifica se os pontos (score) se esgotaram e altera o estado do jogo para STATE_GAMEOVER.
 
-void atualizarTimer(Session *game, double dt);
+void setTimer(Timer *multiplayerTimer, float duration);
+void resetTimer(Timer *multiplayerTimer);
+int atualizarTimer(Timer *multiplayerTimer, double dt);
+void atualizarTimerMultiplayer(Session *game, double dt);
 
 // ---     score.c     --- //
 void processarTemperatura(Session *game);                 // Calcula a distância do palpite para o alvo e define o estado como COLD, WARM ou HOT.

@@ -2,19 +2,34 @@
 #include <stdio.h>
 #include <logic.h>
 
+void setTimer(Timer *multiplayerTimer, float duration){
+    multiplayerTimer->max = duration;
+    multiplayerTimer->t = duration;
+}
+
+void resetTimer(Timer *multiplayerTimer){
+    multiplayerTimer->t = multiplayerTimer->max;
+}
+
+int atualizarTimer(Timer *multiplayerTimer, double dt){
+    if (multiplayerTimer->t <= 0.0) {
+        return 1;
+    };
+    multiplayerTimer->t -= dt;
+    return 0;
+}
+
 void mudarPlayer(Session *game){
-    game->timer.t = game->timer.max;
+    resetTimer(&game->multiplayerTimer); 
     game->score = 600;
     game->currentPlayer = (game->currentPlayer + 1) % 2;
 }
 
-void atualizarTimer(Session *game, double dt){
-    if (game->timer.t <= 0.0){
+void atualizarTimerMultiplayer(Session *game, double dt){
+    if (atualizarTimer(&game->multiplayerTimer, dt) != 0){
         mudarPlayer(game);
     }
-    game->timer.t -= 1 * dt;
 }
-
 
 void iniciarJogo(Session *game) {
     game->mode = MODO_NORMAL;
@@ -22,7 +37,6 @@ void iniciarJogo(Session *game) {
     game->target = numeroAleatorio(0, game->max);
 	game->state = STATE_MENU;
 
-    
     game->round = 0;
     game->totalGuesses = 0;
     
@@ -34,10 +48,11 @@ void iniciarJogo(Session *game) {
     
     // modo multiplayer setup
     game->currentPlayer = PLAYER_1;
-    game->timer.max = 5;
-    game->timer.t = 5;
+    setTimer(&game->multiplayerTimer, 5);
     game->placar[PLAYER_1] = 0;
     game->placar[PLAYER_2] = 0;
+
+    setTimer(&game->animTimer, 1);
 }
 
 void avancarRodadaArcade(Session *game){
@@ -62,6 +77,7 @@ void processarAcerto(Session *game){
     switch (game->mode)
     {
     case MODO_ARCADE:
+        game-> state = STATE_HIT;
         printf("%d\n", game->target);
         avancarRodadaArcade(game);
         break;
@@ -80,7 +96,8 @@ void processarAcerto(Session *game){
         break;
     case MODO_COOP:
         game->placar[game->currentPlayer]++; // atualizar o placar
-        // game-> state = STATE_HIT;
+        game-> state = STATE_HIT;
+        game->guessCount = 0;
         // melhor de tres
         for (int i = 0; i < 2; i++){
             if (game->placar[i] >= 2){ 
@@ -115,7 +132,7 @@ void processarTentativa(Session *game, int palpite) {
     }
     
     if (game->mode == MODO_COOP) {
-        if (game-> state != STATE_WIN){
+        if (game-> state != STATE_WIN ){
             mudarPlayer(game);
         }
     } // troca player

@@ -119,7 +119,7 @@ extern Font font;
 extern float startingScore; // usado com drawScorebar()
 
 extern Ruler basicRuler;
-extern CircleMark circlemarks[100];
+extern CircleMark circlemarks[128];
 extern int activeMarkIndex;
 extern DigitInput input;
 extern FeedbackArrow arrow;
@@ -136,6 +136,10 @@ extern Button btnStart;
 extern Button btnPlayAgain; 
 
 extern TextInput playerNameInput;
+
+
+
+extern float scaleHitText;
 
 //__funções________________________________________________________________________________________________________________________
 
@@ -203,7 +207,7 @@ void drawGameover(Session *game);                                               
 
 void drawCoopPlacar(Session *game);
 
-void drawHitState(Session *game, Vector2 pos, Color color);
+void updateHit(Session *game);
 void drawHit(Session *game);
 
 #endif
